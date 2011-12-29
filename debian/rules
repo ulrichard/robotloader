@@ -37,8 +37,8 @@ clean:
 	rm -rf $(CURDIR)/debian/robotloader
 
 #	rm -rf $(CURDIR)/RobotLoader_*.zip
-	rm -rf $(CURDIR)/RobotArmExamples*.zip
-#	rm -rf $(CURDIR)/RobotLoader_*
+#	rm -rf $(CURDIR)/RobotArmExamples*.zip
+	rm -rf $(CURDIR)/RobotLoader_*
 	rm -rf $(CURDIR)/RobotArm_Examples*
 
 	dh_clean 

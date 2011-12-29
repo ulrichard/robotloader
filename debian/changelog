@@ -1,4 +1,10 @@
-robotloader (1.5-3~oneiric) oneiric; urgency=low
+robotloader (1.5-4~maverick) maverick; urgency=low
+
+  * added build dependency to unzip
+
+ -- Richard Ulrich <richi@paraeasy.ch>  Thu, 29 Dec 2011 23:20:00 +0200
+
+robotloader (1.5-3~maverick) maverick; urgency=low
 
   * The launchpad uild host can't download the zip files, so I added them to git.
 
