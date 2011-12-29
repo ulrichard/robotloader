@@ -1,0 +1,7 @@
+robotloader (1.5~maverick) maverick; urgency=low
+
+  * initial debian package
+
+ -- Richard Ulrich <richi@paraeasy.ch>  Thu, 29 Dec 2011 19:30:00 +0200
+
+

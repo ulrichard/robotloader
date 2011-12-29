@@ -1,0 +1,13 @@
+
+[Desktop Entry]
+Name=RobotLoader
+Comment=This is the software to operate the arexx robot arm
+GenericName=RobotLoader
+Exec=java -jar RobotLoader_lib.jar
+Path=/usr/share/robotloader
+Terminal=false
+Icon=/usr/share/robotloader/robotloader.ico
+Categories=Science;Engineering
+Type=Application
+MimeType=application/hex;
+Name[de_CH]=robotloader.desktop

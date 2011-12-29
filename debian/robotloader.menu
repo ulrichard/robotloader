@@ -1,0 +1,6 @@
+?package(robotloader):needs=X11 \
+	section=Applications/Science/Engineering    \
+	title="robotloader" \
+	command="java -jar RobotLoader_lib.jar" \
+	icon="/usr/share/robotloader/robotloader.ico"
+
