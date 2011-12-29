@@ -38,7 +38,7 @@ clean:
 
 #	rm -rf $(CURDIR)/RobotLoader_*.zip
 #	rm -rf $(CURDIR)/RobotArmExamples*.zip
-	rm -rf $(CURDIR)/RobotLoader_*
+	rm -rf $(CURDIR)/RobotLoader_20100712/
 	rm -rf $(CURDIR)/RobotArm_Examples*
 
 	dh_clean 
@@ -49,9 +49,9 @@ install: build
 	dh_prep  
 	dh_installdirs
 
-	wget http://arexx.com/rp6/downloads/RobotLoader_20100712.zip || true
+#	wget http://arexx.com/rp6/downloads/RobotLoader_20100712.zip
+#	wget http://arexx.com/robot_arm/downloads/RobotArmExamples_MINI.zip
 	unzip RobotLoader_20100712
-	wget http://arexx.com/robot_arm/downloads/RobotArmExamples_MINI.zip || true
 	unzip RobotArmExamples_MINI
 
 	mkdir -p $(CURDIR)/debian/tmp/usr/bin

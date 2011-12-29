@@ -1,3 +1,9 @@
+robotloader (1.5-5~maverick) maverick; urgency=low
+
+  * don't even try downloading
+
+ -- Richard Ulrich <richi@paraeasy.ch>  Thu, 29 Dec 2011 23:40:00 +0200
+
 robotloader (1.5-4~maverick) maverick; urgency=low
 
   * added build dependency to unzip
