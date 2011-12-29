@@ -65,6 +65,12 @@ install: build
 	install -m 0755 debian/*.desktop	-t $(CURDIR)/debian/tmp/usr/share/applications
 	(cd $(CURDIR)/debian/tmp/usr/bin; ln -fs ../share/robotloader/RobotLoader_lib.jar robotloader )
 
+	#todo : I don't know why these libs are needed since librxtx-java is installed from the repository
+	mkdir -p $(CURDIR)/debian/tmp/usr/share/robotloader/lib
+	mkdir -p $(CURDIR)/debian/tmp/usr/share/robotloader/lib/linux_x64
+	install -m 0755 RobotLoader_20100712/lib/*	         -t $(CURDIR)/debian/tmp/usr/share/robotloader/lib
+	install -m 0755 RobotLoader_20100712/lib/linux_x64/* -t $(CURDIR)/debian/tmp/usr/share/robotloader/lib/linux_x64
+
 	#todo : remove this kludge as soon as I figure out how to tell the java app to write the logfile to /var/log/robotloader
 	touch $(CURDIR)/debian/tmp/usr/share/robotloader
 	chmod 777 $(CURDIR)/debian/tmp/usr/share/robotloader

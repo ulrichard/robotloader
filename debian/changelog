@@ -1,4 +1,4 @@
-robotloader (1.5-1~maverick) maverick; urgency=low
+robotloader (1.5-1~oneiric) oneiric; urgency=low
 
   * initial debian package
 

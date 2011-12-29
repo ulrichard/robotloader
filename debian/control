@@ -2,14 +2,14 @@ Source: robotloader
 Section: science
 Priority: optional
 Maintainer: Richard Ulrich <richi@paraeasy.ch>
-Build-Depends: default-jdk | java6-sdk, gcc-avr, avr-libc
+Build-Depends: default-jdk | java6-sdk, gcc-avr, avr-libc, wget
 standards-Version: 3.8.1.0
 Homepage: http://arexx.com/robot_arm/
 
 Package: robotloader
 Architecture: all
 Essential: no
-Depends: ${misc:Depends}, default-jre | java6-runtime, librxtx-java, gcc-avr, avrdude, avr-libc
+Depends: ${misc:Depends}, default-jre | java6-runtime, librxtx-java, gcc-avr, avrdude, avr-libc, libftdi1
 Description: This is the software to operate the arexx robot arm.
 
 
