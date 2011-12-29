@@ -6,7 +6,7 @@ export DEBFULLNAME="Richard Ulrich"
 
 for DISTRIBUTION in precise oneiric natty maverick 
 do
-	VERSIONSTR=1.5-1~${DISTRIBUTION}
+	VERSIONSTR=1.5-2~${DISTRIBUTION}
 	sed -i  -e "s/maverick/${DISTRIBUTION}/g" -e "s/natty/${DISTRIBUTION}/g" -e "s/oneiric/${DISTRIBUTION}/g" -e "s/precise/${DISTRIBUTION}/g" debian/changelog
 	dpkg-buildpackage -rfakeroot -S
 	dput ppa:richi-paraeasy/ppa ../robotloader_${VERSIONSTR}_source.changes
