@@ -1,7 +1,5 @@
 #!/bin/sh
  
-APPDIR=/usr/share/robotloader
-cd $APPDIR
-
+cd /usr/share/robotloader
 
 java -jar RobotLoader_lib.jar
