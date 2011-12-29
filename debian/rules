@@ -36,6 +36,11 @@ clean:
 	rm -rf $(CURDIR)/debian/tmp
 	rm -rf $(CURDIR)/debian/robotloader
 
+	rm -rf $(CURDIR)/RobotLoader_*.zip
+	rm -rf $(CURDIR)/RobotArm_Examples*.zip
+	rm -rf $(CURDIR)/RobotLoader_*
+	rm -rf $(CURDIR)/RobotArm_Examples*
+
 	dh_clean 
 
 install: build
@@ -44,12 +49,19 @@ install: build
 	dh_prep  
 	dh_installdirs
 
+	wget http://arexx.com/rp6/downloads/RobotLoader_20100712.zip
+	unzip RobotLoader_20100712
+	wget http://arexx.com/robot_arm/downloads/RobotArmExamples_MINI.zip
+	unzip RobotArmExamples_MINI
+
 	mkdir -p $(CURDIR)/debian/tmp/usr/bin
 	mkdir -p $(CURDIR)/debian/tmp/usr/share/robotloader
 	mkdir -p $(CURDIR)/debian/tmp/usr/share/robotloader/config
+	mkdir -p $(CURDIR)/debian/tmp/usr/share/robotloader/examples
 	mkdir -p $(CURDIR)/debian/tmp/usr/share/applications
 	install -m 0755 RobotLoader_20100712/*.jar	-t $(CURDIR)/debian/tmp/usr/share/robotloader
-	install -m 0755 RobotLoader_20100712/config/*.*	-t $(CURDIR)/debian/tmp/usr/share/robotloader/images
+	install -m 0755 RobotLoader_20100712/config/*.*	-t $(CURDIR)/debian/tmp/usr/share/robotloader/config
+	cp "RobotArm_Examples [MINI]"	$(CURDIR)/debian/tmp/usr/share/robotloader/examples/
 	install -m 0755 debian/*.desktop	-t $(CURDIR)/debian/tmp/usr/share/applications
 	(cd $(CURDIR)/debian/tmp/usr/bin; ln -fs ../share/robotloader/RobotLoader_lib.jar robotloader )
 
