@@ -1,3 +1,11 @@
+robotloader (1.5-7~maverick) maverick; urgency=low
+
+  * Added an icon
+  * Trying to put the configuration to /etc and provide a symbolic link in the app directory
+  * Adding the RACS hex to the examples directory
+
+ -- Richard Ulrich <richi@paraeasy.ch>  Fri, 30 Dec 2011 22:40:00 +0200
+
 robotloader (1.5-6~maverick) maverick; urgency=low
 
   * don't even try downloading
