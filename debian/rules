@@ -38,7 +38,7 @@ clean:
 
 	rm -rf $(CURDIR)/RobotLoader_20100712/
 	rm -rf $(CURDIR)/RobotArm_Examples*
-	rm -rf $(CURDIR)/RACS*
+	rm -rf $(CURDIR)/RACS_v1.0/
 
 	dh_clean 
 
