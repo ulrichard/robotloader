@@ -36,8 +36,6 @@ clean:
 	rm -rf $(CURDIR)/debian/tmp
 	rm -rf $(CURDIR)/debian/robotloader
 
-#	rm -rf $(CURDIR)/RobotLoader_*.zip
-#	rm -rf $(CURDIR)/RobotArmExamples*.zip
 	rm -rf $(CURDIR)/RobotLoader_20100712/
 	rm -rf $(CURDIR)/RobotArm_Examples*
 
@@ -49,8 +47,6 @@ install: build
 	dh_prep  
 	dh_installdirs
 
-#	wget http://arexx.com/rp6/downloads/RobotLoader_20100712.zip
-#	wget http://arexx.com/robot_arm/downloads/RobotArmExamples_MINI.zip
 	unzip RobotLoader_20100712
 	unzip RobotArmExamples_MINI
 
@@ -63,7 +59,7 @@ install: build
 	install -m 0755 RobotLoader_20100712/config/*.*	-t $(CURDIR)/debian/tmp/usr/share/robotloader/config
 	cp -rf RobotArm_Examples\ \[MINI\]/*	$(CURDIR)/debian/tmp/usr/share/robotloader/examples/
 	install -m 0755 debian/*.desktop	-t $(CURDIR)/debian/tmp/usr/share/applications
-	(cd $(CURDIR)/debian/tmp/usr/bin; ln -fs ../share/robotloader/RobotLoader_lib.jar robotloader )
+	install -m 0755 robotloader	-t $(CURDIR)/debian/tmp/usr/bin
 
 	#todo : I don't know why these libs are needed since librxtx-java is installed from the repository
 	mkdir -p $(CURDIR)/debian/tmp/usr/share/robotloader/lib

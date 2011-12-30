@@ -3,7 +3,7 @@
 Name=RobotLoader
 Comment=This is the software to operate the arexx robot arm
 GenericName=RobotLoader
-Exec=java -jar RobotLoader_lib.jar
+Exec=/usr/bin/robotloader
 Path=/usr/share/robotloader
 Terminal=false
 Icon=/usr/share/robotloader/robotloader.ico
