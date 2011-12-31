@@ -38,7 +38,8 @@ clean:
 
 	rm -rf $(CURDIR)/RobotLoader_20100712/
 	rm -rf $(CURDIR)/RobotArm_Examples*
-	rm -rf $(CURDIR)/RACS_v1.0/
+	rm -rf $(CURDIR)/RACS-*
+	rm -rf $(CURDIR)/RAC-MINI.hex
 
 	dh_clean 
 
@@ -66,7 +67,7 @@ install: build
 	install -m 0755 debian/*.desktop	-t $(CURDIR)/debian/tmp/usr/share/applications
 	install -m 0755 robotloader	-t $(CURDIR)/debian/tmp/usr/bin
 	install -m 0755 small_robot_arm.png	-t $(CURDIR)/debian/tmp/usr/share/robotloader
-	install -m 0755 RACS_v1.0/RAC-MINI.hex	-t $(CURDIR)/debian/tmp/usr/share/robotloader/examples/RACS
+	install -m 0755 RAC-MINI.hex	-t $(CURDIR)/debian/tmp/usr/share/robotloader/examples/RACS
 
 	#todo : I don't know why these libs are needed since librxtx-java is installed from the repository
 	mkdir -p $(CURDIR)/debian/tmp/usr/share/robotloader/lib
