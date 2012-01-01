@@ -2,4 +2,4 @@
  
 cd /usr/share/robotloader
 
-java -jar RobotLoader_lib.jar
+java -Djava.ext.dirs="/usr/share/java" -Djava.library.path="/usr/lib/jni" -jar RobotLoader_lib.jar
