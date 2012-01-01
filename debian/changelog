@@ -1,3 +1,9 @@
+robotloader (1.5-10~maverick) maverick; urgency=low
+
+  * including a reduced set of libs
+
+ -- Richard Ulrich <richi@paraeasy.ch>  Sun, 1 Jan 2011 23:05:00 +0200
+
 robotloader (1.5-9~maverick) maverick; urgency=low
 
   * adapted to the RACS zip structure
