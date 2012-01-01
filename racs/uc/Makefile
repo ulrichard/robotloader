@@ -13,7 +13,6 @@
 # Sander Pool
 # Frederik Rouleau
 # Carlos Lamas
-# Richard Ulrich
 #
 #----------------------------------------------------------------------------
 # On command line:
