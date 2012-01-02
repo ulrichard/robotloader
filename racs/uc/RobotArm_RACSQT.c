@@ -20,6 +20,16 @@
 /*****************************************************************************/
 // Main function - The program starts here:
 
+void welcomeMsg()
+{
+	writeString_P("\nThe format is: \"i:pnnn;\" where ");
+	writeString_P("\n   i is the servo number [1-6]");
+	writeString_P("\n   p is an optional sign [+-]");
+	writeString_P("\n   nnn is the 3 digit target position");
+	writeString_P("\nOr \"s:nn\" for setting the servo speed, where s is a literal s character");
+	writeString_P("\n   and nn is the two digit speed where 00 is fast and 10 is slow.\n\n");
+}
+
 int main(void)
 {
 	initRobotBase(); // Always call this first! The Processor will not work
@@ -33,11 +43,10 @@ int main(void)
 					 
 	mSleep(1000); 	 
 
-	static const char fmtmsg[] = "\nThe format is: \"i:pnnn;\" where i is the servo number [1-6], p is an optional sign [+-] and nnn is the 3 digit target position\nOr \"s:nn\" for setting the servo speed, where s is a literal s character and nn is the two digit speed where 00 is fast and 10 is slow.\n\n";
 	
 	// Write a text message to the UART:
-	writeString_P("\nracsqt ready to receive commands.");
-	writeNStringP(fmtmsg);
+	welcomeMsg();
+	writeString_P("\nracsqt ready to receive commands.\n\n");
 
 	char    recbuf[16];
 	uint8_t bufpos = 0;
@@ -65,7 +74,7 @@ int main(void)
 		if(!isdigit(recbuf[0]) || recbuf[1] != ':' || (!isdigit(recbuf[2]) && recbuf[2] != '-' && recbuf[2] != '+') || !isdigit(recbuf[3]) || !isdigit(recbuf[4]) || (bufpos > 5 && !isdigit(recbuf[5])))
 		{
 			if(bufpos > 2)
-				writeNStringP(fmtmsg);
+				welcomeMsg();
 			bufpos = 0;
 			continue;
 		}
