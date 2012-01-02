@@ -1,3 +1,9 @@
+robotloader (1.5-11~maverick) maverick; urgency=low
+
+  * typo
+
+ -- Richard Ulrich <richi@paraeasy.ch>  Mon, 2 Jan 2011 01:23:00 +0200
+
 robotloader (1.5-10~maverick) maverick; urgency=low
 
   * including a reduced set of libs

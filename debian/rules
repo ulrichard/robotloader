@@ -62,7 +62,7 @@ install: build
 
 	install -m 0755 RobotLoader_20100712/*.jar	-t $(CURDIR)/debian/tmp/usr/share/robotloader
 	install -m 0755 RobotLoader_20100712/config/*.*	-t $(CURDIR)/debian/tmp/etc/robotloader
-	(cd $(CURDIR)/debian/tmp/usr/share/robotloader; ln -fs ../../../etc/robotloader conf )
+	(cd $(CURDIR)/debian/tmp/usr/share/robotloader; ln -fs ../../../etc/robotloader config )
 	cp -rf RobotArm_Examples\ \[MINI\]/*	$(CURDIR)/debian/tmp/usr/share/robotloader/examples/
 	install -m 0755 debian/*.desktop	-t $(CURDIR)/debian/tmp/usr/share/applications
 	install -m 0755 robotloader	-t $(CURDIR)/debian/tmp/usr/bin
