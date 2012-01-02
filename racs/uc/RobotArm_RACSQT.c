@@ -25,9 +25,9 @@ void welcomeMsg()
 	writeString_P("\nThe format is: i:pnnn; where ");
 	writeString_P("\n   i is the servo number [1-6]");
 	writeString_P("\n   p is an optional sign [+-]");
-	writeString_P("\n   nnn is the 3 digit target position");
+	writeString_P("\n   nnn is the 3 digit target position (-500 ... +500)");
 	writeString_P("\nOr s:nn for setting the servo speed, where s is a literal s character");
-	writeString_P("\n   and nn is the two digit speed where 00 is fast and 10 is slow.\n\n");
+	writeString_P("\n   and nn is the two digit speed where 00 is fast and 10 is slow. default is 3.\n\n");
 }
 
 int main(void)
@@ -73,6 +73,9 @@ int main(void)
 		{
 			recbuf[6] = '\0';
 			servospeed = atoi(&recbuf[2]);
+			writeString_P("New servo speed: ");
+			writeInteger(servospeed, 10);
+			writeString_P("\n");
 			bufpos = 0;
 			continue;
 		}
@@ -89,10 +92,20 @@ int main(void)
 		recbuf[6] = '\0';
 		const int16_t servopos = atoi(&recbuf[2]); // The position 	(Min. -500 ..... +500 max) 
 
+		writeString_P("Moving servo ");
+		writeInteger(servonum, 10);
+		writeString_P(" to position ");
+		writeInteger(servopos, 10);
+		writeString_P("\n");
+
 		s_Move(servonum, servopos, servospeed);
+
+		bufpos = 0;
+		continue;
 	}
 	// End of main loop!
 	// ---------------------------------------
+	writeString_P("Fell out of the main loop. Please reset!");
 
 	return 0;
 }
