@@ -1,0 +1,6 @@
+/etc/robotloader/*
+/usr/bin/robotloader
+/usr/share/applications/RobotLoader*
+/usr/share/robotloader/config
+/usr/share/robotloader/*.*
+/usr/share/robotloader/lib/*.*

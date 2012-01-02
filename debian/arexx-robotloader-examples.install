@@ -1,0 +1,9 @@
+/usr/share/robotloader/examples/*.*
+/usr/share/robotloader/examples/*/*.*
+/usr/share/robotloader/examples/*/*/*.h
+/usr/share/robotloader/examples/*/*/*.c
+/usr/share/robotloader/examples/*/*/Makefile
+/usr/share/robotloader/examples/RobotArmLib/*/*.o
+/usr/share/robotloader/examples/RobotArmExamples/*/*.hex
+/usr/share/robotloader/examples/RobotArmExamples/*/*.pnp*
+

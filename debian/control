@@ -1,15 +1,21 @@
-Source: robotloader
+Source: arexx-robot-arm
 Section: science
 Priority: optional
 Maintainer: Richard Ulrich <richi@paraeasy.ch>
-Build-Depends: default-jdk | java6-sdk, gcc-avr, avr-libc, wget, debhelper, unzip
+Build-Depends: default-jdk | java6-sdk, gcc-avr, avr-libc, wget, debhelper, unzip, libboost-dev, qt4-qmake, libqt4-dev
 standards-Version: 3.8.1.0
 Homepage: http://arexx.com/robot_arm/
 
-Package: robotloader
+Package: arexx-robotloader
 Architecture: all
 Essential: no
 Depends: ${misc:Depends}, default-jre | java6-runtime, librxtx-java, gcc-avr, avrdude, avr-libc, libftdi1
-Description: This is the software to operate the arexx robot arm.
+Replaces: robotloader
+Description: GUI program to upload programs to the arexx robot arm.
 
+Package: arexx-robotloader-examples
+Architecture: all
+Essential: no
+Depends: ${misc:Depends}, arexx-robotloader, gcc-avr, avrdude, avr-libc
+Description: GUI program to upload programs to the arexx robot arm.
 

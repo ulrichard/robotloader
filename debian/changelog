@@ -1,3 +1,9 @@
+arexx-robot-arm (1.5-12~maverick) maverick; urgency=low
+
+  * splitted into separate packages
+
+ -- Richard Ulrich <richi@paraeasy.ch>  Mon, 2 Jan 2011 20:11:00 +0200
+
 robotloader (1.5-11~maverick) maverick; urgency=low
 
   * typo

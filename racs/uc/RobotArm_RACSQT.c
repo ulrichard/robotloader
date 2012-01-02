@@ -22,11 +22,11 @@
 
 void welcomeMsg()
 {
-	writeString_P("\nThe format is: \"i:pnnn;\" where ");
+	writeString_P("\nThe format is: i:pnnn; where ");
 	writeString_P("\n   i is the servo number [1-6]");
 	writeString_P("\n   p is an optional sign [+-]");
 	writeString_P("\n   nnn is the 3 digit target position");
-	writeString_P("\nOr \"s:nn\" for setting the servo speed, where s is a literal s character");
+	writeString_P("\nOr s:nn for setting the servo speed, where s is a literal s character");
 	writeString_P("\n   and nn is the two digit speed where 00 is fast and 10 is slow.\n\n");
 }
 
@@ -59,6 +59,12 @@ int main(void)
 		receiveBytesToBuffer(1, &cc);
 
 		recbuf[bufpos++] = cc;
+		
+		if(bufpos == 1 && !isdigit(recbuf[0]) && recbuf[0] != 's' && recbuf[0] != 'S')
+		{
+			bufpos = 0;
+			continue;
+		}
 
 		if(bufpos < 6 || (bufpos == 6 && isdigit(cc)))
 			continue;

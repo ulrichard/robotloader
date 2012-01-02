@@ -34,7 +34,7 @@ clean:
 	# $(MAKE) clean
 	rm -rf $(CURDIR)/build-debian
 	rm -rf $(CURDIR)/debian/tmp
-	rm -rf $(CURDIR)/debian/robotloader
+	rm -rf $(CURDIR)/debian/arexx-robot-arm
 
 	rm -rf $(CURDIR)/RobotLoader_20100712/
 	rm -rf $(CURDIR)/RobotArm_Examples*
@@ -53,26 +53,46 @@ install: build
 	unzip RobotArmExamples_MINI
 	unzip RACS_v1.0
 
-	mkdir -p $(CURDIR)/debian/tmp/etc/robotloader
-	mkdir -p $(CURDIR)/debian/tmp/usr/bin
-	mkdir -p $(CURDIR)/debian/tmp/usr/share/robotloader
-	mkdir -p $(CURDIR)/debian/tmp/usr/share/robotloader/examples
-	mkdir -p $(CURDIR)/debian/tmp/usr/share/robotloader/examples/RACS
-	mkdir -p $(CURDIR)/debian/tmp/usr/share/applications
+	# robotloader
+	mkdir -p $(CURDIR)/debian/arexx-robot-arm/etc/robotloader
+	mkdir -p $(CURDIR)/debian/arexx-robot-arm/usr/bin
+	mkdir -p $(CURDIR)/debian/arexx-robot-arm/usr/share/robotloader
+	mkdir -p $(CURDIR)/debian/arexx-robot-arm/usr/share/applications
 
-	install -m 0755 RobotLoader_20100712/*.jar	-t $(CURDIR)/debian/tmp/usr/share/robotloader
-	install -m 0755 RobotLoader_20100712/config/*.*	-t $(CURDIR)/debian/tmp/etc/robotloader
-	(cd $(CURDIR)/debian/tmp/usr/share/robotloader; ln -fs ../../../etc/robotloader config )
-	cp -rf RobotArm_Examples\ \[MINI\]/*	$(CURDIR)/debian/tmp/usr/share/robotloader/examples/
-	install -m 0755 debian/*.desktop	-t $(CURDIR)/debian/tmp/usr/share/applications
-	install -m 0755 robotloader	-t $(CURDIR)/debian/tmp/usr/bin
-	install -m 0755 small_robot_arm.png	-t $(CURDIR)/debian/tmp/usr/share/robotloader
-	install -m 0755 RAC-MINI.hex	-t $(CURDIR)/debian/tmp/usr/share/robotloader/examples/RACS
+	install -m 0755 $(CURDIR)/RobotLoader_20100712/*.jar	-t $(CURDIR)/debian/arexx-robot-arm/usr/share/robotloader
+	install -m 0755 $(CURDIR)/RobotLoader_20100712/config/*.*	-t $(CURDIR)/debian/arexx-robot-arm/etc/robotloader
+	(cd $(CURDIR)/debian/arexx-robot-arm/usr/share/robotloader; ln -fs ../../../etc/robotloader config )
+	install -m 0755 $(CURDIR)/debian/*.desktop		-t $(CURDIR)/debian/arexx-robot-arm/usr/share/applications
+	install -m 0755 $(CURDIR)/robotloader			-t $(CURDIR)/debian/arexx-robot-arm/usr/bin
+	install -m 0755 $(CURDIR)/small_robot_arm.png	-t $(CURDIR)/debian/arexx-robot-arm/usr/share/robotloader
 
 	#todo : Still trying to use only libs from the repository
-	mkdir -p $(CURDIR)/debian/tmp/usr/share/robotloader/lib
-	install -m 0755 RobotLoader_20100712/lib/comm.jar   -t $(CURDIR)/debian/tmp/usr/share/robotloader/lib
-	install -m 0755 RobotLoader_20100712/lib/jd2xx.jar  -t $(CURDIR)/debian/tmp/usr/share/robotloader/lib
+	mkdir -p $(CURDIR)/debian/arexx-robot-arm/usr/share/robotloader/lib
+	install -m 0755 $(CURDIR)/RobotLoader_20100712/lib/comm.jar   -t $(CURDIR)/debian/arexx-robot-arm/usr/share/robotloader/lib
+	install -m 0755 $(CURDIR)/RobotLoader_20100712/lib/jd2xx.jar  -t $(CURDIR)/debian/arexx-robot-arm/usr/share/robotloader/lib
+
+	#examples
+	mkdir -p $(CURDIR)/debian/arexx-robot-arm/usr/share/robotloader/examples
+	mkdir -p $(CURDIR)/debian/arexx-robot-arm/usr/share/robotloader/examples/RACS
+	cp -rf $(CURDIR)/RobotArm_Examples\ \[MINI\]/*	$(CURDIR)/debian/arexx-robot-arm/usr/share/robotloader/examples/
+	install -m 0755 $(CURDIR)/RAC-MINI.hex		-t $(CURDIR)/debian/arexx-robot-arm/usr/share/robotloader/examples/RACS
+	(cd $(CURDIR)/debian/arexx-robot-arm/usr/share/robotloader/examples/RobotArmExamples/Calibrate_RobotArm; ${MAKE} clean; ${MAKE} all)
+	(cd $(CURDIR)/debian/arexx-robot-arm/usr/share/robotloader/examples/RobotArmExamples/Example_01_Leds; ${MAKE} clean; ${MAKE} all)
+	(cd $(CURDIR)/debian/arexx-robot-arm/usr/share/robotloader/examples/RobotArmExamples/Example_02_Uart_01; ${MAKE} clean; ${MAKE} all)
+	(cd $(CURDIR)/debian/arexx-robot-arm/usr/share/robotloader/examples/RobotArmExamples/Example_03_Uart_02; ${MAKE} clean; ${MAKE} all)
+#	(cd $(CURDIR)/debian/arexx-robot-arm/usr/share/robotloader/examples/RobotArmExamples/Example_04_Stopwatches; ${MAKE} clean; ${MAKE} all)
+	(cd $(CURDIR)/debian/arexx-robot-arm/usr/share/robotloader/examples/RobotArmExamples/Example_05_Measuring_Current; ${MAKE} clean; ${MAKE} all)
+	(cd $(CURDIR)/debian/arexx-robot-arm/usr/share/robotloader/examples/RobotArmExamples/Example_06_Move_01; ${MAKE} clean; ${MAKE} all)
+	(cd $(CURDIR)/debian/arexx-robot-arm/usr/share/robotloader/examples/RobotArmExamples/Example_07_Move_02; ${MAKE} clean; ${MAKE} all)
+	(cd $(CURDIR)/debian/arexx-robot-arm/usr/share/robotloader/examples/RobotArmExamples/Example_08_Move_03; ${MAKE} clean; ${MAKE} all)
+	(cd $(CURDIR)/debian/arexx-robot-arm/usr/share/robotloader/examples/RobotArmExamples/Example_09_Key_Board; ${MAKE} clean; ${MAKE} all)
+	(cd $(CURDIR)/debian/arexx-robot-arm/usr/share/robotloader/examples/RobotArmExamples/Example_10_I2C; ${MAKE} clean; ${MAKE} all)
+	(cd $(CURDIR)/debian/arexx-robot-arm/usr/share/robotloader/examples/RobotArmExamples/Example_11_Selftest; ${MAKE} clean; ${MAKE} all)
+	(cd $(CURDIR)/debian/arexx-robot-arm/usr/share/robotloader/examples/RobotArmExamples/Example_12_Music; ${MAKE} clean; ${MAKE} all)
+	(cd $(CURDIR)/debian/arexx-robot-arm/usr/share/robotloader/examples/RobotArmLib/RobotArmBase; ${MAKE} clean; ${MAKE} RobotArmBaseLib.o)
+	(cd $(CURDIR)/debian/arexx-robot-arm/usr/share/robotloader/examples/RobotArmLib/RobotArmBase; ${MAKE} clean; ${MAKE} RobotArmUart.o)
+	(cd $(CURDIR)/debian/arexx-robot-arm/usr/share/robotloader/examples/RobotArmLib/RobotArmI2C; ${MAKE} clean; ${MAKE} I2C_Yeti_Display.o)
+
 
 
 # Build architecture-independent files here.
@@ -86,7 +106,7 @@ binary-arch: build install
 	dh_installchangelogs 
 	dh_installdocs
 	dh_installexamples
-	dh_install --sourcedir=debian/tmp/
+	dh_install --sourcedir=debian/arexx-robot-arm/
 	dh_installmenu
 #	dh_installdebconf
 #	dh_installlogrotate
