@@ -70,12 +70,13 @@ FORMAT = ihex
 
 
 # Target file name (without extension).
-TARGET = RobotArm_RACSQT_01
+TARGET = RobotArm_RACSQT
 
 ###############################################################################
 # Specify relative path to RobotArm library files here.
 #CAT_LIB_PATH=../../RobotArmLib
-CAT_LIB_PATH=/usr/share/robotloader/examples/RobotArmLib
+#CAT_LIB_PATH=/usr/share/robotloader/examples/RobotArmLib
+CAT_LIB_PATH=../../../../../../usr/share/robotloader/examples/RobotArmLib
 CAT_LIB_PATH_OTHERS= $(CAT_LIB_PATH)/RobotArmBase $(CAT_LIB_PATH)/RobotArmI2C
 
 # Object files directory

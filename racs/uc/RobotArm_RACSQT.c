@@ -16,9 +16,14 @@
 
 #include "RobotArmBaseLib.h"// The Robotarm Robot Library.
 							// Always needs to be included!
-
+//#include <ctype.h>
 /*****************************************************************************/
 // Main function - The program starts here:
+
+bool isdigit(const char cc)
+{
+	return cc >= '0' && cc <= '9';
+}
 
 int main(void)
 {
@@ -37,7 +42,7 @@ int main(void)
 	
 	// Write a text message to the UART:
 	writeString_P("\nracsqt ready to receive commands.");
-	writeString_P(fmtmsg);
+//	writeNStringP(fmtmsg);
 
 	char    recbuf[16];
 	uint8_t bufpos = 0;
@@ -54,7 +59,7 @@ int main(void)
 		if(bufpos < 6 || (bufpos == 6 && isdigit(cc)))
 			continue;
 
-		if(bufpos == 4 && recbuf[0] == 's' || recbuf[0] == 'S')
+		if(bufpos == 4 && (recbuf[0] == 's' || recbuf[0] == 'S'))
 		{
 			recbuf[6] = '\0';
 			servospeed = atoi(&recbuf[2]);
@@ -64,13 +69,13 @@ int main(void)
 
 		if(!isdigit(recbuf[0]) || recbuf[1] != ':' || (!isdigit(recbuf[2]) && recbuf[2] != '-' && recbuf[2] != '+') || !isdigit(recbuf[3]) || !isdigit(recbuf[4]) || (bufpos > 5 && !isdigit(recbuf[5])))
 		{
-			if(bufpos > 2)
-				writeString_P(fmtmsg);
+//			if(bufpos > 2)
+//				writeNStringP(fmtmsg);
 			bufpos = 0;
 			continue;
 		}
 
-		const uint8_t servonum = isdigit[0] - '0'; // Which servo 	(0,1,2,3,4,5 or 6) 
+		const uint8_t servonum = recbuf[0] - '0'; // Which servo 	(0,1,2,3,4,5 or 6) 
 		recbuf[6] = '\0';
 		const int16_t servopos = atoi(&recbuf[2]); // The position 	(Min. -500 ..... +500 max) 
 
