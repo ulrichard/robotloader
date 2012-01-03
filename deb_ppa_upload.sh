@@ -16,7 +16,7 @@ wget http://arexx.com/robot_arm/downloads/RACS_v1.0.zip
 
 for DISTRIBUTION in precise oneiric natty maverick 
 do
-	VERSIONSTR=1.5-12~${DISTRIBUTION}
+	VERSIONSTR=1.5-13~${DISTRIBUTION}
 	sed -i  -e "s/maverick/${DISTRIBUTION}/g" -e "s/natty/${DISTRIBUTION}/g" -e "s/oneiric/${DISTRIBUTION}/g" -e "s/precise/${DISTRIBUTION}/g" debian/changelog
 	dpkg-buildpackage -rfakeroot -S
 	dput ppa:richi-paraeasy/ppa ../arexx-robot-arm_${VERSIONSTR}_source.changes

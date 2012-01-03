@@ -1,0 +1,12 @@
+
+[Desktop Entry]
+Name=RobotLoader
+Comment=Directly manipulate the arexx robot arm
+GenericName=racsqt
+Exec=/usr/bin/racsqt
+Path=/usr/bin
+Terminal=false
+Icon=/usr/share/robotloader/small_robot_arm.png
+Categories=Science;Engineering
+Type=Application
+MimeType=application/hex;

@@ -7,13 +7,18 @@ SET(VERSION_MAJOR 0)
 SET(VERSION_MINOR 1)
 SET(racsqt_SOVERSION 1)
 
+# Setup output Directories
+SET(CMAKE_LIBRARY_OUTPUT_DIRECTORY ${PROJECT_BINARY_DIR}/bin CACHE PATH "Single Directory for all Libraries")
+SET(CMAKE_RUNTIME_OUTPUT_DIRECTORY ${PROJECT_BINARY_DIR}/bin CACHE PATH "Single Directory for all Executables.")
+SET(CMAKE_ARCHIVE_OUTPUT_DIRECTORY ${PROJECT_BINARY_DIR}/bin CACHE PATH "Single Directory for all static libraries.")
+
 IF(NOT CMAKE_BUILD_TYPE)
   SET(CMAKE_BUILD_TYPE Release CACHE STRING
       "Choose the type of build, options are: None Debug Release RelWithDebInfo MinSizeRel."
       FORCE)
 ENDIF(NOT CMAKE_BUILD_TYPE)
 
-FIND_PACKAGE(Boost 1.42 REQUIRED)
+FIND_PACKAGE(Boost 1.42 COMPONENTS system thread REQUIRED)
 FIND_PACKAGE(Qt4   COMPONENTS QtCore QtGui REQUIRED)
 
 ADD_DEFINITIONS(-DWT_THREADED -D_REENTRANT -DBOOST_SPIRIT_THREADSAFE)
@@ -21,18 +26,22 @@ ADD_DEFINITIONS(-DWT_THREADED -D_REENTRANT -DBOOST_SPIRIT_THREADSAFE)
 # Make sure the compiler can find include files.
 INCLUDE_DIRECTORIES(${BOOST_INCLUDE_DIRS})
 INCLUDE(${QT_USE_FILE})
+INCLUDE_DIRECTORIES(${CMAKE_CURRENT_BINARY_DIR}) 
 
 LINK_DIRECTORIES(${BOOST_LIB_DIRS})
 
+QT4_WRAP_UI(UI_SOURCES mainwindow.ui)
 SET(racsqt_SRCS main.cpp mainwindow.cpp Communication.cpp)
-SET(racsqt_MOC_HDRS mainwindow.h)
+SET(racsqt_MOC_HDRS mainwindow.h ${UI_SOURCES})
 QT4_WRAP_CPP(racsqt_SRCS ${racsqt_MOC_HDRS})
 
-ADD_EXECUTABLE(racsqt ${racsqt_SRCS})
+ADD_EXECUTABLE(racsqt 
+	${racsqt_SRCS}
+)
 
-TARGET_LINK_LIBRARIES(racsqt 
-	boost_system-mt 
-	boost_thread-mt 
+TARGET_LINK_LIBRARIES(racsqt
+	${Boost_SYSTEM_LIBRARY}
+	${Boost_THREAD_LIBRARY}
 	${QT_LIBRARIES}
 )
 

@@ -1,6 +1,7 @@
-#ifndef MAINFORM_H
-#define MAINFORM_H
+#pragma once
 
+// racsqt
+#include "ui_mainwindow.h"
 // Qt
 #include <QtGui/QMainWindow>
 // boost
@@ -28,6 +29,7 @@ private slots:
 private:
 //    void sendCommands();
 
+	Ui_MainWindow 	  ui;  
     QCheckBox         *cbLog;
     QPlainTextEdit    *plainTextEdit;
     Communication     *sercomm;
@@ -37,4 +39,3 @@ private:
 /////////1/////////2/////////3/////////4/////////5/////////6/////////7/////////8/////////9/////////A
 
 
-#endif // MAINFORM_H

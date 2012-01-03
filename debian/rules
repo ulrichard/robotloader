@@ -20,6 +20,11 @@ configure-stamp:
 
 build: build-stamp
 
+	#racsqt
+	mkdir -p $(CURDIR)/build-racsqt-debian
+	(cd $(CURDIR)/build-racsqt-debian; cmake -DCMAKE_VERBOSE_MAKEFILE:BOOL=1 -DCMAKE_INSTALL_PREFIX:PATH=/usr -DCMAKE_BUILD_TYPE:STRING=Release ../racs/qt )
+	(cd $(CURDIR)/build-racsqt-debian; $(MAKE) )
+
 build-stamp: configure-stamp  
 	dh_testdir
 
@@ -33,6 +38,7 @@ clean:
 	# Add here commands to clean up after the build process.
 	# $(MAKE) clean
 	rm -rf $(CURDIR)/build-debian
+	rm -rf $(CURDIR)/build-racsqt-debian
 	rm -rf $(CURDIR)/debian/tmp
 	rm -rf $(CURDIR)/debian/arexx-robot-arm
 
@@ -93,7 +99,8 @@ install: build
 	(cd $(CURDIR)/debian/arexx-robot-arm/usr/share/robotloader/examples/RobotArmLib/RobotArmBase; ${MAKE} clean; ${MAKE} RobotArmUart.o)
 	(cd $(CURDIR)/debian/arexx-robot-arm/usr/share/robotloader/examples/RobotArmLib/RobotArmI2C; ${MAKE} clean; ${MAKE} I2C_Yeti_Display.o)
 
-
+	#racsqt
+	(cd $(CURDIR)/build-racsqt-debian; $(MAKE) install DESTDIR=$(CURDIR)/debian/arexx-robot-arm/)
 
 # Build architecture-independent files here.
 binary-indep: build install

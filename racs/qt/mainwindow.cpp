@@ -1,3 +1,5 @@
+
+// racsqt
 #include "mainwindow.h"
 #include "Communication.h"
 // Qt
@@ -29,25 +31,14 @@ private:
 /////////1/////////2/////////3/////////4/////////5/////////6/////////7/////////8/////////9/////////A
 RACSQTMain::RACSQTMain()
 {
-    setWindowTitle("RACSQT");
-    resize(480, 550);
+	ui.setupUi(this);
 
-    QWidget *centralwidget = new QWidget(this);
-    centralwidget->setObjectName(QString::fromUtf8("centralwidget"));
-
-    cbLog = new QCheckBox(centralwidget);
-    cbLog->setGeometry(QRect(10, 410, 191, 22));
-    cbLog->setText("log");
-
-    plainTextEdit = new QPlainTextEdit(centralwidget);
-    plainTextEdit->setGeometry(QRect(0, 470, 481, 80));
-
-    setCentralWidget(centralwidget);
+    setCentralWidget(ui.centralwidget);
 
 	try
 	{
 		sercomm = new Communication("/dev/ttyUSB0");
-		sercomm->addListener(Communication::LST_TEXT,    TextAdder(*plainTextEdit));
+		sercomm->addListener(Communication::LST_TEXT,    TextAdder(*ui.plainTextEdit));
 	}
 	catch(std::exception &ex)
 	{
@@ -58,7 +49,7 @@ RACSQTMain::RACSQTMain()
 
 //    connect(cbLog,     SIGNAL(stateChanged(int)), this, SLOT(enableLogging(int)));
 
-    TextAdder ta(*plainTextEdit);
+    TextAdder ta(*ui.plainTextEdit);
     ta(boost::any(std::string("Welcome")));
 
 }
