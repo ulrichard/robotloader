@@ -176,6 +176,7 @@ public:
     void resetRobotArm()
     {
         sercli.enableRTS(true);
+        boost::this_thread::sleep(boost::posix_time::millisec(200));
         sercli.enableRTS(false);
     }
 

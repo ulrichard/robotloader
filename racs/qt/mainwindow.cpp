@@ -30,6 +30,7 @@ private:
 };
 /////////1/////////2/////////3/////////4/////////5/////////6/////////7/////////8/////////9/////////A
 RACSQTMain::RACSQTMain()
+    : QMainWindow()
 {
 	setupUi(this);
 
@@ -39,6 +40,7 @@ RACSQTMain::RACSQTMain()
 	{
 		sercomm_ = new Communication("/dev/ttyUSB0");
 		sercomm_->addListener(Communication::LST_TEXT,    TextAdder(*plainTextEdit));
+		sercomm_->resetRobotArm();
 	}
 	catch(std::exception &ex)
 	{
@@ -48,6 +50,7 @@ RACSQTMain::RACSQTMain()
 	}
 
     // todo : pass the servo number as parameter to the slot
+
     connect(sli1_Gripper,  SIGNAL(sliderMoved(int)), this, SLOT(sliderChanged(int)));
     connect(sli2_Hand,     SIGNAL(sliderMoved(int)), this, SLOT(sliderChanged(int)));
     connect(sli3_Wrist,    SIGNAL(sliderMoved(int)), this, SLOT(sliderChanged(int)));
