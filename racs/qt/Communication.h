@@ -18,8 +18,6 @@
 
 
 /////////1/////////2/////////3/////////4/////////5/////////6/////////7/////////8/////////9/////////A
-namespace // anonymous
-{
 class serial_client
 {
 public:
@@ -59,6 +57,14 @@ public:
         bool active() // return true if the socket is still active
         {
                 return active_;
+        }
+
+        void enableRTS(const bool val)
+        {
+            if(val)
+                serialPort.set_option(boost::asio::serial_port_base::flow_control(boost::asio::serial_port_base::flow_control::hardware));
+            else
+                serialPort.set_option(boost::asio::serial_port_base::flow_control(boost::asio::serial_port_base::flow_control::none));
         }
 
 private:
@@ -144,12 +150,11 @@ private:
         std::deque<char> write_msgs_; // buffered write data
         boost::function<void(std::string)> msg_received_;
 };
-} // anonymous namespace
 /////////1/////////2/////////3/////////4/////////5/////////6/////////7/////////8/////////9/////////A
 class Communication
 {
 public:
-    Communication(const std::string &device = "/dev/rfcomm0", size_t baud = 115200);
+    Communication(const std::string &device = "/dev/ttyUSB0", size_t baud = 115200);
     virtual ~Communication();
 
     enum LISTENER_TYPE
@@ -167,6 +172,12 @@ public:
     void addListener(const LISTENER_TYPE typ, boost::function<void(boost::any)> func)
     {   listeners_.insert(std::make_pair(typ, func));   }
     void sendCommand(const std::string &cmd);
+
+    void resetRobotArm()
+    {
+        sercli.enableRTS(true);
+        sercli.enableRTS(false);
+    }
 
 private:
     void DispatchMsg(std::string msg);

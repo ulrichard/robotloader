@@ -6,7 +6,7 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>480</width>
+    <width>482</width>
     <height>425</height>
    </rect>
   </property>
@@ -24,7 +24,7 @@
      </rect>
     </property>
    </widget>
-   <widget class="QSlider" name="sli_1_BaseRot">
+   <widget class="QSlider" name="sli6_BaseRot">
     <property name="geometry">
      <rect>
       <x>110</x>
@@ -33,11 +33,17 @@
       <height>29</height>
      </rect>
     </property>
+    <property name="minimum">
+     <number>-1000</number>
+    </property>
+    <property name="maximum">
+     <number>1000</number>
+    </property>
     <property name="orientation">
      <enum>Qt::Horizontal</enum>
     </property>
    </widget>
-   <widget class="QSlider" name="sli_2_Shoulder">
+   <widget class="QSlider" name="sli5_Shoulder">
     <property name="geometry">
      <rect>
       <x>110</x>
@@ -46,11 +52,17 @@
       <height>29</height>
      </rect>
     </property>
+    <property name="minimum">
+     <number>-1000</number>
+    </property>
+    <property name="maximum">
+     <number>1000</number>
+    </property>
     <property name="orientation">
      <enum>Qt::Horizontal</enum>
     </property>
    </widget>
-   <widget class="QSlider" name="sli_3_Ellbow">
+   <widget class="QSlider" name="sli4_Ellbow">
     <property name="geometry">
      <rect>
       <x>110</x>
@@ -59,11 +71,17 @@
       <height>29</height>
      </rect>
     </property>
+    <property name="minimum">
+     <number>-1000</number>
+    </property>
+    <property name="maximum">
+     <number>1000</number>
+    </property>
     <property name="orientation">
      <enum>Qt::Horizontal</enum>
     </property>
    </widget>
-   <widget class="QSlider" name="sli_4_Wrist">
+   <widget class="QSlider" name="sli3_Wrist">
     <property name="geometry">
      <rect>
       <x>110</x>
@@ -72,11 +90,17 @@
       <height>29</height>
      </rect>
     </property>
+    <property name="minimum">
+     <number>-1000</number>
+    </property>
+    <property name="maximum">
+     <number>1000</number>
+    </property>
     <property name="orientation">
      <enum>Qt::Horizontal</enum>
     </property>
    </widget>
-   <widget class="QSlider" name="sli_5_Hand">
+   <widget class="QSlider" name="sli2_Hand">
     <property name="geometry">
      <rect>
       <x>110</x>
@@ -85,11 +109,17 @@
       <height>29</height>
      </rect>
     </property>
+    <property name="minimum">
+     <number>-1000</number>
+    </property>
+    <property name="maximum">
+     <number>1000</number>
+    </property>
     <property name="orientation">
      <enum>Qt::Horizontal</enum>
     </property>
    </widget>
-   <widget class="QSlider" name="sli_6_Gripper">
+   <widget class="QSlider" name="sli1_Gripper">
     <property name="geometry">
      <rect>
       <x>110</x>
@@ -97,6 +127,12 @@
       <width>361</width>
       <height>29</height>
      </rect>
+    </property>
+    <property name="minimum">
+     <number>-1000</number>
+    </property>
+    <property name="maximum">
+     <number>1000</number>
     </property>
     <property name="orientation">
      <enum>Qt::Horizontal</enum>

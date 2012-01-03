@@ -31,27 +31,48 @@ private:
 /////////1/////////2/////////3/////////4/////////5/////////6/////////7/////////8/////////9/////////A
 RACSQTMain::RACSQTMain()
 {
-	ui.setupUi(this);
+	setupUi(this);
 
-    setCentralWidget(ui.centralwidget);
+    setCentralWidget(centralwidget);
 
 	try
 	{
-		sercomm = new Communication("/dev/ttyUSB0");
-		sercomm->addListener(Communication::LST_TEXT,    TextAdder(*ui.plainTextEdit));
+		sercomm_ = new Communication("/dev/ttyUSB0");
+		sercomm_->addListener(Communication::LST_TEXT,    TextAdder(*plainTextEdit));
 	}
 	catch(std::exception &ex)
 	{
 		std::stringstream sstr;
-		sstr << "Could not establish a bluetooth connection to the robot arm on \"/dev/ttyUSB0\" with the following message:\n" << ex.what();
+		sstr << "Could not establish a serial connection to the robot arm on \"/dev/ttyUSB0\" with the following message:\n" << ex.what();
 		QMessageBox::critical(this, "No connection to the robot arm", sstr.str().c_str(), QMessageBox::Ok);
 	}
 
-//    connect(cbLog,     SIGNAL(stateChanged(int)), this, SLOT(enableLogging(int)));
+    // todo : pass the servo number as parameter to the slot
+    connect(sli1_Gripper,  SIGNAL(sliderMoved(int)), this, SLOT(sliderChanged(int)));
+    connect(sli2_Hand,     SIGNAL(sliderMoved(int)), this, SLOT(sliderChanged(int)));
+    connect(sli3_Wrist,    SIGNAL(sliderMoved(int)), this, SLOT(sliderChanged(int)));
+    connect(sli4_Ellbow,   SIGNAL(sliderMoved(int)), this, SLOT(sliderChanged(int)));
+    connect(sli5_Shoulder, SIGNAL(sliderMoved(int)), this, SLOT(sliderChanged(int)));
+    connect(sli6_BaseRot,  SIGNAL(sliderMoved(int)), this, SLOT(sliderChanged(int)));
 
-    TextAdder ta(*ui.plainTextEdit);
+    TextAdder ta(*plainTextEdit);
     ta(boost::any(std::string("Welcome")));
 
+}
+/////////1/////////2/////////3/////////4/////////5/////////6/////////7/////////8/////////9/////////A
+RACSQTMain::~RACSQTMain()
+{
+}
+/////////1/////////2/////////3/////////4/////////5/////////6/////////7/////////8/////////9/////////A
+void RACSQTMain::sliderChanged(int val)
+{
+    std::stringstream sstr;
+
+    sstr << "1:"
+         << std::showpos << std::setw(3) << std::setfill('0') << val << std::endl;
+
+    if(sstr.str().length())
+        sercomm_->sendCommand(sstr.str());
 }
 /////////1/////////2/////////3/////////4/////////5/////////6/////////7/////////8/////////9/////////A
 /*
@@ -87,9 +108,6 @@ void RACSQTMain::sendCommands()
         sercomm->sendCommand(sstr.str());
 }
 */
-/////////1/////////2/////////3/////////4/////////5/////////6/////////7/////////8/////////9/////////A
-RACSQTMain::~RACSQTMain()
-{
-}
+
 /////////1/////////2/////////3/////////4/////////5/////////6/////////7/////////8/////////9/////////A
 

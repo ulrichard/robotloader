@@ -24,7 +24,7 @@ Communication::Communication(const std::string &device, size_t baud)
 /////////1/////////2/////////3/////////4/////////5/////////6/////////7/////////8/////////9/////////A
 Communication::~Communication()
 {
-    sercli.close(); // close the minicom client connection
+    sercli.close(); // close the serial client connection
     thrd.join(); // wait for the IO service thread to close
 }
 /////////1/////////2/////////3/////////4/////////5/////////6/////////7/////////8/////////9/////////A
@@ -41,6 +41,7 @@ void Communication::sendCommand(const std::string &cmd)
     std::cout << "Sent : " << cmd << std::endl;
 }
 /////////1/////////2/////////3/////////4/////////5/////////6/////////7/////////8/////////9/////////A
+/*
 template<class T>
 struct ParserEventAssign
 {
@@ -92,6 +93,7 @@ private:
     T dummy_;
     T &v1_, &v2_, &v3_;
 };
+*/
 /////////1/////////2/////////3/////////4/////////5/////////6/////////7/////////8/////////9/////////A
 void Communication::DispatchMsg(std::string msg)
 {
@@ -106,6 +108,10 @@ void Communication::DispatchMsg(std::string msg)
 
     std::cout << "Received : \"" << msg << "\"" << std::endl;
 
+    if(listeners_.count(Communication::LST_TEXT))
+        for(Communication::ListenerCont::const_iterator it = listeners_.lower_bound(Communication::LST_TEXT); it != listeners_.upper_bound(Communication::LST_TEXT); ++it)
+            it->second(boost::any(msg));
+/*
 	typedef rule<> rule_t;
 
     size_t curr_angle, curr_distval, curr_height, curr_comp, accel_x, accel_y, accel_z, curr_baro;
@@ -124,6 +130,7 @@ void Communication::DispatchMsg(std::string msg)
     parse_info<> info = parse(msg.c_str(), sentence, space_p);
 //    if(!info.hit || info.length < msg.length() - 1)
 //        throw std::runtime_error("failed to parse sentence : " + msg);
+*/
 }
 /////////1/////////2/////////3/////////4/////////5/////////6/////////7/////////8/////////9/////////A
 

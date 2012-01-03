@@ -14,7 +14,7 @@ class QCheckBox;
 class QPlainTextEdit;
 class Communication;
 /////////1/////////2/////////3/////////4/////////5/////////6/////////7/////////8/////////9/////////A
-class RACSQTMain : public QMainWindow
+class RACSQTMain : public QMainWindow, private Ui_MainWindow
 {
     Q_OBJECT;
 public:
@@ -22,17 +22,10 @@ public:
     virtual ~RACSQTMain();
 
 private slots:
-//    void enableRanger(int state);
-//    void enableLogging(int state);
-//    void enableControl(int state);
+    void sliderChanged(int val);
 
 private:
-//    void sendCommands();
-
-	Ui_MainWindow 	  ui;  
-    QCheckBox         *cbLog;
-    QPlainTextEdit    *plainTextEdit;
-    Communication     *sercomm;
+    Communication     *sercomm_;
 
 //    boost::thread      inputListener;
 };
