@@ -20,7 +20,7 @@ Depends: ${misc:Depends}, arexx-robotloader, gcc-avr, avrdude, avr-libc
 Description: GUI program to upload programs to the arexx robot arm.
 
 Package: arexx-racsqt
-Architecture: all
+Architecture: any
 Essential: no
 Depends: ${misc:Depends}, ${shlibs:Depends}, arexx-robotloader
 Description: GUI program to directly manipulate the arexx robot arm.

@@ -1,0 +1,19 @@
+CMAKE_MINIMUM_REQUIRED(VERSION 2.8)
+
+PROJECT(RobotArm_RACSQT)
+
+FIND_PACKAGE(ArexxRobotArm REQUIRED)
+
+INCLUDE(arexx_robot_arm_crosscompile.cmake)
+INCLUDE_DIRECTORIES(${ArexxRobotArm_INCLUDE_DIRS})
+
+ADD_EXECUTABLE(RobotArm_RACSQ
+	RobotArm_RACSQ.c
+)
+
+LINK_LIBRARIES(RobotArm_RACSQ
+	${ArexxRobotArm_LIBRARY}
+)
+
+INSTALL(TARGETS RobotArm_RACSQ RUNTIME DESTINATION share/robotloader/examples/racsqt)
+

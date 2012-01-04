@@ -2,7 +2,7 @@
 # This module defines
 #  ArexxRobotArm_LIBRARY, the library to link against
 #  ArexxRobotArm_FOUND, if false, do not try to link to FTGL
-#  ArexxRobotArm_INCLUDE_DIR, where to find headers.
+#  ArexxRobotArm_INCLUDE_DIRS, where to find headers.
 #
 #=============================================================================
 # Copyright 2011 Richard Ulrich.
@@ -41,10 +41,14 @@ FIND_LIBRARY(ArexxRobotArm_LIBRARY
   /usr/share/robotloader/examples/RobotArmLib
 )
 
-# handle the QUIETLY and REQUIRED arguments and set FTGL_FOUND to TRUE if 
+IF(ArexxRobotArm_INCLUDE_DIR)
+	SET(ArexxRobotArm_INCLUDE_DIRS ${ArexxRobotArm_INCLUDE_DIR} ${ArexxRobotArm_INCLUDE_DIR}/RobotArmBase ${ArexxRobotArm_INCLUDE_DIR}/RobotArmI2C)
+ENDIF()
+
+# handle the QUIETLY and REQUIRED arguments and set ArexxRobotArm_FOUND to TRUE if 
 # all listed variables are TRUE
 INCLUDE("FindPackageHandleStandardArgs")
 FIND_PACKAGE_HANDLE_STANDARD_ARGS(ArexxRobotArm  DEFAULT_MSG  ArexxRobotArm_LIBRARY  ArexxRobotArm_INCLUDE_DIR)
 
-MARK_AS_ADVANCED(ArexxRobotArm_LIBRARY ArexxRobotArm_INCLUDE_DIR)
+MARK_AS_ADVANCED(ArexxRobotArm_LIBRARY ArexxRobotArm_INCLUDE_DIR ArexxRobotArm_INCLUDE_DIRS)
 

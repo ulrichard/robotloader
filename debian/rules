@@ -37,6 +37,11 @@ build: build-stamp
 	(cd $(CURDIR)/build-racsqt-debian; cmake -DCMAKE_VERBOSE_MAKEFILE:BOOL=1 -DCMAKE_INSTALL_PREFIX:PATH=/usr -DCMAKE_BUILD_TYPE:STRING=Release -DVERSIONSTR:STRING=$(VERSIONSTR) $(CURDIR)/racs/qt )
 	(cd $(CURDIR)/build-racsqt-debian; $(MAKE) )
 
+	#racsqt-uc
+	mkdir -p $(CURDIR)/build-racsqt-uc-debian
+	(cd $(CURDIR)/build-racsqt-uc-debian; cmake -DCMAKE_VERBOSE_MAKEFILE:BOOL=1 -DCMAKE_INSTALL_PREFIX:PATH=/usr -DCMAKE_BUILD_TYPE:STRING=Release -DCMAKE_MODULE_PATH:PATH=$(CURDIR)/cmake -DArexxRobotArm_DIR:PATH=$(CURDIR)/RobotArm_Examples\ \[MINI\]/RobotArmLib -DArexxRobotArm_LIBRARY:PATH=$(CURDIR)/build-lib-debian/src/arexx_robot_arm.a $(CURDIR)/racs/uc )
+	(cd $(CURDIR)/build-racsqt-ut-debian; $(MAKE) )
+
 build-stamp: configure-stamp  
 	dh_testdir
 
@@ -110,6 +115,10 @@ install: build
 
 	#racsqt
 	(cd $(CURDIR)/build-racsqt-debian; $(MAKE) install DESTDIR=$(CURDIR)/debian/arexx-robot-arm/)
+
+	#racsqt-uc
+	(cd $(CURDIR)/build-racsqt-ut-debian; $(MAKE) install DESTDIR=$(CURDIR)/debian/arexx-robot-arm/)
+
 
 # Build architecture-independent files here.
 binary-indep: build install
