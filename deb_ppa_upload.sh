@@ -4,6 +4,8 @@ export GPGKEY=DA94BB53
 export DEBEMAIL="richi@paraeasy.ch"
 export DEBFULLNAME="Richard Ulrich"
 
+:${VERSIONNBR:=$(parsechangelog | grep Version | sed -e "s/Version: //g" -e "s/\\~.*//g")}
+
 rm *.zip
 rm -rf RobotLoader_20100712/
 rm -rf RobotArm_Examples*
@@ -13,11 +15,9 @@ wget http://arexx.com/rp6/downloads/RobotLoader_20100712.zip
 wget http://arexx.com/robot_arm/downloads/RobotArmExamples_MINI.zip
 wget http://arexx.com/robot_arm/downloads/RACS_v1.0.zip
 
-
 for DISTRIBUTION in precise oneiric natty maverick 
 do
-	VERSIONSTR=1.5-13~${DISTRIBUTION}
 	sed -i  -e "s/maverick/${DISTRIBUTION}/g" -e "s/natty/${DISTRIBUTION}/g" -e "s/oneiric/${DISTRIBUTION}/g" -e "s/precise/${DISTRIBUTION}/g" debian/changelog
 	dpkg-buildpackage -rfakeroot -S
-	dput ppa:richi-paraeasy/ppa ../arexx-robot-arm_${VERSIONSTR}_source.changes
+	dput ppa:richi-paraeasy/ppa ../arexx-robot-arm_${VERSIONNBR}~${DISTRIBUTION}_source.changes
 done

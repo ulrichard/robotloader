@@ -9,6 +9,7 @@
 # Uncomment this to turn on verbose mode.
 #export DH_VERBOSE=1
 
+VERSIONSTR := $(shell parsechangelog | grep Version | sed -e "s/Version: //g" -e "s/\\~.*//g")
 
 configure: configure-stamp
 configure-stamp:
@@ -20,9 +21,20 @@ configure-stamp:
 
 build: build-stamp
 
+	unzip -n RobotLoader_20100712
+	unzip -n RobotArmExamples_MINI
+	unzip -n RACS_v1.0
+
+	#lib
+	mkdir -p $(CURDIR)/build-lib-debian
+	cp $(CURDIR)/cmake/lib/CMakeLists.txt $(CURDIR)/RobotArm_Examples\ \[MINI\]/RobotArmLib/
+	cp $(CURDIR)/cmake/*.cmake			  $(CURDIR)/RobotArm_Examples\ \[MINI\]/RobotArmLib/
+	(cd $(CURDIR)/build-lib-debian; cmake -DCMAKE_VERBOSE_MAKEFILE:BOOL=1 -DCMAKE_INSTALL_PREFIX:PATH=/usr -DCMAKE_BUILD_TYPE:STRING=Release -DVERSIONSTR:STRING=$(VERSIONSTR) $(CURDIR)/RobotArm_Examples\ \[MINI\]/RobotArmLib )
+	(cd $(CURDIR)/build-lib-debian; $(MAKE) )
+
 	#racsqt
 	mkdir -p $(CURDIR)/build-racsqt-debian
-	(cd $(CURDIR)/build-racsqt-debian; cmake -DCMAKE_VERBOSE_MAKEFILE:BOOL=1 -DCMAKE_INSTALL_PREFIX:PATH=/usr -DCMAKE_BUILD_TYPE:STRING=Release ../racs/qt )
+	(cd $(CURDIR)/build-racsqt-debian; cmake -DCMAKE_VERBOSE_MAKEFILE:BOOL=1 -DCMAKE_INSTALL_PREFIX:PATH=/usr -DCMAKE_BUILD_TYPE:STRING=Release -DVERSIONSTR:STRING=$(VERSIONSTR) $(CURDIR)/racs/qt )
 	(cd $(CURDIR)/build-racsqt-debian; $(MAKE) )
 
 build-stamp: configure-stamp  
@@ -39,6 +51,7 @@ clean:
 	# $(MAKE) clean
 	rm -rf $(CURDIR)/build-debian
 	rm -rf $(CURDIR)/build-racsqt-debian
+	rm -rf $(CURDIR)/build-lib-debian
 	rm -rf $(CURDIR)/debian/tmp
 	rm -rf $(CURDIR)/debian/arexx-robot-arm
 
@@ -55,10 +68,6 @@ install: build
 	dh_prep  
 	dh_installdirs
 
-	unzip RobotLoader_20100712
-	unzip RobotArmExamples_MINI
-	unzip RACS_v1.0
-
 	# robotloader
 	mkdir -p $(CURDIR)/debian/arexx-robot-arm/etc/robotloader
 	mkdir -p $(CURDIR)/debian/arexx-robot-arm/usr/bin
@@ -72,7 +81,7 @@ install: build
 	install -m 0755 $(CURDIR)/robotloader			-t $(CURDIR)/debian/arexx-robot-arm/usr/bin
 	install -m 0755 $(CURDIR)/small_robot_arm.png	-t $(CURDIR)/debian/arexx-robot-arm/usr/share/robotloader
 
-	#todo : Still trying to use only libs from the repository
+	#todo : Still trying to use only libs from the repository, but these two are required and not in the repo
 	mkdir -p $(CURDIR)/debian/arexx-robot-arm/usr/share/robotloader/lib
 	install -m 0755 $(CURDIR)/RobotLoader_20100712/lib/comm.jar   -t $(CURDIR)/debian/arexx-robot-arm/usr/share/robotloader/lib
 	install -m 0755 $(CURDIR)/RobotLoader_20100712/lib/jd2xx.jar  -t $(CURDIR)/debian/arexx-robot-arm/usr/share/robotloader/lib

@@ -1,8 +1,8 @@
-arexx-robot-arm (1.5-13~maverick) maverick; urgency=low
+arexx-robot-arm (1.5-14~maverick) maverick; urgency=low
 
-  * prepared racsqt for packaging
+  * Building the lib with cmake
 
- -- Richard Ulrich <richi@paraeasy.ch>  Tue, 3 Jan 2011 20:21:00 +0200
+ -- Richard Ulrich <richi@paraeasy.ch>  Wed, 4 Jan 2011 22:12:00 +0200
 
 arexx-robot-arm (1.5-12~maverick) maverick; urgency=low
 
