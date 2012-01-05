@@ -1,3 +1,3 @@
 /usr/bin/racsqt*
 /usr/share/applications/racsqt*
-/usr/share/robotloader/examples/racsqt/*.hex
+/usr/share/robotloader/examples/racsqt/RobotArm_RACSQT.hex

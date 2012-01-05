@@ -1,7 +1,16 @@
 SET(CMAKE_SYSTEM_NAME Generic)
 
-SET(CMAKE_C_COMPILER avr-gcc)
-SET(CMAKE_CXX_COMPILER avr-g++)
+SET(CMAKE_C_COMPILER /usr/bin/avr-gcc)
+SET(CMAKE_CXX_COMPILER /usr/bin/avr-g++)
+SET(CMAKE_AR /usr/bin/avr-ar)
+SET(CMAKE_LINKER /usr/bin/avr-ld)
+SET(CMAKE_NM /usr/bin/avr-nm)
+SET(CMAKE_OBJCOPY /usr/bin/avr-objcopy)
+SET(CMAKE_OBJDUMP /usr/bin/avr-objdump)
+SET(CMAKE_RANLIB /usr/bin/avr-ranlib)
+SET(CMAKE_STRIP /usr/bin/avr-strip)
+
+set(CMAKE_EXE_LINKER_FLAGS "-static")
 
 SET(CSTANDARD "-std=gnu99")
 SET(CDEBUG "-gstabs")
@@ -17,3 +26,6 @@ SET(CXXFLAGS "${CMCU} ${CDEFS} ${CINCS} ${COPT}")
 
 SET(CMAKE_C_FLAGS  ${CFLAGS})
 SET(CMAKE_CXX_FLAGS ${CXXFLAGS})
+
+
+

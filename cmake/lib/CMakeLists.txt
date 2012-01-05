@@ -3,6 +3,9 @@ CMAKE_MINIMUM_REQUIRED(VERSION 2.8)
 PROJECT(ArexxRobotArm)
 
 INCLUDE(arexx_robot_arm_crosscompile.cmake)
+IF(NOT CMAKE_CROSSCOMPILING)
+	ERROR()
+ENDIF()
 
 INCLUDE_DIRECTORIES(${ArexxRobotArm_SOURCE_DIR} ${ArexxRobotArm_SOURCE_DIR}/RobotArmBase ${ArexxRobotArm_SOURCE_DIR}/RobotArmI2C)
 

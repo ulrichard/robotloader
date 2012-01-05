@@ -29,7 +29,7 @@ build: build-stamp
 	mkdir -p $(CURDIR)/build-lib-debian
 	cp $(CURDIR)/cmake/lib/CMakeLists.txt $(CURDIR)/RobotArm_Examples\ \[MINI\]/RobotArmLib/
 	cp $(CURDIR)/cmake/*.cmake			  $(CURDIR)/RobotArm_Examples\ \[MINI\]/RobotArmLib/
-	(cd $(CURDIR)/build-lib-debian; cmake -DCMAKE_VERBOSE_MAKEFILE:BOOL=1 -DCMAKE_INSTALL_PREFIX:PATH=/usr -DCMAKE_BUILD_TYPE:STRING=Release -DVERSIONSTR:STRING=$(VERSIONSTR) $(CURDIR)/RobotArm_Examples\ \[MINI\]/RobotArmLib )
+	(cd $(CURDIR)/build-lib-debian; cmake -DCMAKE_VERBOSE_MAKEFILE:BOOL=1 -DCMAKE_INSTALL_PREFIX:PATH=/usr -DCMAKE_BUILD_TYPE:STRING=Release -DCMAKE_TOOLCHAIN_FILE=$(CURDIR)/cmake/arexx_robot_arm_crosscompile.cmake -DVERSIONSTR:STRING=$(VERSIONSTR) $(CURDIR)/RobotArm_Examples\ \[MINI\]/RobotArmLib )
 	(cd $(CURDIR)/build-lib-debian; $(MAKE) )
 
 	#racsqt
@@ -40,7 +40,7 @@ build: build-stamp
 	#racsqt-uc
 	mkdir -p $(CURDIR)/build-racsqt-uc-debian
 	cp $(CURDIR)/cmake/*.cmake $(CURDIR)/racs/uc/
-	(cd $(CURDIR)/build-racsqt-uc-debian; cmake -DCMAKE_VERBOSE_MAKEFILE:BOOL=1 -DCMAKE_INSTALL_PREFIX:PATH=/usr -DCMAKE_BUILD_TYPE:STRING=Release -DCMAKE_MODULE_PATH:PATH=$(CURDIR)/cmake -DArexxRobotArm_DIR:PATH=$(CURDIR)/RobotArm_Examples\ \[MINI\]/RobotArmLib -DArexxRobotArm_LIBRARY:PATH=$(CURDIR)/build-lib-debian/libarexx_robot_arm.a $(CURDIR)/racs/uc )
+	(cd $(CURDIR)/build-racsqt-uc-debian; cmake -DCMAKE_VERBOSE_MAKEFILE:BOOL=1 -DCMAKE_INSTALL_PREFIX:PATH=/usr -DCMAKE_BUILD_TYPE:STRING=Release -DCMAKE_TOOLCHAIN_FILE=$(CURDIR)/cmake/arexx_robot_arm_crosscompile.cmake -DCMAKE_MODULE_PATH:PATH=$(CURDIR)/cmake -DArexxRobotArm_INCLUDE_DIR:PATH=$(CURDIR)/RobotArm_Examples\ \[MINI\]/RobotArmLib -DArexxRobotArm_LIBRARY:PATH=$(CURDIR)/build-lib-debian/libarexx_robot_arm.a $(CURDIR)/racs/uc )
 	(cd $(CURDIR)/build-racsqt-uc-debian; $(MAKE) )
 
 build-stamp: configure-stamp  

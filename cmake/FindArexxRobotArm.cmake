@@ -1,6 +1,7 @@
 # - Locate ArexxRobotArm library
 # This module defines
 #  ArexxRobotArm_LIBRARY, the library to link against
+#  ArexxRobotArm_SOURCES, the sources
 #  ArexxRobotArm_FOUND, if false, do not try to link to FTGL
 #  ArexxRobotArm_INCLUDE_DIRS, where to find headers.
 #
@@ -43,6 +44,7 @@ FIND_LIBRARY(ArexxRobotArm_LIBRARY
 
 IF(ArexxRobotArm_INCLUDE_DIR)
 	SET(ArexxRobotArm_INCLUDE_DIRS ${ArexxRobotArm_INCLUDE_DIR} ${ArexxRobotArm_INCLUDE_DIR}/RobotArmBase ${ArexxRobotArm_INCLUDE_DIR}/RobotArmI2C)
+	SET(ArexxRobotArm_SOURCES ${ArexxRobotArm_INCLUDE_DIR}/RobotArmBase/RobotArmBaseLib.c ${ArexxRobotArm_INCLUDE_DIR}/RobotArmBase/RobotArmUart.c ${ArexxRobotArm_INCLUDE_DIR}/RobotArmI2C/I2C_Yeti_Display.c)
 ENDIF()
 
 # handle the QUIETLY and REQUIRED arguments and set ArexxRobotArm_FOUND to TRUE if 
@@ -50,5 +52,5 @@ ENDIF()
 INCLUDE("FindPackageHandleStandardArgs")
 FIND_PACKAGE_HANDLE_STANDARD_ARGS(ArexxRobotArm  DEFAULT_MSG  ArexxRobotArm_LIBRARY  ArexxRobotArm_INCLUDE_DIR)
 
-MARK_AS_ADVANCED(ArexxRobotArm_LIBRARY ArexxRobotArm_INCLUDE_DIR ArexxRobotArm_INCLUDE_DIRS)
+MARK_AS_ADVANCED(ArexxRobotArm_DIR ArexxRobotArm_LIBRARY ArexxRobotArm_INCLUDE_DIR ArexxRobotArm_INCLUDE_DIRS ArexxRobotArm_SOURCES)
 
