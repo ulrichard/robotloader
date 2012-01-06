@@ -173,11 +173,9 @@ public:
     {   listeners_.insert(std::make_pair(typ, func));   }
     void sendCommand(const std::string &cmd);
 
-    void resetRobotArm()
+    void enableRTS(const bool val)
     {
-        sercli.enableRTS(true);
-        boost::this_thread::sleep(boost::posix_time::millisec(200));
-        sercli.enableRTS(false);
+        sercli.enableRTS(val);
     }
 
 private:

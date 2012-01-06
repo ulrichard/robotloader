@@ -12,6 +12,7 @@
 #include <boost/filesystem.hpp>
 #include <boost/ref.hpp>
 #include <boost/timer.hpp>
+#include <boost/lexical_cast.hpp>
 
 namespace bfs = boost::filesystem;
 
@@ -31,23 +32,15 @@ private:
 /////////1/////////2/////////3/////////4/////////5/////////6/////////7/////////8/////////9/////////A
 RACSQTMain::RACSQTMain()
     : QMainWindow()
+	, sercomm_(NULL)
 {
 	setupUi(this);
-
     setCentralWidget(centralwidget);
 
-	try
-	{
-		sercomm_ = new Communication("/dev/ttyUSB0");
-		sercomm_->addListener(Communication::LST_TEXT,    TextAdder(*plainTextEdit));
-		sercomm_->resetRobotArm();
-	}
-	catch(std::exception &ex)
-	{
-		std::stringstream sstr;
-		sstr << "Could not establish a serial connection to the robot arm on \"/dev/ttyUSB0\" with the following message:\n" << ex.what();
-		QMessageBox::critical(this, "No connection to the robot arm", sstr.str().c_str(), QMessageBox::Ok);
-	}
+	for(size_t i=0; i<20; ++i)
+		if(bfs::exists("/dev/ttyUSB" + boost::lexical_cast<std::string>(i)))
+			cbSerialPort->addItem(("/dev/ttyUSB" + boost::lexical_cast<std::string>(i)).c_str());
+
 
     // todo : pass the servo number as parameter to the slot
 
@@ -58,6 +51,9 @@ RACSQTMain::RACSQTMain()
     connect(sli5_Shoulder, SIGNAL(sliderMoved(int)), this, SLOT(sliderChanged(int)));
     connect(sli6_BaseRot,  SIGNAL(sliderMoved(int)), this, SLOT(sliderChanged(int)));
 
+	connect(cbSerialConnected, SIGNAL(stateChanged(int)), this, SLOT(SerialConnect(int)));
+	connect(cbRTS,             SIGNAL(stateChanged(int)), this, SLOT(ChangeRTS(int)));
+
     TextAdder ta(*plainTextEdit);
     ta(boost::any(std::string("Welcome")));
 
@@ -67,8 +63,49 @@ RACSQTMain::~RACSQTMain()
 {
 }
 /////////1/////////2/////////3/////////4/////////5/////////6/////////7/////////8/////////9/////////A
+void RACSQTMain::SerialConnect(int val)
+{
+	if(val && NULL == sercomm_)
+	{
+		std::cout << "Connecting to " << cbSerialPort->getText() << std::endl;
+		try
+		{
+			sercomm_ = new Communication(cbSerialPort->getText());
+			sercomm_->addListener(Communication::LST_TEXT, TextAdder(*plainTextEdit));
+
+			sercomm_->enableRTS(true);
+			boost::this_thread::sleep(boost::posix_time::millisec(200));
+			sercomm_->enableRTS(false);
+		}
+		catch(std::exception &ex)
+		{
+			std::stringstream sstr;
+			sstr << "Could not establish a serial connection to the robot arm on \"/dev/ttyUSB0\" with the following message:\n" << ex.what();
+			QMessageBox::critical(this, "No connection to the robot arm", sstr.str().c_str(), QMessageBox::Ok);
+		}
+	}
+	else if(!val && NULL != sercomm_)
+	{
+		std::cout << "Disconnecting serial connection" << std::endl;
+		delete sercomm_;
+		sercomm_ = NULL;
+	}
+}
+/////////1/////////2/////////3/////////4/////////5/////////6/////////7/////////8/////////9/////////A
+void RACSQTMain::ChangeRTS(int val)
+{
+	if(NULL != sercomm_)
+		sercomm_->enableRTS(0 != val);
+}
+/////////1/////////2/////////3/////////4/////////5/////////6/////////7/////////8/////////9/////////A
 void RACSQTMain::sliderChanged(int val)
 {
+	if(NULL != sercomm_)
+	{
+		std::cout << "Serial not connected" << std::endl;
+		return;
+	}
+
     std::stringstream sstr;
 
     sstr << "1:"

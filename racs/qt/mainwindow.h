@@ -22,6 +22,8 @@ public:
     virtual ~RACSQTMain();
 
 private slots:
+	void SerialConnect(int val);
+	void ChangeRTS(int val);
     void sliderChanged(int val);
 
 private:
