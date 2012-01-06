@@ -31,3 +31,41 @@ IF(NOT CMAKE_OBJCOPY)
 	ERROR()
 ENDIF()
 
+MACRO(ADD_ROBOT_ARM_EXECUTABLE ROBOT_ARM_EXE_NAME)
+	INCLUDE_DIRECTORIES(${ArexxRobotArm_INCLUDE_DIRS})
+
+	ADD_EXECUTABLE(${ROBOT_ARM_EXE_NAME}.elf
+		${ARGV1}
+		${ARGV2}
+		${ARGV3}
+		${ARGV4}
+		${ARGV5}
+		${ARGV6}
+		${ARGV7}
+		${ARGV8}
+		${ARGV9}
+
+		# if you don't trust the static lib, maybe because you have another microprocessor, you can instead compile the lib sources directly in your prroject:
+#		${ArexxRobotArm_SOURCES}
+	)
+
+	TARGET_LINK_LIBRARIES(${ROBOT_ARM_EXE_NAME}.elf
+		${ArexxRobotArm_LIBRARY}
+	)
+
+
+	ADD_CUSTOM_COMMAND(TARGET ${ROBOT_ARM_EXE_NAME}.elf POST_BUILD
+		COMMAND ${CMAKE_OBJCOPY} -O ihex -R .eeprom ${ROBOT_ARM_EXE_NAME}.elf ${ROBOT_ARM_EXE_NAME}.hex
+		WORKING_DIRECTORY ${CMAKE_CURRENT_BINARY_DIR}
+	)
+ENDMACRO(ADD_ROBOT_ARM_EXECUTABLE)
+
+#IF(AVRDUDE)
+#    ADD_CUSTOM_TARGET(flash)
+#    ADD_DEPENDENCIES(flash RobotArm_RACSQT.hex)
+
+#    ADD_CUSTOM_COMMAND(TARGET flash POST_BUILD
+#        COMMAND ${AVRDUDE} -P ${PORT} -b ${ARDUINO_UPLOAD_SPEED} -c ${ARDUINO_PROTOCOL} -p ${ARDUINO_MCU} -V -F -U flash:w:RobotArm_RACSQT.hex:i
+#    )
+#ENDIF()
+
