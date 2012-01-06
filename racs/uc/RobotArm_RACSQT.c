@@ -51,7 +51,7 @@ int main(void)
 	char    recbuf[16];
 	uint8_t bufpos = 0;
 	uint8_t servospeed = 3;	// The speed (Fast 0  ......  10 slow) 
-	bool    verbose = false;
+	int     verbose = 0;
 	// ---------------------------------------
 	// Main loop:
 	while(true)
