@@ -2,6 +2,7 @@
 // racsqt
 #include "mainwindow.h"
 #include "Communication.h"
+#include "SignalHandler.h"
 // Qt
 #include <QtGui/QCheckBox>
 #include <QtGui/QPlainTextEdit>
@@ -13,6 +14,8 @@
 #include <boost/ref.hpp>
 #include <boost/timer.hpp>
 #include <boost/lexical_cast.hpp>
+#include <boost/bind.hpp>
+#include <boost/format.hpp>
 
 namespace bfs = boost::filesystem;
 
@@ -30,6 +33,12 @@ private:
     QPlainTextEdit &edit_;
 };
 /////////1/////////2/////////3/////////4/////////5/////////6/////////7/////////8/////////9/////////A
+bool connect1(QObject * sender, const char* signal, const boost::function<void(int)>& f)
+{
+    // Note: Not a leak as sender will delete the handler when destructed
+    return QObject::connect(sender, signal, new SignalHandler1(sender, f), SLOT(handleSignal(int)));
+}
+/////////1/////////2/////////3/////////4/////////5/////////6/////////7/////////8/////////9/////////A
 RACSQTMain::RACSQTMain()
     : QMainWindow()
 	, sercomm_(NULL)
@@ -41,18 +50,15 @@ RACSQTMain::RACSQTMain()
 		if(bfs::exists("/dev/ttyUSB" + boost::lexical_cast<std::string>(i)))
 			cbSerialPort->addItem(("/dev/ttyUSB" + boost::lexical_cast<std::string>(i)).c_str());
 
-
-    // todo : pass the servo number as parameter to the slot
-
-    connect(sli1_Gripper,  SIGNAL(sliderMoved(int)), this, SLOT(sliderChanged(int)));
-    connect(sli2_Hand,     SIGNAL(sliderMoved(int)), this, SLOT(sliderChanged(int)));
-    connect(sli3_Wrist,    SIGNAL(sliderMoved(int)), this, SLOT(sliderChanged(int)));
-    connect(sli4_Ellbow,   SIGNAL(sliderMoved(int)), this, SLOT(sliderChanged(int)));
-    connect(sli5_Shoulder, SIGNAL(sliderMoved(int)), this, SLOT(sliderChanged(int)));
-    connect(sli6_BaseRot,  SIGNAL(sliderMoved(int)), this, SLOT(sliderChanged(int)));
-
-	connect(cbSerialConnected, SIGNAL(stateChanged(int)), this, SLOT(SerialConnect(int)));
-	connect(cbRTS,             SIGNAL(stateChanged(int)), this, SLOT(ChangeRTS(int)));
+    // connect the signals
+    connect1(sli1_Gripper,      SIGNAL(sliderMoved(int)),   boost::bind(&RACSQTMain::sliderChanged, this, 1, ::_1));
+    connect1(sli2_Hand,         SIGNAL(sliderMoved(int)),   boost::bind(&RACSQTMain::sliderChanged, this, 2, ::_1));
+    connect1(sli3_Wrist,        SIGNAL(sliderMoved(int)),   boost::bind(&RACSQTMain::sliderChanged, this, 3, ::_1));
+    connect1(sli4_Ellbow,       SIGNAL(sliderMoved(int)),   boost::bind(&RACSQTMain::sliderChanged, this, 4, ::_1));
+    connect1(sli5_Shoulder,     SIGNAL(sliderMoved(int)),   boost::bind(&RACSQTMain::sliderChanged, this, 5, ::_1));
+    connect1(sli6_BaseRot,      SIGNAL(sliderMoved(int)),   boost::bind(&RACSQTMain::sliderChanged, this, 6, ::_1));
+	connect(cbSerialConnected,  SIGNAL(toggled(bool)),      this, SLOT(SerialConnect(bool)));
+	connect(pbReset,            SIGNAL(clicked()),          this, SLOT(ResetRobot()));
 
     TextAdder ta(*plainTextEdit);
     ta(boost::any(std::string("Welcome")));
@@ -61,26 +67,25 @@ RACSQTMain::RACSQTMain()
 /////////1/////////2/////////3/////////4/////////5/////////6/////////7/////////8/////////9/////////A
 RACSQTMain::~RACSQTMain()
 {
+    delete sercomm_;
 }
 /////////1/////////2/////////3/////////4/////////5/////////6/////////7/////////8/////////9/////////A
-void RACSQTMain::SerialConnect(int val)
+void RACSQTMain::SerialConnect(bool val)
 {
 	if(val && NULL == sercomm_)
 	{
-		std::cout << "Connecting to " << cbSerialPort->getText() << std::endl;
+		std::cout << "Connecting to " << cbSerialPort->currentText().toStdString() << std::endl;
 		try
 		{
-			sercomm_ = new Communication(cbSerialPort->getText());
+			sercomm_ = new Communication(cbSerialPort->currentText().toStdString(), 38400);
 			sercomm_->addListener(Communication::LST_TEXT, TextAdder(*plainTextEdit));
-
-			sercomm_->enableRTS(true);
-			boost::this_thread::sleep(boost::posix_time::millisec(200));
-			sercomm_->enableRTS(false);
+			ResetRobot();
 		}
 		catch(std::exception &ex)
 		{
 			std::stringstream sstr;
-			sstr << "Could not establish a serial connection to the robot arm on \"/dev/ttyUSB0\" with the following message:\n" << ex.what();
+			sstr << "Could not establish a serial connection to the robot arm on \"/" << cbSerialPort->currentText().toStdString()
+                 << "\" with the following message:\n" << ex.what();
 			QMessageBox::critical(this, "No connection to the robot arm", sstr.str().c_str(), QMessageBox::Ok);
 		}
 	}
@@ -92,62 +97,27 @@ void RACSQTMain::SerialConnect(int val)
 	}
 }
 /////////1/////////2/////////3/////////4/////////5/////////6/////////7/////////8/////////9/////////A
-void RACSQTMain::ChangeRTS(int val)
+void RACSQTMain::ResetRobot()
 {
 	if(NULL != sercomm_)
-		sercomm_->enableRTS(0 != val);
+	{
+	    sercomm_->setRTS(true);
+	    boost::this_thread::sleep(boost::posix_time::millisec(1000));
+	    sercomm_->setRTS(false);
+	}
 }
 /////////1/////////2/////////3/////////4/////////5/////////6/////////7/////////8/////////9/////////A
-void RACSQTMain::sliderChanged(int val)
+void RACSQTMain::sliderChanged(size_t servo, int val)
 {
-	if(NULL != sercomm_)
+	if(NULL == sercomm_)
 	{
 		std::cout << "Serial not connected" << std::endl;
 		return;
 	}
 
-    std::stringstream sstr;
-
-    sstr << "1:"
-         << std::showpos << std::setw(3) << std::setfill('0') << val << std::endl;
-
-    if(sstr.str().length())
-        sercomm_->sendCommand(sstr.str());
+    const std::string msg(boost::str(boost::format("(%1i:%+3.3i)") % servo % val));
+    if(msg.length())
+        sercomm_->sendCommand(msg);
 }
-/////////1/////////2/////////3/////////4/////////5/////////6/////////7/////////8/////////9/////////A
-/*
-void RACSQTMain::sendCommands()
-{
-    if(!doSendControl_)
-        return;
-
-    std::stringstream sstr;
-
-    // front back
-    static size_t lastFB = 90;
-    const size_t fb = joyslis->AxisVal(1) / 365 + 90;
-//    if(fb != lastFB)
-        sstr << "fb" << fb << "\n";
-    lastFB = fb;
-
-    // left right
-    static size_t lastLR = 90;
-    const size_t lr = joyslis->AxisVal(0) / 365 + 90;
-//    if(lr != lastLR)
-        sstr << "lr" << lr << "\n";
-    lastLR = lr;
-
-    // rotor throttle (motor speed)
-    static size_t lastMS = 0;
-    const size_t ms = std::max<int>(0, 256 - (joyslis->AxisVal(3) / 256 + 128));
-//    if(ms != lastMS)
-        sstr << "ms" << ms << "\n";
-    lastMS = ms;
-
-    if(sstr.str().length())
-        sercomm->sendCommand(sstr.str());
-}
-*/
-
 /////////1/////////2/////////3/////////4/////////5/////////6/////////7/////////8/////////9/////////A
 

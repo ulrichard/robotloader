@@ -11,6 +11,8 @@
 #include <boost/date_time/posix_time/posix_time_types.hpp>
 #include <boost/function.hpp>
 #include <boost/any.hpp>
+// posx
+#include <sys/ioctl.h>
 // std lib
 #include <string>
 #include <deque>
@@ -57,14 +59,6 @@ public:
         bool active() // return true if the socket is still active
         {
                 return active_;
-        }
-
-        void enableRTS(const bool val)
-        {
-            if(val)
-                serialPort.set_option(boost::asio::serial_port_base::flow_control(boost::asio::serial_port_base::flow_control::hardware));
-            else
-                serialPort.set_option(boost::asio::serial_port_base::flow_control(boost::asio::serial_port_base::flow_control::none));
         }
 
 private:
@@ -173,14 +167,12 @@ public:
     {   listeners_.insert(std::make_pair(typ, func));   }
     void sendCommand(const std::string &cmd);
 
-    void enableRTS(const bool val)
-    {
-        sercli.enableRTS(val);
-    }
+    void setRTS(bool val);
 
 private:
     void DispatchMsg(std::string msg);
 
+    const std::string       device_;
     boost::asio::io_service io_service;
     serial_client           sercli;
     boost::thread           thrd;

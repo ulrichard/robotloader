@@ -16,8 +16,9 @@ using namespace phoenix;
 
 /////////1/////////2/////////3/////////4/////////5/////////6/////////7/////////8/////////9/////////A
 Communication::Communication(const std::string &device, size_t baud)
-    : sercli(io_service, boost::bind(&Communication::DispatchMsg, this, ::_1), baud, device),
-      thrd(boost::bind(&boost::asio::io_service::run, &io_service))
+    : device_(device)
+    , sercli(io_service, boost::bind(&Communication::DispatchMsg, this, ::_1), baud, device)
+    , thrd(boost::bind(&boost::asio::io_service::run, &io_service))
 {
 
 }
@@ -39,6 +40,27 @@ void Communication::sendCommand(const std::string &cmd)
     sercli.write_str(cmd);
 
     std::cout << "Sent : " << cmd << std::endl;
+}
+/////////1/////////2/////////3/////////4/////////5/////////6/////////7/////////8/////////9/////////A
+void Communication::setRTS(bool val)
+{
+    // http://www.control.com/thread/1026231695
+
+    int fd = open(device_.c_str(), O_RDONLY);
+    if(!fd)
+        throw std::runtime_error("could not open the serial port");
+
+    int controlbits;
+
+    ioctl(fd, TIOCMGET, &controlbits);
+    if(val)
+        controlbits |= TIOCM_RTS;
+    else
+        controlbits &= ~TIOCM_RTS;
+
+    ioctl(fd, TIOCMSET, &controlbits);
+
+    close(fd);
 }
 /////////1/////////2/////////3/////////4/////////5/////////6/////////7/////////8/////////9/////////A
 /*
@@ -100,17 +122,27 @@ void Communication::DispatchMsg(std::string msg)
     static std::string buf = "";
 
     buf += msg;
-    size_t nlpos = buf.find('\n');
-    if(nlpos == std::string::npos)
+    size_t nlpos = buf.find_first_of("\n\r\t");
+    if(nlpos != std::string::npos)
+    {
+        msg = buf.substr(0, nlpos);
+        buf = buf.substr(nlpos + 1);
+    }
+    else if(buf.length() > 100)
+    {
+        msg = buf;
+        buf = "";
+    }
+    else
         return;
-    msg = buf.substr(0, nlpos);
-    buf = buf.substr(nlpos + 1);
 
     std::cout << "Received : \"" << msg << "\"" << std::endl;
 
-    if(listeners_.count(Communication::LST_TEXT))
-        for(Communication::ListenerCont::const_iterator it = listeners_.lower_bound(Communication::LST_TEXT); it != listeners_.upper_bound(Communication::LST_TEXT); ++it)
-            it->second(boost::any(msg));
+//    if(listeners_.count(Communication::LST_TEXT))
+//        for(Communication::ListenerCont::const_iterator it = listeners_.lower_bound(Communication::LST_TEXT); it != listeners_.upper_bound(Communication::LST_TEXT); ++it)
+//            it->second(boost::any(msg));
+
+
 /*
 	typedef rule<> rule_t;
 

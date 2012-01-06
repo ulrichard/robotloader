@@ -22,9 +22,9 @@ public:
     virtual ~RACSQTMain();
 
 private slots:
-	void SerialConnect(int val);
-	void ChangeRTS(int val);
-    void sliderChanged(int val);
+	void SerialConnect(bool val);
+	void ResetRobot();
+    void sliderChanged(size_t servo, int val);
 
 private:
     Communication     *sercomm_;
