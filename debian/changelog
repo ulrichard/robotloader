@@ -1,3 +1,9 @@
+arexx-robot-arm (1.5-16~maverick) maverick; urgency=low
+
+  * added build dependency to cmake
+
+ -- Richard Ulrich <richi@paraeasy.ch>  Fti, 6 Jan 2011 20:25:00 +0100
+
 arexx-robot-arm (1.5-15~maverick) maverick; urgency=low
 
   * Got the first hex built with cmake

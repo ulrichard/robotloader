@@ -2,7 +2,7 @@ Source: arexx-robot-arm
 Section: science
 Priority: optional
 Maintainer: Richard Ulrich <richi@paraeasy.ch>
-Build-Depends: default-jdk | java6-sdk, gcc-avr, avr-libc, wget, debhelper, unzip, libboost-dev, qt4-qmake, libqt4-dev
+Build-Depends: default-jdk | java6-sdk, gcc-avr, avr-libc, cmake, wget, debhelper, unzip, libboost-dev, qt4-qmake, libqt4-dev
 standards-Version: 3.8.1.0
 Homepage: http://arexx.com/robot_arm/
 
