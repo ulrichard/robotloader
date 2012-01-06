@@ -51,6 +51,7 @@ int main(void)
 	char    recbuf[16];
 	uint8_t bufpos = 0;
 	uint8_t servospeed = 3;	// The speed (Fast 0  ......  10 slow) 
+	bool    verbose = false;
 	// ---------------------------------------
 	// Main loop:
 	while(true)
@@ -82,7 +83,7 @@ int main(void)
 
 		if(!isdigit(recbuf[0]) || recbuf[1] != ':' || (!isdigit(recbuf[2]) && recbuf[2] != '-' && recbuf[2] != '+') || !isdigit(recbuf[3]) || !isdigit(recbuf[4]) || (bufpos > 5 && !isdigit(recbuf[5])))
 		{
-			if(bufpos > 2)
+			if(bufpos > 2 && verbose)
 				welcomeMsg();
 			bufpos = 0;
 			continue;
@@ -92,11 +93,14 @@ int main(void)
 		recbuf[6] = '\0';
 		const int16_t servopos = atoi(&recbuf[2]); // The position 	(Min. -500 ..... +500 max) 
 
-		writeString_P("Moving servo ");
-		writeInteger(servonum, 10);
-		writeString_P(" to position ");
-		writeInteger(servopos, 10);
-		writeString_P("\n");
+		if(verbose)
+		{
+			writeString_P("Moving servo ");
+			writeInteger(servonum, 10);
+			writeString_P(" to position ");
+			writeInteger(servopos, 10);
+			writeString_P("\n");
+		}
 
 		s_Move(servonum, servopos, servospeed);
 

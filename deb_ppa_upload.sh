@@ -6,6 +6,18 @@ export DEBFULLNAME="Richard Ulrich"
 
 :${VERSIONNBR:=$(parsechangelog | grep Version | sed -e "s/Version: //g" -e "s/\\~.*//g")}
 
+rm -rf build
+rm -rf racs/qt/build
+rm -rf racs/uc/build
+rm -rf racs/uc/.dep
+rm racs/uc/*.e*
+rm racs/uc/*.hex
+rm racs/uc/*.lst
+rm racs/uc/*.map
+rm racs/uc/*.o
+rm -rf debian/build*
+rm -rf debian/tmp
+
 rm *.zip
 rm -rf RobotLoader_20100712/
 rm -rf RobotArm_Examples*

@@ -115,7 +115,7 @@ void RACSQTMain::sliderChanged(size_t servo, int val)
 		return;
 	}
 
-    const std::string msg(boost::str(boost::format("(%1i:%+3.3i)") % servo % val));
+    const std::string msg(boost::str(boost::format("(%d:%+04d)") % servo % val));
     if(msg.length())
         sercomm_->sendCommand(msg);
 }
