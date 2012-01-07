@@ -1,3 +1,15 @@
+arexx-robot-arm (1.5-18~maverick) maverick; urgency=low
+
+  * Added missing boos build dependencies
+
+ -- Richard Ulrich <richi@paraeasy.ch>  Sat, 7 Jan 2011 22:18:00 +0100
+
+arexx-robot-arm (1.5-17~maverick) maverick; urgency=low
+
+  * c doesn't know bool
+
+ -- Richard Ulrich <richi@paraeasy.ch>  Sat, 7 Jan 2011 00:40:00 +0100
+
 arexx-robot-arm (1.5-16~maverick) maverick; urgency=low
 
   * added build dependency to cmake
