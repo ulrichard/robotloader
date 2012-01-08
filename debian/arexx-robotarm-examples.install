@@ -9,6 +9,7 @@
 /usr/share/robotloader/examples/RobotArmExamples/*/Makefile
 /usr/share/robotloader/examples/RobotArmExamples/Calibrate_*/*.hex
 /usr/share/robotloader/examples/RobotArmExamples/Example_/*.hex
-/usr/share/cmake-2.8/Modules/*
+/usr/share/cmake-2.8/Modules/FindArexxRobotArm.cmake
+/usr/share/cmake-2.8/Modules/arexx_robot_arm_crosscompile.cmake
 
 
