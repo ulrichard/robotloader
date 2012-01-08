@@ -1,5 +1,5 @@
 /usr/bin/racsqt*
 /usr/share/applications/racsqt*
 /usr/share/robotloader/examples/racsqt/RobotArm_RACSQT.c
-/usr/share/robotloader/examples/racsqt/RobotArm_RACSQT.CMakeLists.txt
+/usr/share/robotloader/examples/racsqt/CMakeLists.txt
 /usr/share/robotloader/examples/racsqt/RobotArm_RACSQT.hex
