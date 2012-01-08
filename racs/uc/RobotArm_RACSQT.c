@@ -25,7 +25,7 @@ void welcomeMsg()
 	writeString_P("\nThe format is: i:pnnn; where ");
 	writeString_P("\n   i is the servo number [1-6]");
 	writeString_P("\n   p is an optional sign [+-]");
-	writeString_P("\n   nnn is the 3 digit target position (-500 ... +500)");
+	writeString_P("\n   nnn is the 3 digit target position (-999 ... +999)");
 	writeString_P("\nOr s:nn for setting the servo speed, where s is a literal s character");
 	writeString_P("\n   and nn is the two digit speed where 00 is fast and 10 is slow. default is 3.\n\n");
 }
@@ -35,7 +35,7 @@ int main(void)
 	initRobotBase(); // Always call this first! The Processor will not work
 					 // correctly otherwise.	
 
-	Start_position(); //Use this function to set the servomotor in the centre. 
+//	Start_position(); //Use this function to set the servomotor in the centre. 
 					  //This function must be called before using Power_Servos();
 	
 	Power_Servos();  //Use this function to power the servo motors on
