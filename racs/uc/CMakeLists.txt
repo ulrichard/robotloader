@@ -11,7 +11,7 @@ ADD_ROBOT_ARM_EXECUTABLE(RobotArm_RACSQT
 )
 
 INSTALL(FILES ${CMAKE_CURRENT_BINARY_DIR}/RobotArm_RACSQT.hex DESTINATION ${CMAKE_INSTALL_PREFIX}/share/robotloader/examples/racsqt)
-INSTALL(FILES ${CMAKE_CURRENT_BINARY_DIR}/RobotArm_RACSQT.c DESTINATION ${CMAKE_INSTALL_PREFIX}/share/robotloader/examples/racsqt)
-INSTALL(FILES ${CMAKE_CURRENT_BINARY_DIR}/CMakeLists.txt DESTINATION ${CMAKE_INSTALL_PREFIX}/share/robotloader/examples/racsqt)
+INSTALL(FILES ${RobotArm_RACSQT_uc_SOURCE_DIR}/RobotArm_RACSQT.c DESTINATION ${CMAKE_INSTALL_PREFIX}/share/robotloader/examples/racsqt)
+INSTALL(FILES ${RobotArm_RACSQT_uc_SOURCE_DIR}/CMakeLists.txt DESTINATION ${CMAKE_INSTALL_PREFIX}/share/robotloader/examples/racsqt)
 
 
