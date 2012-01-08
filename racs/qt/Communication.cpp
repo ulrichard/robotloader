@@ -46,18 +46,16 @@ void Communication::setRTS(bool val)
 {
     // http://www.control.com/thread/1026231695
 
-    int fd = open(device_.c_str(), O_RDONLY);
+    const int fd = open(device_.c_str(), O_RDONLY);
     if(!fd)
         throw std::runtime_error("could not open the serial port");
 
     int controlbits;
-
     ioctl(fd, TIOCMGET, &controlbits);
     if(val)
         controlbits |= TIOCM_RTS;
     else
         controlbits &= ~TIOCM_RTS;
-
     ioctl(fd, TIOCMSET, &controlbits);
 
     close(fd);

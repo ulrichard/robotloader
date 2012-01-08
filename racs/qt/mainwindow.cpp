@@ -51,14 +51,17 @@ RACSQTMain::RACSQTMain()
 			cbSerialPort->addItem(("/dev/ttyUSB" + boost::lexical_cast<std::string>(i)).c_str());
 
     // connect the signals
-    connect1(sli1_Gripper,      SIGNAL(sliderMoved(int)),   boost::bind(&RACSQTMain::sliderChanged, this, 1, ::_1));
-    connect1(sli2_Hand,         SIGNAL(sliderMoved(int)),   boost::bind(&RACSQTMain::sliderChanged, this, 2, ::_1));
-    connect1(sli3_Wrist,        SIGNAL(sliderMoved(int)),   boost::bind(&RACSQTMain::sliderChanged, this, 3, ::_1));
-    connect1(sli4_Ellbow,       SIGNAL(sliderMoved(int)),   boost::bind(&RACSQTMain::sliderChanged, this, 4, ::_1));
-    connect1(sli5_Shoulder,     SIGNAL(sliderMoved(int)),   boost::bind(&RACSQTMain::sliderChanged, this, 5, ::_1));
-    connect1(sli6_BaseRot,      SIGNAL(sliderMoved(int)),   boost::bind(&RACSQTMain::sliderChanged, this, 6, ::_1));
-	connect(cbSerialConnected,  SIGNAL(toggled(bool)),      this, SLOT(SerialConnect(bool)));
-	connect(pbReset,            SIGNAL(clicked()),          this, SLOT(ResetRobot()));
+    QSlider* const sliders[6]   = {sli1_Gripper, sli2_Hand, sli3_Wrist, sli4_Ellbow, sli5_Shoulder, sli6_BaseRot};
+    QSpinBox* const spinners[6] = {spb1_Gripper, spb2_Hand, spb3_Wrist, spb4_Ellbow, spb5_Shoulder, spb6_BaseRot};
+    for(size_t i=0; i<6; ++i)
+    {
+        connect1(sliders[i],   SIGNAL(sliderMoved(int)),  boost::bind(&RACSQTMain::sliderChanged, this, i+1, ::_1));
+        connect1(spinners[i],  SIGNAL(valueChanged(int)), boost::bind(&RACSQTMain::sliderChanged, this, i+1, ::_1));
+        connect(sliders[i],    SIGNAL(sliderMoved(int)),  spinners[i], SLOT(setValue(int)));
+        connect(spinners[i],   SIGNAL(valueChanged(int)), sliders[i],  SLOT(setValue(int)));
+    }
+	connect(cbSerialConnected, SIGNAL(toggled(bool)),     this, SLOT(SerialConnect(bool)));
+	connect(pbReset,           SIGNAL(clicked()),         this, SLOT(ResetRobot()));
 
     TextAdder ta(*plainTextEdit);
     ta(boost::any(std::string("Welcome")));

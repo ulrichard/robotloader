@@ -1,8 +1,9 @@
 arexx-robot-arm (1.5-21~precise) precise; urgency=low
 
   * install the cmake files
+  * added spin boxes
 
- -- Richard Ulrich <richi@paraeasy.ch>  Sun, 8 Jan 2011 22:08:00 +0100
+ -- Richard Ulrich <richi@paraeasy.ch>  Sun, 8 Jan 2011 22:37:00 +0100
 
 arexx-robot-arm (1.5-20~precise) precise; urgency=low
 
