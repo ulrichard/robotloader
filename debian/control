@@ -22,6 +22,6 @@ Description: GUI program to upload programs to the arexx robot arm.
 Package: arexx-robotarm-racsqt
 Architecture: any
 Essential: no
-Depends: ${misc:Depends}, ${shlibs:Depends}, arexx-robotloader
+Depends: ${misc:Depends}, ${shlibs:Depends}, arexx-robotloader, arexx-robotarm-examples, libconfig++8-dev
 Description: GUI program to directly manipulate the arexx robot arm.
 

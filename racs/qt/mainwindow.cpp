@@ -3,6 +3,8 @@
 #include "mainwindow.h"
 #include "Communication.h"
 #include "SignalHandler.h"
+// libconfig
+#include <libconfig.h++>
 // Qt
 #include <QtGui/QCheckBox>
 #include <QtGui/QPlainTextEdit>
@@ -66,11 +68,25 @@ RACSQTMain::RACSQTMain()
     TextAdder ta(*plainTextEdit);
     ta(boost::any(std::string("Welcome")));
 
+    // read the last positions
+    const bfs::path cfgfile(bfs::path(getenv("HOME")) / ".racsqt.cfg");
+    if(bfs::exists(cfgfile))
+    {
+        libconfig::Config cfg;
+        cfg.readFile(cfgfile.string().c_str());
+        for(size_t i=0; i<6; ++i)
+        {
+            const int val = cfg.lookup("servo" + boost::lexical_cast<std::string>(i+1));
+            sliders[i]->setValue(val);
+            spinners[i]->setValue(val);
+        }
+    }
+
 }
 /////////1/////////2/////////3/////////4/////////5/////////6/////////7/////////8/////////9/////////A
 RACSQTMain::~RACSQTMain()
 {
-    delete sercomm_;
+    SerialConnect(false);
 }
 /////////1/////////2/////////3/////////4/////////5/////////6/////////7/////////8/////////9/////////A
 void RACSQTMain::SerialConnect(bool val)
@@ -94,8 +110,26 @@ void RACSQTMain::SerialConnect(bool val)
 	}
 	else if(!val && NULL != sercomm_)
 	{
-		std::cout << "Disconnecting serial connection" << std::endl;
-		delete sercomm_;
+	    try
+		{
+		    // write the current positions
+		    const bfs::path cfgfile(bfs::path(getenv("HOME")) / ".racsqt.cfg");
+		    libconfig::Config cfg;
+		    QSlider* const sliders[6]   = {sli1_Gripper, sli2_Hand, sli3_Wrist, sli4_Ellbow, sli5_Shoulder, sli6_BaseRot};
+            for(size_t i=0; i<6; ++i)
+                cfg.getRoot().add("servo" + boost::lexical_cast<std::string>(i+1), libconfig::Setting::TypeInt) = sliders[i]->value();
+		    cfg.writeFile(cfgfile.string().c_str());
+
+
+            std::cout << "Disconnecting serial connection" << std::endl;
+            delete sercomm_;
+		}
+		catch(std::exception &ex)
+		{
+            std::stringstream sstr;
+			sstr << "Failed to disconnect the serial connection with the following message:\n" << ex.what();
+			QMessageBox::critical(this, "serial disconnect", sstr.str().c_str(), QMessageBox::Ok);
+		}
 		sercomm_ = NULL;
 	}
 }
@@ -107,6 +141,11 @@ void RACSQTMain::ResetRobot()
 	    sercomm_->setRTS(true);
 	    boost::this_thread::sleep(boost::posix_time::millisec(1000));
 	    sercomm_->setRTS(false);
+
+	    // send the position for each servo
+	    QSlider* const sliders[6]   = {sli1_Gripper, sli2_Hand, sli3_Wrist, sli4_Ellbow, sli5_Shoulder, sli6_BaseRot};
+        for(size_t i=0; i<6; ++i)
+            sliderChanged(i+1, sliders[i]->value());
 	}
 }
 /////////1/////////2/////////3/////////4/////////5/////////6/////////7/////////8/////////9/////////A
