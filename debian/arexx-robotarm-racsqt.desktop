@@ -1,10 +1,10 @@
 
 [Desktop Entry]
 Name=RobotLoader
-Comment=Directly manipulate the arexx robot arm
-GenericName=racsqt
-Exec=/usr/bin/racsqt
-Path=/usr/bin
+Comment=This is the software to operate the arexx robot arm
+GenericName=RobotLoader
+Exec=/usr/bin/robotloader
+Path=/usr/share/robotloader
 Terminal=false
 Icon=/usr/share/robotloader/small_robot_arm.png
 Categories=Science;Engineering

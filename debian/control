@@ -13,13 +13,13 @@ Depends: ${misc:Depends}, default-jre | java6-runtime, librxtx-java, gcc-avr, av
 Replaces: robotloader
 Description: GUI program to upload programs to the arexx robot arm.
 
-Package: arexx-robotloader-examples
+Package: arexx-robotarm-examples
 Architecture: all
 Essential: no
 Depends: ${misc:Depends}, arexx-robotloader, gcc-avr, avrdude, avr-libc
 Description: GUI program to upload programs to the arexx robot arm.
 
-Package: arexx-racsqt
+Package: arexx-robotarm-racsqt
 Architecture: any
 Essential: no
 Depends: ${misc:Depends}, ${shlibs:Depends}, arexx-robotloader

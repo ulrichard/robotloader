@@ -1,0 +1,15 @@
+/usr/share/robotloader/examples/*.*
+/usr/share/robotloader/examples/*/*.*
+/usr/share/robotloader/examples/*/*/Makefile
+/usr/share/robotloader/examples/RobotArmLib/*/*.c
+/usr/share/robotloader/examples/RobotArmLib/*/*.h
+/usr/share/robotloader/examples/RobotArmLib/*/*.o
+/usr/share/robotloader/examples/RobotArmLib/*.a
+/usr/share/robotloader/examples/RobotArmExamples/*/*.c
+/usr/share/robotloader/examples/RobotArmExamples/*/*.h
+/usr/share/robotloader/examples/RobotArmExamples/*/*.pnp*
+/usr/share/robotloader/examples/RobotArmExamples/Calibrate_*/*.hex
+/usr/share/robotloader/examples/RobotArmExamples/Example_/*.hex
+/usr/share/cmake-2.8/Modules/*
+
+
