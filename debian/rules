@@ -94,6 +94,9 @@ install: build
 	install -m 0755 $(CURDIR)/RobotLoader_20100712/lib/comm.jar   -t $(CURDIR)/debian/arexx-robot-arm/usr/share/robotloader/lib
 	install -m 0755 $(CURDIR)/RobotLoader_20100712/lib/jd2xx.jar  -t $(CURDIR)/debian/arexx-robot-arm/usr/share/robotloader/lib
 
+	#lib
+	(cd $(CURDIR)/build-lib-debian; $(MAKE) install DESTDIR=$(CURDIR)/debian/arexx-robot-arm/)
+
 	#examples
 	mkdir -p $(CURDIR)/debian/arexx-robot-arm/usr/share/robotloader/examples
 	mkdir -p $(CURDIR)/debian/arexx-robot-arm/usr/share/robotloader/examples/RACS

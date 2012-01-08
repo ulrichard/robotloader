@@ -16,6 +16,6 @@ ADD_LIBRARY(arexx_robot_arm STATIC
 	RobotArmI2C/I2C_Yeti_Display.c
 )
 
-INSTALL(TARGETS arexx_robot_arm ARCHIVE DESTINATION share/robotloader/examples/RobotArmExamples)
+INSTALL(TARGETS arexx_robot_arm ARCHIVE DESTINATION share/robotloader/examples/RobotArmLib)
 INSTALL(FILES ../../cmake/FindArexxRobotArm.cmake DESTINATION ${CMAKE_INSTALL_PREFIX}/share/cmake-2.8/Modules)
 
