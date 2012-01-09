@@ -1,0 +1,15 @@
+<package>
+  <description brief="arexx_robotarm">
+
+     arexx_robotarm
+
+  </description>
+  <author>Richard Ulrich</author>
+  <license>BSD</license>
+  <review status="unreviewed" notes=""/>
+  <url>http://ros.org/wiki/arexx_robotarm</url>
+  <depend package="urdf"/>
+
+</package>
+
+

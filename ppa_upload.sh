@@ -16,6 +16,8 @@ rm racs/uc/*.lst
 rm racs/uc/*.map
 rm racs/uc/*.o
 rm racs/uc/*.cmake
+rm -rf ros/arexx_robotarm/build
+rm -rf ros/arexx_robotarm/bin
 rm -rf debian/build*
 rm -rf debian/tmp
 rm -rf debian/arexx-robotarm-examples/
