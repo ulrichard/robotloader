@@ -9,7 +9,7 @@ Homepage: http://arexx.com/robot_arm/
 Package: arexx-robotloader
 Architecture: all
 Essential: no
-Depends: ${misc:Depends}, default-jre | java6-runtime, librxtx-java, libftdi1
+Depends: ${misc:Depends}, default-jre | java6-runtime, librxtx-java
 Replaces: robotloader
 Description: GUI program to upload programs to several AREXX Robots.
 
