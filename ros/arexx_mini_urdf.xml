@@ -1,11 +1,53 @@
 <robot name="arexx_mini">
-  <link name="ground" />
-  <link name="torso" />
-  <link name="upper_arm" />
-  <link name="lower_arm" />
-  <link name="upper_hand" />
-  <link name="lower_hand" />
-  <link name="finger" />
+  <link name="ground">
+  	<visual>
+      <geometry>
+        <cylinder length="77.0" radius="75.0"/>
+      </geometry>
+    </visual>
+  </link>
+  <link name="torso">
+  	<visual>
+      <geometry>
+        <box size="68.0 40.0 30.0"/>
+      </geometry>
+    </visual>
+  </link>
+  <link name="upper_arm">
+  	<visual>
+      <geometry>
+        <box size="100 20.0 65.0"/>
+      </geometry>
+    </visual>
+  </link>
+  <link name="lower_arm">
+  	<visual>
+      <geometry>
+        <box size="75.0 18.0 35.0"/>
+      </geometry>
+    </visual>
+  </link>
+  <link name="upper_hand">
+  	<visual>
+      <geometry>
+        <box size="60.0 20.0 50.0"/>
+      </geometry>
+    </visual>
+  </link>
+  <link name="lower_hand">
+  	<visual>
+      <geometry>
+        <box size="70.0 28.0 25.0"/>
+      </geometry>
+    </visual>
+  </link>
+  <link name="finger">
+  	<visual>
+      <geometry>
+        <box size="55.0 20.0 30.0"/>
+      </geometry>
+    </visual>
+  </link>
 
   <joint name="orientation" type="continuous">
     <parent link="ground"/>
