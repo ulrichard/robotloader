@@ -1,3 +1,15 @@
+arexx-robot-arm (1.5-24~maverick) maverick; urgency=low
+
+  * dropped gcc-avr dependencies from the robotloader
+
+ -- Richard Ulrich <richi@paraeasy.ch>  Mon, 9 Jan 2011 21:15:00 +0100
+
+arexx-robot-arm (1.5-23~maverick) maverick; urgency=low
+
+  * corrected dependency field
+
+ -- Richard Ulrich <richi@paraeasy.ch>  Mon, 9 Jan 2011 20:15:00 +0100
+
 arexx-robot-arm (1.5-22~maverick) maverick; urgency=low
 
   * installing the static lib
