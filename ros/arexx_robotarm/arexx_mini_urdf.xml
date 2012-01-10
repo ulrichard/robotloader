@@ -1,94 +1,112 @@
 <robot name="arexx_mini">
-  <link name="ground">
+
+  <link name="base_link">
   	<visual>
       <geometry>
-        <cylinder length="77.0" radius="75.0"/>
+        <cylinder length="0.065" radius="0.075"/>
       </geometry>
+	  <origin xyz="0 0 0.0325"/>	
     </visual>
   </link>
+
   <link name="torso">
   	<visual>
       <geometry>
-        <box size="68.0 40.0 30.0"/>
+        <box size="0.040 0.070 0.030"/>
       </geometry>
+      <material name="blue">
+        <color rgba="0 0 .8 1"/>
+      </material>
+	  <origin xyz="0 0 0.02"/>
     </visual>
   </link>
+
   <link name="upper_arm">
   	<visual>
       <geometry>
-        <box size="100 20.0 65.0"/>
+        <box size="0.1 0.02 0.065"/>
       </geometry>
+	  <origin xyz="0.0385 0 0"/>
     </visual>
   </link>
+
   <link name="lower_arm">
   	<visual>
       <geometry>
-        <box size="75.0 18.0 35.0"/>
+        <box size="0.075 0.018 0.035"/>
       </geometry>
+      <material name="blue"/>
+      <origin xyz="0.025 0 0"/>
     </visual>
   </link>
+
   <link name="upper_hand">
   	<visual>
       <geometry>
-        <box size="60.0 20.0 50.0"/>
+        <box size="0.06 0.02 0.05"/>
       </geometry>
+      <origin xyz="0.025 0 0"/>
     </visual>
   </link>
+
   <link name="lower_hand">
   	<visual>
       <geometry>
-        <box size="70.0 28.0 25.0"/>
+        <box size="0.07 0.028 0.025"/>
       </geometry>
+      <material name="blue"/>
     </visual>
   </link>
+
   <link name="finger">
   	<visual>
       <geometry>
-        <box size="55.0 20.0 30.0"/>
+        <box size="0.055 0.02 0.03"/>
       </geometry>
     </visual>
   </link>
 
+
   <joint name="orientation" type="continuous">
-    <parent link="ground"/>
+    <parent link="base_link"/>
     <child link="torso"/>
-	<origin xyz="0 0 78" rpy="0 0 3.14" />
-	<axis xyz="0 0 1" />
+	<origin xyz="0 0 0.077"/>
+	<axis xyz="0 0 1"/>
   </joint>
 
   <joint name="shoulder" type="continuous">
     <parent link="torso"/>
     <child link="upper_arm"/>
-	<origin xyz="0 0 18" rpy="3.3 0 0" />
-	<axis xyz="1 0 0" />
+	<origin xyz="0 0 0.02" rpy="0 -1.57 1.57" />
+	<axis xyz="0 0 1" />
   </joint>
 
   <joint name="ellbow" type="continuous">
     <parent link="upper_arm"/>
     <child link="lower_arm"/>
-	<origin xyz="76 0 0" rpy="0 0 3.93" />
+	<origin xyz="0.076 0 0" rpy="0 0 0" />
 	<axis xyz="0 0 1" />
   </joint>
 
   <joint name="wrist_bend" type="continuous">
     <parent link="lower_arm"/>
     <child link="upper_hand"/>
-	<origin xyz="48 0 0" rpy="0 0 3.14" />
+	<origin xyz="0.048 0 0" rpy="0 0 0" />
 	<axis xyz="0 0 1" />
   </joint>
 
   <joint name="wrist_rotate" type="continuous">
     <parent link="upper_hand"/>
     <child link="lower_hand"/>
-	<origin xyz="50 0 0" rpy="3.14 0 0" />
+	<origin xyz="0.050 0 0" rpy="1.57 0 0" />
 	<axis xyz="1 0 0" />
   </joint>
 
   <joint name="gripper" type="continuous">
     <parent link="lower_hand"/>
     <child link="finger"/>
-	<origin xyz="0 0 32" rpy="0.78 0 0" />
-	<axis xyz="1 0 0" />
+	<origin xyz="0 0 0.032" rpy="0 0 0" />
+	<axis xyz="0 1 0" />
   </joint>
 </robot>
 
