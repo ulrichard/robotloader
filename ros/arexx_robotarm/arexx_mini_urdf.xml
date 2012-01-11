@@ -7,6 +7,16 @@
       </geometry>
 	  <origin xyz="0 0 0.0325"/>	
     </visual>
+    <collision>
+      <geometry>
+        <cylinder length="0.065" radius="0.075"/>
+      </geometry>
+	  <origin xyz="0 0 0.0325"/>	
+    </collision>
+    <inertial>
+      <mass value="1"/>
+      <inertia ixx="1.0" ixy="0.0" ixz="0.0" iyy="1.0" iyz="0.0" izz="1.0"/>
+    </inertial>
   </link>
 
   <link name="torso">
@@ -19,6 +29,16 @@
       </material>
 	  <origin xyz="0 0 0.02"/>
     </visual>
+    <collision>
+      <geometry>
+        <box size="0.040 0.070 0.030"/>
+      </geometry>
+	  <origin xyz="0 0 0.02"/>
+    </collision>
+    <inertial>
+      <mass value="0.05"/>
+      <inertia ixx="1.0" ixy="0.0" ixz="0.0" iyy="1.0" iyz="0.0" izz="1.0"/>
+    </inertial>
   </link>
 
   <link name="upper_arm">
@@ -28,6 +48,16 @@
       </geometry>
 	  <origin xyz="0.0385 0 0"/>
     </visual>
+  	<collision>
+      <geometry>
+        <box size="0.1 0.02 0.065"/>
+      </geometry>
+	  <origin xyz="0.0385 0 0"/>
+    </collision>
+    <inertial>
+      <mass value="0.001"/>
+      <inertia ixx="1.0" ixy="0.0" ixz="0.0" iyy="1.0" iyz="0.0" izz="1.0"/>
+    </inertial>
   </link>
 
   <link name="lower_arm">
@@ -38,6 +68,16 @@
       <material name="blue"/>
       <origin xyz="0.025 0 0"/>
     </visual>
+  	<collision>
+      <geometry>
+        <box size="0.075 0.018 0.035"/>
+      </geometry>
+      <origin xyz="0.025 0 0"/>
+    </collision>
+    <inertial>
+      <mass value="0.05"/>
+      <inertia ixx="1.0" ixy="0.0" ixz="0.0" iyy="1.0" iyz="0.0" izz="1.0"/>
+    </inertial>
   </link>
 
   <link name="upper_hand">
@@ -47,6 +87,16 @@
       </geometry>
       <origin xyz="0.025 0 0"/>
     </visual>
+  	<collision>
+      <geometry>
+        <box size="0.06 0.02 0.05"/>
+      </geometry>
+      <origin xyz="0.025 0 0"/>
+    </collision>
+    <inertial>
+      <mass value="0.001"/>
+      <inertia ixx="1.0" ixy="0.0" ixz="0.0" iyy="1.0" iyz="0.0" izz="1.0"/>
+    </inertial>
   </link>
 
   <link name="lower_hand">
@@ -57,6 +107,16 @@
       <material name="blue"/>
       <origin xyz="0.02 0 0"/>
     </visual>
+  	<collision>
+      <geometry>
+        <box size="0.04 0.028 0.023"/>
+      </geometry>
+      <origin xyz="0.02 0 0"/>
+    </collision>
+    <inertial>
+      <mass value="0.001"/>
+      <inertia ixx="1.0" ixy="0.0" ixz="0.0" iyy="1.0" iyz="0.0" izz="1.0"/>
+    </inertial>
   </link>
 
   <link name="lower_hand_extend">
@@ -67,6 +127,16 @@
       <material name="blue"/>
 	  <origin xyz="0.035 0 0"/>
     </visual>
+  	<collision>
+      <geometry>
+        <box size="0.07 0.028 0.002"/>
+      </geometry>
+	  <origin xyz="0.035 0 0"/>
+    </collision>
+    <inertial>
+      <mass value="0.001"/>
+      <inertia ixx="1.0" ixy="0.0" ixz="0.0" iyy="1.0" iyz="0.0" izz="1.0"/>
+    </inertial>
   </link>
 
 
@@ -77,6 +147,16 @@
       </geometry>
       <origin xyz="0.00 0 0"/>
     </visual>
+  	<collision>
+      <geometry>
+        <box size="0.025 0.05 0.025"/>
+      </geometry>
+      <origin xyz="0.00 0 0"/>
+    </collision>
+    <inertial>
+      <mass value="0.002"/>
+      <inertia ixx="1.0" ixy="0.0" ixz="0.0" iyy="1.0" iyz="0.0" izz="1.0"/>
+    </inertial>
   </link>
 
   <link name="finger_extend1">
@@ -86,6 +166,16 @@
       </geometry>
       <origin xyz="0.0135 0 0"/>
     </visual>
+  	<collision>
+      <geometry>
+        <box size="0.027 0.028 0.002"/>
+      </geometry>
+      <origin xyz="0.0135 0 0"/>
+    </collision>
+    <inertial>
+      <mass value="0.001"/>
+      <inertia ixx="1.0" ixy="0.0" ixz="0.0" iyy="1.0" iyz="0.0" izz="1.0"/>
+    </inertial>
   </link>
 
   <link name="finger_extend2">
@@ -95,6 +185,16 @@
       </geometry>
       <origin xyz="0.0075 0 0"/>
     </visual>
+  	<collision>
+      <geometry>
+        <box size="0.015 0.028 0.002"/>
+      </geometry>
+      <origin xyz="0.0075 0 0"/>
+    </collision>
+    <inertial>
+      <mass value="0.001"/>
+      <inertia ixx="1.0" ixy="0.0" ixz="0.0" iyy="1.0" iyz="0.0" izz="1.0"/>
+    </inertial>
   </link>
 
 
