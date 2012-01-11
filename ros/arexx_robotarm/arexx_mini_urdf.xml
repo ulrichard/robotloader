@@ -52,61 +52,117 @@
   <link name="lower_hand">
   	<visual>
       <geometry>
-        <box size="0.07 0.028 0.025"/>
+        <box size="0.04 0.028 0.023"/>
       </geometry>
       <material name="blue"/>
+      <origin xyz="0.02 0 0"/>
     </visual>
   </link>
 
-  <link name="finger">
+  <link name="lower_hand_extend">
   	<visual>
       <geometry>
-        <box size="0.055 0.02 0.03"/>
+        <box size="0.07 0.028 0.002"/>
       </geometry>
+      <material name="blue"/>
+	  <origin xyz="0.035 0 0"/>
     </visual>
   </link>
 
 
-  <joint name="orientation" type="continuous">
+  <link name="finger_base">
+  	<visual>
+      <geometry>
+        <box size="0.025 0.05 0.025"/>
+      </geometry>
+      <origin xyz="0.00 0 0"/>
+    </visual>
+  </link>
+
+  <link name="finger_extend1">
+  	<visual>
+      <geometry>
+        <box size="0.027 0.028 0.002"/>
+      </geometry>
+      <origin xyz="0.0135 0 0"/>
+    </visual>
+  </link>
+
+  <link name="finger_extend2">
+  	<visual>
+      <geometry>
+        <box size="0.015 0.028 0.002"/>
+      </geometry>
+      <origin xyz="0.0075 0 0"/>
+    </visual>
+  </link>
+
+
+  <joint name="orientation" type="revolute">
     <parent link="base_link"/>
     <child link="torso"/>
 	<origin xyz="0 0 0.077"/>
 	<axis xyz="0 0 1"/>
+    <limit effort="1000.0" lower="-1.57" upper="1.57" velocity="0.5"/>
   </joint>
 
-  <joint name="shoulder" type="continuous">
+  <joint name="shoulder" type="revolute">
     <parent link="torso"/>
     <child link="upper_arm"/>
-	<origin xyz="0 0 0.02" rpy="0 -1.57 1.57" />
+	<origin xyz="0 0 0.02" rpy="0 -1.57 0" />
 	<axis xyz="0 0 1" />
+    <limit effort="1000.0" lower="-1.57" upper="1.57" velocity="0.5"/>
   </joint>
 
-  <joint name="ellbow" type="continuous">
+  <joint name="ellbow" type="revolute">
     <parent link="upper_arm"/>
     <child link="lower_arm"/>
 	<origin xyz="0.076 0 0" rpy="0 0 0" />
 	<axis xyz="0 0 1" />
+    <limit effort="1000.0" lower="-1.57" upper="1.57" velocity="0.5"/>
   </joint>
 
-  <joint name="wrist_bend" type="continuous">
+  <joint name="wrist_bend" type="revolute">
     <parent link="lower_arm"/>
     <child link="upper_hand"/>
 	<origin xyz="0.048 0 0" rpy="0 0 0" />
 	<axis xyz="0 0 1" />
+    <limit effort="1000.0" lower="-1.57" upper="1.57" velocity="0.5"/>
   </joint>
 
-  <joint name="wrist_rotate" type="continuous">
+  <joint name="wrist_rotate" type="revolute">
     <parent link="upper_hand"/>
     <child link="lower_hand"/>
 	<origin xyz="0.050 0 0" rpy="1.57 0 0" />
 	<axis xyz="1 0 0" />
+    <limit effort="1000.0" lower="-1.57" upper="1.57" velocity="0.5"/>
   </joint>
 
-  <joint name="gripper" type="continuous">
+  <joint name="hand" type="fixed">
     <parent link="lower_hand"/>
-    <child link="finger"/>
-	<origin xyz="0 0 0.032" rpy="0 0 0" />
-	<axis xyz="0 1 0" />
+    <child link="lower_hand_extend"/>
+	<origin xyz="0 0 -0.012" />
   </joint>
+
+  <joint name="gripper" type="revolute">
+    <parent link="lower_hand"/>
+    <child link="finger_base"/>
+	<origin xyz="0.032 0 0.005" rpy="0 0 0" />
+	<axis xyz="0 1 0" />
+    <limit effort="1000.0" lower="-1" upper="0" velocity="0.5"/>
+  </joint>
+
+  <joint name="finger1" type="fixed">
+    <parent link="finger_base"/>
+    <child link="finger_extend1"/>
+	<origin xyz="0.015 0 0.01" rpy="0 0.52 0"/>
+  </joint>
+
+  <joint name="finger2" type="fixed">
+    <parent link="finger_extend1"/>
+    <child link="finger_extend2"/>
+	<origin xyz="0.027 0 0" rpy="0 1 0"/>
+  </joint>
+
 </robot>
 
