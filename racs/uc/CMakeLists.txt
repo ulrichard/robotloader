@@ -3,8 +3,7 @@ CMAKE_MINIMUM_REQUIRED(VERSION 2.8)
 PROJECT(RobotArm_RACSQT_uc)
 
 FIND_PACKAGE(ArexxRobotArm REQUIRED)
-
-INCLUDE(arexx_robot_arm_crosscompile.cmake)
+INCLUDE("arexx_robot_arm_crosscompile")
 
 ADD_ROBOT_ARM_EXECUTABLE(RobotArm_RACSQT
 	RobotArm_RACSQT.c

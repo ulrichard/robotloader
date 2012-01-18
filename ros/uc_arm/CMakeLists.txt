@@ -1,13 +1,13 @@
 CMAKE_MINIMUM_REQUIRED(VERSION 2.8)
 
-PROJECT(RobotArm_RACSQT_uc)
+PROJECT(RobotArm_ROS_uc)
 
 FIND_PACKAGE(ArexxRobotArm REQUIRED)
-INCLUDE(${CMAKE_ROOT}/Modules/arexx_robot_arm_crosscompile.cmake)
+INCLUDE("arexx_robot_arm_crosscompile")
 
 INCLUDE_DIRECTORIES(/opt/ros/electric/stacks/rosserial/rosserial_arduino/libraries/ros_lib)
 
-ADD_ROBOT_ARM_EXECUTABLE(RobotArm_RACSQT
+ADD_ROBOT_ARM_EXECUTABLE(RobotArm_ROS
 	RobotArm_ROS.cpp
 )
 

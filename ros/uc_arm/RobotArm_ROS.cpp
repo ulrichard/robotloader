@@ -5,22 +5,22 @@
 // GPL v3
 
 // robot arm lib
-#include "RobotArmBaseLib.h"
+//#include "RobotArmBaseLib.h" // missing include guard
 // ros
-#include <ros.h>
+#include "ros_arexx.h"
 // std lib
 #include <ctype.h>
 /*****************************************************************************/
 int main(void)
 {
-	initRobotBase(); // Always call this first!	
+	initRobotBase(); // Always call this first!
 	Power_Servos();
 	mSleep(200);
 
 	ros::NodeHandle nh;
 	nh.initNode();
 
-	uint8_t servospeed = 3;	// The speed (Fast 0  ......  10 slow) 
+	uint8_t servospeed = 3;	// The speed (Fast 0  ......  10 slow)
 	// Main loop:
 	while(true)
 	{
