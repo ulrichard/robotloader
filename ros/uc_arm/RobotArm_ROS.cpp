@@ -42,3 +42,8 @@ int main(void)
 
 	return 0;
 }
+/*****************************************************************************/
+/// http://stackoverflow.com/questions/920500/what-is-the-purpose-of-cxa-pure-virtual
+extern "C" void __cxa_pure_virtual() { while (1); }
+/*****************************************************************************/
+
