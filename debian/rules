@@ -22,6 +22,8 @@ configure-stamp:
 build: build-stamp
 
 	unzip -n RobotLoader_20100712
+	unzip -n robot_arm_mini_manual_de
+	unzip -n robot_arm_pro_manual_de
 
 	#lib
 	mkdir -p $(CURDIR)/build/lib
@@ -94,6 +96,10 @@ install: build
 
 	#examples
 	(cd $(CURDIR)/build/examples; $(MAKE) install DESTDIR=$(CURDIR)/debian/arexx-robot-arm/)
+
+	#doc
+	mkdir -p $(CURDIR)/debian/arexx-robot-arm/usr/share/doc/robotloader
+	install -m 0755 $(CURDIR)/robot_arm_*.pdf -t $(CURDIR)/debian/arexx-robot-arm/usr/share/doc/robotloader
 
 	#racsqt
 	(cd $(CURDIR)/build/racsqt; $(MAKE) install DESTDIR=$(CURDIR)/debian/arexx-robot-arm/)

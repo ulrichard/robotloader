@@ -19,6 +19,12 @@ Essential: no
 Depends: ${misc:Depends}, arexx-robotloader, gcc-avr, avrdude, avr-libc
 Description: Example programs for the arexx robot arm.
 
+Package: arexx-robotarm-doc
+Architecture: all
+Essential: no
+Depends: 
+Description: Documentation for the arexx robot arm.
+
 Package: arexx-robotarm-racsqt
 Architecture: any
 Essential: no
