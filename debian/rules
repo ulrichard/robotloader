@@ -22,26 +22,23 @@ configure-stamp:
 build: build-stamp
 
 	unzip -n RobotLoader_20100712
-	unzip -n RobotArmExamples_MINI
 	unzip -n RACS_v1.0
 
 	#lib
-	mkdir -p $(CURDIR)/build-lib-debian
-	cp $(CURDIR)/cmake/lib/CMakeLists.txt $(CURDIR)/RobotArm_Examples\ \[MINI\]/RobotArmLib/
-	cp $(CURDIR)/cmake/*.cmake			  $(CURDIR)/RobotArm_Examples\ \[MINI\]/RobotArmLib/
-	(cd $(CURDIR)/build-lib-debian; cmake -DCMAKE_VERBOSE_MAKEFILE:BOOL=1 -DCMAKE_INSTALL_PREFIX:PATH=/usr -DCMAKE_BUILD_TYPE:STRING=Release -DCMAKE_TOOLCHAIN_FILE=$(CURDIR)/cmake/arexx_robot_arm_crosscompile.cmake -DVERSIONSTR:STRING=$(VERSIONSTR) $(CURDIR)/RobotArm_Examples\ \[MINI\]/RobotArmLib )
-	(cd $(CURDIR)/build-lib-debian; $(MAKE) )
+	mkdir -p $(CURDIR)/build/lib
+	(cd $(CURDIR)/build/lib; cmake -DCMAKE_VERBOSE_MAKEFILE:BOOL=1 -DCMAKE_INSTALL_PREFIX:PATH=/usr -DCMAKE_BUILD_TYPE:STRING=Release -DCMAKE_TOOLCHAIN_FILE:PATH=$(CURDIR)/examples/RobotArmLib/arexx_robot_arm_crosscompile.cmake -DVERSIONSTR:STRING=$(VERSIONSTR) $(CURDIR)/examples/RobotArmLib )
+	(cd $(CURDIR)/build/lib; $(MAKE) )
 
 	#racsqt
-	mkdir -p $(CURDIR)/build-racsqt-debian
-	(cd $(CURDIR)/build-racsqt-debian; cmake -DCMAKE_VERBOSE_MAKEFILE:BOOL=1 -DCMAKE_INSTALL_PREFIX:PATH=/usr -DCMAKE_BUILD_TYPE:STRING=Release -DVERSIONSTR:STRING=$(VERSIONSTR) $(CURDIR)/racs/qt )
-	(cd $(CURDIR)/build-racsqt-debian; $(MAKE) )
+	mkdir -p $(CURDIR)/build/racsqt
+	(cd $(CURDIR)/build/racsqt; cmake -DCMAKE_VERBOSE_MAKEFILE:BOOL=1 -DCMAKE_INSTALL_PREFIX:PATH=/usr -DCMAKE_BUILD_TYPE:STRING=Release -DVERSIONSTR:STRING=$(VERSIONSTR) $(CURDIR)/racs/qt )
+	(cd $(CURDIR)/build/racsqt; $(MAKE) )
 
 	#racsqt-uc
-	mkdir -p $(CURDIR)/build-racsqt-uc-debian
-	cp $(CURDIR)/cmake/*.cmake $(CURDIR)/racs/uc/
-	(cd $(CURDIR)/build-racsqt-uc-debian; cmake -DCMAKE_VERBOSE_MAKEFILE:BOOL=1 -DCMAKE_INSTALL_PREFIX:PATH=/usr -DCMAKE_BUILD_TYPE:STRING=Release -DCMAKE_TOOLCHAIN_FILE=$(CURDIR)/cmake/arexx_robot_arm_crosscompile.cmake -DCMAKE_MODULE_PATH:PATH=$(CURDIR)/cmake -DArexxRobotArm_INCLUDE_DIR:PATH=$(CURDIR)/RobotArm_Examples\ \[MINI\]/RobotArmLib -DArexxRobotArm_LIBRARY:PATH=$(CURDIR)/build-lib-debian/libarexx_robot_arm.a $(CURDIR)/racs/uc )
-	(cd $(CURDIR)/build-racsqt-uc-debian; $(MAKE) )
+	mkdir -p $(CURDIR)/build/racsuc
+#	cp $(CURDIR)/examples/RobotArmLib/*.cmake $(CURDIR)/racs/uc/
+	(cd $(CURDIR)/build/racsuc; cmake -DCMAKE_VERBOSE_MAKEFILE:BOOL=1 -DCMAKE_INSTALL_PREFIX:PATH=/usr -DCMAKE_BUILD_TYPE:STRING=Release -DCMAKE_TOOLCHAIN_FILE:PATH=$(CURDIR)/examples/RobotArmLib/arexx_robot_arm_crosscompile.cmake -DCMAKE_MODULE_PATH:PATH=$(CURDIR)/examples/RobotArmLib -DArexxRobotArm_INCLUDE_DIR:PATH=$(CURDIR)/examples/RobotArmLib -DArexxRobotArm_LIBRARY:PATH=$(CURDIR)/build/lib/libarexx_robot_arm.a $(CURDIR)/racs/uc )
+	(cd $(CURDIR)/build/racsuc; $(MAKE) )
 
 build-stamp: configure-stamp  
 	dh_testdir
@@ -56,16 +53,10 @@ clean:
 	# Add here commands to clean up after the build process.
 	# $(MAKE) clean
 	rm -rf $(CURDIR)/build-debian
-	rm -rf $(CURDIR)/build-racsqt-debian
-	rm -rf $(CURDIR)/build-lib-debian
+	rm -rf $(CURDIR)/build
 	rm -rf $(CURDIR)/debian/tmp
 	rm -rf $(CURDIR)/debian/arexx-robot-arm
-
 	rm -rf $(CURDIR)/RobotLoader_20100712/
-	rm -rf $(CURDIR)/RobotArm_Examples*
-	rm -rf $(CURDIR)/RACS-*
-	rm -rf $(CURDIR)/RAC-MINI.hex
-
 	rm -f $(CURDIR)/racs/uc/*.cmake
 
 	dh_clean 
@@ -81,7 +72,6 @@ install: build
 	mkdir -p $(CURDIR)/debian/arexx-robot-arm/usr/bin
 	mkdir -p $(CURDIR)/debian/arexx-robot-arm/usr/share/robotloader
 	mkdir -p $(CURDIR)/debian/arexx-robot-arm/usr/share/applications
-
 	install -m 0755 $(CURDIR)/RobotLoader_20100712/*.jar	-t $(CURDIR)/debian/arexx-robot-arm/usr/share/robotloader
 	install -m 0755 $(CURDIR)/RobotLoader_20100712/config/*.*	-t $(CURDIR)/debian/arexx-robot-arm/etc/robotloader
 	(cd $(CURDIR)/debian/arexx-robot-arm/usr/share/robotloader; ln -fs ../../../etc/robotloader config )
@@ -89,21 +79,18 @@ install: build
 	install -m 0755 $(CURDIR)/robotloader			-t $(CURDIR)/debian/arexx-robot-arm/usr/bin
 	install -m 0755 $(CURDIR)/small_robot_arm.png	-t $(CURDIR)/debian/arexx-robot-arm/usr/share/robotloader
 
-	#todo : Still trying to use only libs from the repository, but these two are required and not in the repo
+	# I tried to use only libs from the repository, but these two are required and not in the repo. Check again with newer robotloader versions
 	mkdir -p $(CURDIR)/debian/arexx-robot-arm/usr/share/robotloader/lib
 	install -m 0755 $(CURDIR)/RobotLoader_20100712/lib/comm.jar   -t $(CURDIR)/debian/arexx-robot-arm/usr/share/robotloader/lib
 	install -m 0755 $(CURDIR)/RobotLoader_20100712/lib/jd2xx.jar  -t $(CURDIR)/debian/arexx-robot-arm/usr/share/robotloader/lib
 
 	#lib
-	(cd $(CURDIR)/build-lib-debian; $(MAKE) install DESTDIR=$(CURDIR)/debian/arexx-robot-arm/)
+	(cd $(CURDIR)/build/lib; $(MAKE) install DESTDIR=$(CURDIR)/debian/arexx-robot-arm/)
 
 	#examples
 	mkdir -p $(CURDIR)/debian/arexx-robot-arm/usr/share/robotloader/examples
-	mkdir -p $(CURDIR)/debian/arexx-robot-arm/usr/share/robotloader/examples/RACS
-	mkdir -p $(CURDIR)/debian/arexx-robot-arm/usr/share/cmake-2.8/Modules
-	install -m 0755 $(CURDIR)/cmake/*.cmake		-t $(CURDIR)/debian/arexx-robot-arm/usr/share/cmake-2.8/Modules
-	cp -rf $(CURDIR)/RobotArm_Examples\ \[MINI\]/*	$(CURDIR)/debian/arexx-robot-arm/usr/share/robotloader/examples/
-	install -m 0755 $(CURDIR)/RAC-MINI.hex		-t $(CURDIR)/debian/arexx-robot-arm/usr/share/robotloader/examples/RACS
+	cp -rf $(CURDIR)/examples/RobotArmExamples/* $(CURDIR)/debian/arexx-robot-arm/usr/share/robotloader/examples/RobotArmExamples/
+
 	(cd $(CURDIR)/debian/arexx-robot-arm/usr/share/robotloader/examples/RobotArmExamples/Calibrate_RobotArm; ${MAKE} clean; ${MAKE} all)
 	(cd $(CURDIR)/debian/arexx-robot-arm/usr/share/robotloader/examples/RobotArmExamples/Example_01_Leds; ${MAKE} clean; ${MAKE} all)
 	(cd $(CURDIR)/debian/arexx-robot-arm/usr/share/robotloader/examples/RobotArmExamples/Example_02_Uart_01; ${MAKE} clean; ${MAKE} all)
@@ -122,10 +109,10 @@ install: build
 	(cd $(CURDIR)/debian/arexx-robot-arm/usr/share/robotloader/examples/RobotArmLib/RobotArmI2C; ${MAKE} clean; ${MAKE} I2C_Yeti_Display.o)
 
 	#racsqt
-	(cd $(CURDIR)/build-racsqt-debian; $(MAKE) install DESTDIR=$(CURDIR)/debian/arexx-robot-arm/)
+	(cd $(CURDIR)/build/racsqt; $(MAKE) install DESTDIR=$(CURDIR)/debian/arexx-robot-arm/)
 
 	#racsqt-uc
-	(cd $(CURDIR)/build-racsqt-uc-debian; $(MAKE) install DESTDIR=$(CURDIR)/debian/arexx-robot-arm/)
+	(cd $(CURDIR)/build/racsuc; $(MAKE) install DESTDIR=$(CURDIR)/debian/arexx-robot-arm/)
 
 
 # Build architecture-independent files here.

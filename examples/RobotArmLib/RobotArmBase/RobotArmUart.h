@@ -33,6 +33,9 @@
 
 #include <string.h>
 
+#ifdef __cplusplus
+ extern "C" {
+#endif 
 /*****************************************************************************/
 // UART
 
@@ -63,6 +66,10 @@ void stopReception(void);
 void receiveBytesToBuffer(uint8_t numberOfBytes, char *buffer);
 
 #define getUARTReceiveStatus() uart_status
+
+#ifdef __cplusplus
+ } // extern "C" 
+#endif 
 
 #endif
 

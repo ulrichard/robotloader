@@ -307,6 +307,7 @@ int readADC (int channel)
 //	VALUE EEMEM ee_DEFAULT;
 uint16_t EEMEM ee_Start_Position[7];
 
+uint16_t  Start_Position[7];
 
 // Write default values from servos, to the EEPROM 
 void write_Values_EE (void){

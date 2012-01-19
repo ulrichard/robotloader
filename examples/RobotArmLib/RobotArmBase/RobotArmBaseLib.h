@@ -22,6 +22,7 @@
 
 /*****************************************************************************/
 // Includes:
+#pragma once
 
 #include "RobotArmBase.h"	// General Robot ARM Base definitions
 #include "RobotArmUart.h"		// Robotarm UART function lib
@@ -29,7 +30,9 @@
 #include <stdlib.h>
 
 
-
+#ifdef __cplusplus
+ extern "C" {
+#endif 
 /*****************************************************************************/
 // Init:
 
@@ -144,12 +147,12 @@ int scan_keyboard(void);
 
 /*****************************************************************************/
 // ADC
-int Current_1; 
-int Current_2; 
-int Current_3; 
-int Current_4; 
-int Current_5; 
-int Current_6; 
+extern int Current_1; 
+extern int Current_2; 
+extern int Current_3; 
+extern int Current_4; 
+extern int Current_5; 
+extern int Current_6; 
 
 int readADC (int channel);
 
@@ -157,7 +160,7 @@ int readADC (int channel);
 /*****************************************************************************/
 // Servo
 
-uint16_t  Start_Position[7];
+extern uint16_t  Start_Position[7];
 
 void write_Values_EE (void);
 void Read_Values_EE (void);
@@ -167,7 +170,9 @@ void Start_position(void);
 void Move (uint8_t Servo, uint16_t Value);
 void s_Move (uint8_t Servo, int16_t D_Value, uint16_t Speed);
 
-
+#ifdef __cplusplus
+ } // extern "C" 
+#endif 
 
 
 /******************************************************************************

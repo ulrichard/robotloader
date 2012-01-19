@@ -36,8 +36,6 @@ rm -rf RobotArm_Examples*
 rm -rf RACS-*
 rm -rf RAC-MINI.hex
 wget http://arexx.com/rp6/downloads/RobotLoader_20100712.zip
-wget http://arexx.com/robot_arm/downloads/RobotArmExamples_MINI.zip
-wget http://arexx.com/robot_arm/downloads/RACS_v1.0.zip
 
 
 :${VERSIONNBR:=$(parsechangelog | grep Version | sed -e "s/Version: //g" -e "s/\\~.*//g")}
