@@ -5,11 +5,18 @@
 // GPL v3
 
 // robot arm lib
-//#include "RobotArmBaseLib.h" // missing include guard
+#include "RobotArmBaseLib.h"
 // ros
 #include "ros_arexx.h"
+#include <std_msgs/Int16.h>
 // std lib
 #include <ctype.h>
+/*****************************************************************************/
+template<uint8_t servonum>
+void servo_cb(const std_msgs::Int16& cmd_msg)
+{
+    s_Move(servonum, cmd_msg.data, 3);  // servoNr, pos, speed
+}
 /*****************************************************************************/
 int main(void)
 {
@@ -20,25 +27,24 @@ int main(void)
 	ros::NodeHandle nh;
 	nh.initNode();
 
-	uint8_t servospeed = 3;	// The speed (Fast 0  ......  10 slow)
-	// Main loop:
-	while(true)
+    ros::Subscriber<std_msgs::Int16> sub1("ArexxArmServo1", servo_cb<1>);
+    nh.subscribe(sub1);
+    ros::Subscriber<std_msgs::Int16> sub2("ArexxArmServo2", servo_cb<2>);
+    nh.subscribe(sub2);
+    ros::Subscriber<std_msgs::Int16> sub3("ArexxArmServo3", servo_cb<3>);
+    nh.subscribe(sub3);
+    ros::Subscriber<std_msgs::Int16> sub4("ArexxArmServo4", servo_cb<4>);
+    nh.subscribe(sub4);
+    ros::Subscriber<std_msgs::Int16> sub5("ArexxArmServo5", servo_cb<5>);
+    nh.subscribe(sub5);
+    ros::Subscriber<std_msgs::Int16> sub6("ArexxArmServo6", servo_cb<6>);
+    nh.subscribe(sub6);
+
+	while(true) // main loop
 	{
-		char cc;
-		receiveBytesToBuffer(1, &cc);
-
-//		recbuf[bufpos++] = cc;
-
-
 		nh.spinOnce();
-
-//		s_Move(servonum, servopos, servospeed);
-
-//		bufpos = 0;
-		continue;
+		mSleep(1);
 	}
-	// End of main loop!
-	// ---------------------------------------
 
 	return 0;
 }

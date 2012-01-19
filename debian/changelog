@@ -1,9 +1,9 @@
-arexx-robot-arm (1.5-25~precise) precise; urgency=low
+arexx-robot-arm (1.5-26~precise) precise; urgency=low
 
   * added a doc package
   * some correction for installing files
 
- -- Richard Ulrich <richi@paraeasy.ch>  Thu, 19 Jan 2011 22:30:00 +0100
+ -- Richard Ulrich <richi@paraeasy.ch>  Thu, 20 Jan 2011 00:10:00 +0100
 
 arexx-robot-arm (1.5-25~precise) precise; urgency=low
 
