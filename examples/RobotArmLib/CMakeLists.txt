@@ -2,7 +2,7 @@ CMAKE_MINIMUM_REQUIRED(VERSION 2.8)
 
 PROJECT(ArexxRobotArm)
 
-INCLUDE(arexx_robot_arm_crosscompile.cmake)
+INCLUDE("arexx_robot_arm_crosscompile")
 IF(NOT CMAKE_CROSSCOMPILING)
 	ERROR()
 ENDIF()
