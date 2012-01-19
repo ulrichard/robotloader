@@ -31,10 +31,14 @@ IF(NOT CMAKE_OBJCOPY)
 	ERROR()
 ENDIF()
 
+# if you don't trust the static lib, maybe because you have another microprocessor, you can instead compile the lib 
+# sources directly in your prroject. Another reason to do so is if you mix c and c++ (don't know why that is a problem yet)
+OPTION(USE_ARM_LIB_SRC "Compile the sources of the robot arm lib for every target instead of using the static lib" ON)
+
 MACRO(ADD_ROBOT_ARM_EXECUTABLE ROBOT_ARM_EXE_NAME)
 	INCLUDE_DIRECTORIES(${ArexxRobotArm_INCLUDE_DIRS})
 
-	ADD_EXECUTABLE(${ROBOT_ARM_EXE_NAME}.elf
+	SET(SourceFiles 
 		${ARGV1}
 		${ARGV2}
 		${ARGV3}
@@ -44,14 +48,17 @@ MACRO(ADD_ROBOT_ARM_EXECUTABLE ROBOT_ARM_EXE_NAME)
 		${ARGV7}
 		${ARGV8}
 		${ARGV9}
-
-		# if you don't trust the static lib, maybe because you have another microprocessor, you can instead compile the lib sources directly in your prroject:
-#		${ArexxRobotArm_SOURCES}
 	)
+	
+	IF(USE_ARM_LIB_SRC)
+		SET(SourceFiles ${SourceFiles} ${ArexxRobotArm_SOURCES})
+	ENDIF()
 
-	TARGET_LINK_LIBRARIES(${ROBOT_ARM_EXE_NAME}.elf
-		${ArexxRobotArm_LIBRARY}
-	)
+	ADD_EXECUTABLE(${ROBOT_ARM_EXE_NAME}.elf ${SourceFiles})
+
+	IF(NOT USE_ARM_LIB_SRC)
+		TARGET_LINK_LIBRARIES(${ROBOT_ARM_EXE_NAME}.elf  ${ArexxRobotArm_LIBRARY})
+	ENDIF()
 
 
 	ADD_CUSTOM_COMMAND(TARGET ${ROBOT_ARM_EXE_NAME}.elf POST_BUILD
