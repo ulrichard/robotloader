@@ -279,6 +279,12 @@ int scan_keyboard(void){
 /************************** Servo Control   **********************************/
 /*****************************************************************************/
 
+int Current_1; 
+int Current_2; 
+int Current_3; 
+int Current_4; 
+int Current_5; 
+int Current_6; 
 
 //Measuring Current 
 

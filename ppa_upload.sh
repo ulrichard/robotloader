@@ -5,6 +5,7 @@ export DEBEMAIL="richi@paraeasy.ch"
 export DEBFULLNAME="Richard Ulrich"
 
 
+rm -rf build
 rm -rf build-*
 rm *-stamp
 rm -rf racs/qt/build
@@ -18,6 +19,7 @@ rm racs/uc/*.o
 rm racs/uc/*.cmake
 rm -rf ros/arexx_robotarm/build
 rm -rf ros/arexx_robotarm/bin
+rm -rf ros/uc_arm/build
 rm -rf debian/build*
 rm -rf debian/tmp
 rm -rf debian/arexx-robotarm-examples/
