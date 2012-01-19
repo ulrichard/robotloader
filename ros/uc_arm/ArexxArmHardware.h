@@ -1,10 +1,7 @@
 #pragma once
 
 // robot arm lib
-//extern "C"
-//{
-    #include "RobotArmBaseLib.h"
-//}
+#include <RobotArmBaseLib.h>
 
 
 class ArexxArmHardware

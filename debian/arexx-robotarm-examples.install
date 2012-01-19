@@ -1,11 +1,9 @@
-/usr/share/robotloader/examples/*.*
 /usr/share/robotloader/examples/RobotArmLib/*/*.c
 /usr/share/robotloader/examples/RobotArmLib/*/*.h
 /usr/share/robotloader/examples/RobotArmLib/*/*.o
-/usr/share/robotloader/examples/RobotArmLib/*.*
+/usr/share/robotloader/examples/RobotArmLib/arexx_robot_arm.a
 /usr/share/robotloader/examples/RobotArmExamples/*/*.c
 /usr/share/robotloader/examples/RobotArmExamples/*/*.h
-/usr/share/robotloader/examples/RobotArmExamples/*/*.pnp*
 /usr/share/robotloader/examples/RobotArmExamples/*/Makefile
 /usr/share/robotloader/examples/RobotArmExamples/Calibrate_*/*.hex
 /usr/share/robotloader/examples/RobotArmExamples/Example_/*.hex
