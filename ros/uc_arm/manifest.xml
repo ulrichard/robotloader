@@ -1,0 +1,16 @@
+<package>
+  <description brief="uc_arm">
+
+     uc_arm
+
+  </description>
+  <author>Richard Ulrich</author>
+  <license>BSD</license>
+  <review status="unreviewed" notes=""/>
+  <url>http://ros.org/wiki/arexx_robotarm</url>
+  <depend package="rospy"/>
+  <depend package="rosserial_msgs"/>
+
+</package>
+
+

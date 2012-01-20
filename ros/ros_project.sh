@@ -22,3 +22,5 @@ bin/parser arexx_mini_urdf.xml
 
 # show the model in Rviz
 roslaunch urdf_tutorial display.launch model:=arexx_mini_urdf.xml gui:=True
+
+
