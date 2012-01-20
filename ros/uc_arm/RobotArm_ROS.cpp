@@ -18,6 +18,15 @@ void servo_cb(const std_msgs::Int16& cmd_msg)
     s_Move(servonum, cmd_msg.data, 3);  // servoNr, pos, speed
 }
 /*****************************************************************************/
+template<uint8_t servonum>
+void subscribe_servo(ros::NodeHandle& nh)
+{
+    static char buf[] = "ArexxArmServoX";
+    buf[13] = '0' + servonum;
+    ros::Subscriber<std_msgs::Int16> sub(buf, servo_cb<servonum>);
+    nh.subscribe(sub);
+}
+/*****************************************************************************/
 int main(void)
 {
 	initRobotBase(); // Always call this first!
@@ -27,24 +36,22 @@ int main(void)
 	ros::NodeHandle nh;
 	nh.initNode();
 
-    ros::Subscriber<std_msgs::Int16> sub1("ArexxArmServo1", servo_cb<1>);
-    nh.subscribe(sub1);
-    ros::Subscriber<std_msgs::Int16> sub2("ArexxArmServo2", servo_cb<2>);
-    nh.subscribe(sub2);
-    ros::Subscriber<std_msgs::Int16> sub3("ArexxArmServo3", servo_cb<3>);
-    nh.subscribe(sub3);
-    ros::Subscriber<std_msgs::Int16> sub4("ArexxArmServo4", servo_cb<4>);
-    nh.subscribe(sub4);
-    ros::Subscriber<std_msgs::Int16> sub5("ArexxArmServo5", servo_cb<5>);
-    nh.subscribe(sub5);
-    ros::Subscriber<std_msgs::Int16> sub6("ArexxArmServo6", servo_cb<6>);
-    nh.subscribe(sub6);
+    subscribe_servo<1>(nh);
+    subscribe_servo<2>(nh);
+    subscribe_servo<3>(nh);
+    subscribe_servo<4>(nh);
+    subscribe_servo<5>(nh);
+    subscribe_servo<6>(nh);
+
+    PowerLEDgreen();
 
 	while(true) // main loop
 	{
 		nh.spinOnce();
 		mSleep(1);
 	}
+
+	PowerLEDred();
 
 	return 0;
 }
