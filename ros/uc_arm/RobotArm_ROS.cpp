@@ -9,22 +9,33 @@
 // ros
 #include "ros_arexx.h"
 #include <std_msgs/Int16.h>
+#include <std_msgs/UInt8.h>
 // std lib
 #include <ctype.h>
 /*****************************************************************************/
+// callback functions
 template<uint8_t servonum>
 void servo_cb(const std_msgs::Int16& cmd_msg)
 {
     s_Move(servonum, cmd_msg.data, 3);  // servoNr, pos, speed
 }
 /*****************************************************************************/
-template<uint8_t servonum>
-void subscribe_servo(ros::NodeHandle& nh)
+void led_cb(const std_msgs::UInt8& cmd_msg)
 {
-    static char buf[] = "ArexxArmServoX";
-    buf[13] = '0' + servonum;
-    ros::Subscriber<std_msgs::Int16> sub(buf, servo_cb<servonum>);
-    nh.subscribe(sub);
+    switch(cmd_msg.data)
+    {
+        case 1:
+            PowerLEDgreen();
+            break;
+        case 2:
+            PowerLEDorange();
+            break;
+        case 3:
+            PowerLEDred();
+            break;
+        default:
+            PowerLEDoff();
+    }
 }
 /*****************************************************************************/
 int main(void)
@@ -33,22 +44,46 @@ int main(void)
 	Power_Servos();
 	mSleep(200);
 
+
 	ros::NodeHandle nh;
 	nh.initNode();
 
-    subscribe_servo<1>(nh);
-    subscribe_servo<2>(nh);
-    subscribe_servo<3>(nh);
-    subscribe_servo<4>(nh);
-    subscribe_servo<5>(nh);
-    subscribe_servo<6>(nh);
+    // setting up the subscribers
+    ros::Subscriber<std_msgs::Int16> subscrServo1("ArexxArmServo1", servo_cb<1>);
+    nh.subscribe(subscrServo1);
+    ros::Subscriber<std_msgs::Int16> subscrServo2("ArexxArmServo1", servo_cb<2>);
+    nh.subscribe(subscrServo2);
+    ros::Subscriber<std_msgs::Int16> subscrServo3("ArexxArmServo1", servo_cb<3>);
+    nh.subscribe(subscrServo3);
+    ros::Subscriber<std_msgs::Int16> subscrServo4("ArexxArmServo1", servo_cb<4>);
+    nh.subscribe(subscrServo4);
+    ros::Subscriber<std_msgs::Int16> subscrServo5("ArexxArmServo1", servo_cb<5>);
+    nh.subscribe(subscrServo5);
+    ros::Subscriber<std_msgs::Int16> subscrServo6("ArexxArmServo6", servo_cb<6>);
+    nh.subscribe(subscrServo6);
+    ros::Subscriber<std_msgs::UInt8> subscrLed("ArexxArmLed", led_cb);
+    nh.subscribe(subscrLed);
+
+    // setting up the publishers
+    std_msgs::Int16 servo1curr;
+    ros::Publisher pubServo1("ArexxArmServoCurrent1", &servo1curr);
+    nh.advertise(pubServo1);
+
 
     PowerLEDgreen();
 
 	while(true) // main loop
 	{
+		setBeepsound();
+		mSleep(100);
+		clearBeepsound();
+
+        // read the sensors
+        servo1curr.data = readADC(1);
+        pubServo1.publish(&servo1curr);
+
+        // ros communication
 		nh.spinOnce();
-		mSleep(1);
 	}
 
 	PowerLEDred();
