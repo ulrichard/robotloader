@@ -71,6 +71,10 @@ namespace ros {
 #include "service_server.h"
 #include "service_client.h"
 
+#ifdef ROBOT_ARM_UART_DEBUGGING
+  #include <stdio.h>
+#endif
+
 namespace ros {
 
   using rosserial_msgs::TopicInfo;
@@ -103,7 +107,7 @@ namespace ros {
        */
     public:
       NodeHandle_() : configured_(false) {}
-      
+
       Hardware* getHardware(){
         return &hardware_;
       }
@@ -144,13 +148,20 @@ namespace ros {
         if( (c_time - last_sync_receive_time) > (SYNC_SECONDS*2200) ){
             configured_ = false;
          }
-         
+
         /* reset if message has timed out */
-        if ( mode_ != MODE_FIRST_FF){ 
+        if ( mode_ != MODE_FIRST_FF){
           if (c_time > last_msg_timeout_time){
             mode_ = MODE_FIRST_FF;
           }
         }
+
+#ifdef ROBOT_ARM_UART_DEBUGGING
+        hardware_.writeStr("spinOnce() c_time: ");
+        char tmp[16];
+        sprintf(tmp, "%010d", c_time);
+        hardware_.writeStr(tmp);
+#endif
 
         /* while available buffer, read data */
         while( true )
@@ -195,23 +206,40 @@ namespace ros {
             mode_ = MODE_FIRST_FF;
             if( (checksum_%256) == 255){
               if(topic_ == TopicInfo::ID_PUBLISHER){
+#ifdef ROBOT_ARM_UART_DEBUGGING
+                hardware_.writeStr("spinOnce() ID_PUBLISHER");
+#endif
                 requestSyncTime();
                 negotiateTopics();
                 last_sync_time = c_time;
                 last_sync_receive_time = c_time;
                 return -1;
               }else if(topic_ == TopicInfo::ID_TIME){
+#ifdef ROBOT_ARM_UART_DEBUGGING
+                hardware_.writeStr("spinOnce() ID_TIME");
+#endif
                 syncTime(message_in);
               }else if (topic_ == TopicInfo::ID_PARAMETER_REQUEST){
+#ifdef ROBOT_ARM_UART_DEBUGGING
+                hardware_.writeStr("spinOnce() D_PARAMETER_REQUEST");
+#endif
                   req_param_resp.deserialize(message_in);
                   param_recieved= true;
               }else{
+#ifdef ROBOT_ARM_UART_DEBUGGING
+                hardware_.writeStr("spinOnce() else");
+#endif
                 if(subscribers[topic_-100])
                   subscribers[topic_-100]->callback( message_in );
               }
             }
+#ifdef ROBOT_ARM_UART_DEBUGGING
+            hardware_.writeStr("spinOnce() checksum error");
+#endif
           }
         }
+
+
 
         /* occasionally sync time */
         if( configured_ && ((c_time-last_sync_time) > (SYNC_SECONDS*500) )){
@@ -269,10 +297,10 @@ namespace ros {
       }
 
       /********************************************************************
-       * Topic Management 
+       * Topic Management
        */
 
-      /* Register a new publisher */    
+      /* Register a new publisher */
       bool advertise(Publisher & p)
       {
         for(int i = 0; i < MAX_PUBLISHERS; i++){
@@ -455,7 +483,7 @@ namespace ros {
         if (requestParam(name) ){
           if (length == req_param_resp.floats_length){
             //copy it over
-            for(int i=0; i<length; i++) 
+            for(int i=0; i<length; i++)
               param[i] = req_param_resp.floats[i];
             return true;
           }
@@ -472,7 +500,7 @@ namespace ros {
           }
         }
         return false;
-      }  
+      }
   };
 
 }

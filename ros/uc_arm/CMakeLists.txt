@@ -15,5 +15,6 @@ ADD_ROBOT_ARM_EXECUTABLE(RobotArm_ROS
 INSTALL(FILES ${CMAKE_CURRENT_BINARY_DIR}/RobotArm_ROS.hex DESTINATION ${CMAKE_INSTALL_PREFIX}/share/robotloader/examples/ros)
 INSTALL(FILES ${RobotArm_RACSQT_uc_SOURCE_DIR}/RobotArm_ROS.c DESTINATION ${CMAKE_INSTALL_PREFIX}/share/robotloader/examples/ros)
 INSTALL(FILES ${RobotArm_RACSQT_uc_SOURCE_DIR}/CMakeLists.txt DESTINATION ${CMAKE_INSTALL_PREFIX}/share/robotloader/examples/ros)
+INSTALL(FILES ${RobotArm_RACSQT_uc_SOURCE_DIR}/ArexxArmHardware.h DESTINATION ${CMAKE_INSTALL_PREFIX}/share/robotloader/examples/ros)
 
 

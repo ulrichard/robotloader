@@ -24,6 +24,8 @@ public:
 
     int read()
     {
+        const uint8_t stat = getUARTReceiveStatus();
+
 		char cc;
 		receiveBytesToBuffer(1, &cc);
 		return cc;
@@ -34,6 +36,9 @@ public:
     	for(int i=0; i<length; i++)
         	writeChar(data[i]);
     }
+
+    void writeStr(const char* data)
+    {   write(reinterpret_cast<uint8_t*>(const_cast<char*>(data)), strlen(data));  }
 
     unsigned long time()
     { return getStopwatch1(); }

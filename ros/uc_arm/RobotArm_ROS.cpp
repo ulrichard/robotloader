@@ -4,6 +4,8 @@
 // Richard Ulrich <richi@paraeasy.ch>
 // GPL v3
 
+#define ROBOT_ARM_UART_DEBUGGING
+
 #include "ArexxArmHardware.h"
 // robot arm lib
 #include <RobotArmBaseLib.h>
