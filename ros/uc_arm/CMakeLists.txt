@@ -9,7 +9,6 @@ INCLUDE_DIRECTORIES(/opt/ros/electric/stacks/rosserial/rosserial_arduino/librari
 
 ADD_ROBOT_ARM_EXECUTABLE(RobotArm_ROS
 	RobotArm_ROS.cpp
-	time.cpp
 )
 
 INSTALL(FILES ${CMAKE_CURRENT_BINARY_DIR}/RobotArm_ROS.hex DESTINATION ${CMAKE_INSTALL_PREFIX}/share/robotloader/examples/ros)

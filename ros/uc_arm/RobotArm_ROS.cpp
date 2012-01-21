@@ -4,14 +4,35 @@
 // Richard Ulrich <richi@paraeasy.ch>
 // GPL v3
 
+#include "ArexxArmHardware.h"
 // robot arm lib
-#include "RobotArmBaseLib.h"
+#include <RobotArmBaseLib.h>
 // ros
-#include "ros_arexx.h"
+#include <ros/node_handle.h>
 #include <std_msgs/Int16.h>
 #include <std_msgs/UInt8.h>
 // std lib
 #include <ctype.h>
+
+/*****************************************************************************/
+namespace ros
+{
+/*
+#if defined(__AVR_ATmega8__) || defined(__AVR_ATmega168__)
+  // downsize our buffers
+  typedef NodeHandle_<ArexxArmHardware, 6, 6, 150, 150> NodeHandle;
+
+#elif defined(__AVR_ATmega328P__)
+*/
+  typedef NodeHandle_<ArexxArmHardware, 25, 25, 280, 280> NodeHandle;
+/*
+#else
+
+  typedef NodeHandle_<ArexxArmHardware> NodeHandle;
+
+#endif
+*/
+}
 /*****************************************************************************/
 // callback functions
 template<uint8_t servonum>
@@ -89,6 +110,40 @@ int main(void)
 	PowerLEDred();
 
 	return 0;
+}
+/*****************************************************************************/
+namespace ros
+{
+  void normalizeSecNSec(unsigned long& sec, unsigned long& nsec){
+    unsigned long nsec_part= nsec % 1000000000UL;
+    unsigned long sec_part = nsec / 1000000000UL;
+    sec += sec_part;
+    nsec = nsec_part;
+  }
+
+  Time& Time::fromNSec(long t)
+  {
+    sec = t / 1000000000;
+    nsec = t % 1000000000;
+    normalizeSecNSec(sec, nsec);
+    return *this;
+  }
+
+  Time& Time::operator +=(const Duration &rhs)
+  {
+    sec += rhs.sec;
+    nsec += rhs.nsec;
+    normalizeSecNSec(sec, nsec);
+    return *this;
+  }
+
+  Time& Time::operator -=(const Duration &rhs){
+    sec += -rhs.sec;
+    nsec += -rhs.nsec;
+    normalizeSecNSec(sec, nsec);
+    return *this;
+  }
+
 }
 /*****************************************************************************/
 /// http://stackoverflow.com/questions/920500/what-is-the-purpose-of-cxa-pure-virtual
