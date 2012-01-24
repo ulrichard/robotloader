@@ -50,7 +50,7 @@ int main(void)
 
 	char    recbuf[16];
 	uint8_t bufpos = 0;
-	uint8_t servospeed = 3;	// The speed (Fast 0  ......  10 slow) 
+	uint8_t servospeed = 0;	// The speed (Fast 0  ......  10 slow) 
 	int     verbose = 0;
 	// ---------------------------------------
 	// Main loop:
@@ -102,7 +102,10 @@ int main(void)
 			writeString_P("\n");
 		}
 
-		s_Move(servonum, servopos, servospeed);
+		if(0 == servospeed)
+			Move(servonum, servopos);
+		else
+			s_Move(servonum, servopos, servospeed);
 
 		bufpos = 0;
 		continue;

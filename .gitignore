@@ -2,3 +2,5 @@
 *.zip
 build/
 *.log
+*.pyc
+racs/uc/buid
