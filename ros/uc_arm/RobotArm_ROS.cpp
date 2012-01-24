@@ -63,10 +63,16 @@ void led_cb(const std_msgs::UInt8& cmd_msg)
 /*****************************************************************************/
 int main(void)
 {
+    // busy wait a little
+    for(size_t i=0; i<1024; ++i)
+        int j = i * i * i;
 	initRobotBase(); // Always call this first!
 	Power_Servos();
 	mSleep(200);
 
+#ifdef ROBOT_ARM_UART_DEBUGGING
+    writeNStringP("started RobotArm_ROS");
+#endif
 
 	ros::NodeHandle nh;
 	nh.initNode();
@@ -95,11 +101,15 @@ int main(void)
 
     PowerLEDgreen();
 
+#ifdef ROBOT_ARM_UART_DEBUGGING
+    writeNStringP("entering main loop");
+#endif
+
 	while(true) // main loop
 	{
-		setBeepsound();
-		mSleep(100);
-		clearBeepsound();
+//		setBeepsound();
+//		mSleep(100);
+//		clearBeepsound();
 
         // read the sensors
         servo1curr.data = readADC(1);
