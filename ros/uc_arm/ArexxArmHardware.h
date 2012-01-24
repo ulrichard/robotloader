@@ -26,9 +26,15 @@ public:
     {
         const uint8_t stat = getUARTReceiveStatus();
 
-		char cc;
-		receiveBytesToBuffer(1, &cc);
-		return cc;
+		char cc[4];
+//		receiveBytesToBuffer(1, &cc[0]);
+
+        receiveBytes(1);
+        while(getUARTReceiveStatus() == UART_BUISY)
+            ; // busy waiting
+        copyReceivedBytesToBuffer(&cc[0]);
+
+		return cc[0];
 	}
 
     void write(uint8_t* data, int length)
@@ -37,8 +43,20 @@ public:
         	writeChar(data[i]);
     }
 
-    void writeStr(const char* data)
-    {   write(reinterpret_cast<uint8_t*>(const_cast<char*>(data)), strlen(data));  }
+    void writeStr(const char* data, const bool newline)
+    {
+        write(reinterpret_cast<uint8_t*>(const_cast<char*>(data)), strlen(data));
+        if(newline)
+            writeChar('\n');
+    }
+
+    void writeInt(const int16_t val, const bool newline)
+    {
+        writeInteger(val, BIN);
+        if(newline)
+            writeChar('\n');
+    }
+
 
     unsigned long time()
     { return getStopwatch1(); }

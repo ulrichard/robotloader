@@ -217,6 +217,7 @@ class MySerialClient:
         self.port.setRTS(True)
         time.sleep(0.3) 
         self.port.setRTS(False)
+        time.sleep(2.0)
         
         self.port.timeout = 0.01  # Edit the port timeout
         

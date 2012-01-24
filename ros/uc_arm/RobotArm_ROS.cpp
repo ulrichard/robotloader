@@ -30,6 +30,7 @@ namespace ros
 /*
 #else
 
+//  typedef NodeHandle_<ArexxArmHardware, 25, 25, 512, 512> NodeHandle;
   typedef NodeHandle_<ArexxArmHardware> NodeHandle;
 
 #endif
@@ -70,10 +71,6 @@ int main(void)
 	Power_Servos();
 	mSleep(200);
 
-#ifdef ROBOT_ARM_UART_DEBUGGING
-    writeNStringP("started RobotArm_ROS");
-#endif
-
 	ros::NodeHandle nh;
 	nh.initNode();
 
@@ -98,13 +95,9 @@ int main(void)
     ros::Publisher pubServo1("ArexxArmServoCurrent1", &servo1curr);
     nh.advertise(pubServo1);
 
-
-    PowerLEDgreen();
-
 #ifdef ROBOT_ARM_UART_DEBUGGING
-    writeNStringP("entering main loop");
+    writeString_P("entering main loop\n");
 #endif
-
 	while(true) // main loop
 	{
 //		setBeepsound();
@@ -114,6 +107,7 @@ int main(void)
         // read the sensors
         servo1curr.data = readADC(1);
         pubServo1.publish(&servo1curr);
+
 
         // ros communication
 		nh.spinOnce();
