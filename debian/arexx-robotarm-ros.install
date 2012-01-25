@@ -1,0 +1,5 @@
+/usr/share/robotloader/ros/firmware/RobotArm_ROS.hex
+/usr/share/robotloader/ros/firmware/CMakeLists.txt
+/usr/share/robotloader/ros/firmware/RobotArm_ROS.cpp
+/usr/share/robotloader/ros/firmware/ArexxArmHardware.h
+

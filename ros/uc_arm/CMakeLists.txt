@@ -12,9 +12,9 @@ ADD_ROBOT_ARM_EXECUTABLE(RobotArm_ROS
 	RobotArm_ROS.cpp
 )
 
-INSTALL(FILES ${CMAKE_CURRENT_BINARY_DIR}/RobotArm_ROS.hex DESTINATION ${CMAKE_INSTALL_PREFIX}/share/robotloader/examples/ros)
-INSTALL(FILES ${RobotArm_RACSQT_uc_SOURCE_DIR}/RobotArm_ROS.c DESTINATION ${CMAKE_INSTALL_PREFIX}/share/robotloader/examples/ros)
-INSTALL(FILES ${RobotArm_RACSQT_uc_SOURCE_DIR}/CMakeLists.txt DESTINATION ${CMAKE_INSTALL_PREFIX}/share/robotloader/examples/ros)
-INSTALL(FILES ${RobotArm_RACSQT_uc_SOURCE_DIR}/ArexxArmHardware.h DESTINATION ${CMAKE_INSTALL_PREFIX}/share/robotloader/examples/ros)
+INSTALL(FILES ${CMAKE_CURRENT_BINARY_DIR}/RobotArm_ROS.hex DESTINATION ${CMAKE_INSTALL_PREFIX}/share/robotloader/ros/firmware)
+INSTALL(FILES ${RobotArm_ROS_uc_SOURCE_DIR}/RobotArm_ROS.cpp DESTINATION ${CMAKE_INSTALL_PREFIX}/share/robotloader/ros/firmware)
+INSTALL(FILES ${RobotArm_ROS_uc_SOURCE_DIR}/CMakeLists.txt DESTINATION ${CMAKE_INSTALL_PREFIX}/share/robotloader/ros/firmware)
+INSTALL(FILES ${RobotArm_ROS_uc_SOURCE_DIR}/ArexxArmHardware.h DESTINATION ${CMAKE_INSTALL_PREFIX}/share/robotloader/ros/firmware)
 
 

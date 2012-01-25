@@ -1,11 +1,18 @@
-arexx-robot-arm (1.5-26~precise) precise; urgency=low
+arexx-robot-arm (1.5-27~oneiric) oneiric; urgency=low
+
+  * added a package with the ROS firmware
+  * increased the step value for the racsqt sliders
+
+ -- Richard Ulrich <richi@paraeasy.ch>  Wed, 25 Jan 2011 21:30:00 +0100
+
+arexx-robot-arm (1.5-26~oneiric) oneiric; urgency=low
 
   * added a doc package
   * some correction for installing files
 
  -- Richard Ulrich <richi@paraeasy.ch>  Thu, 20 Jan 2011 00:10:00 +0100
 
-arexx-robot-arm (1.5-25~precise) precise; urgency=low
+arexx-robot-arm (1.5-25~maverick) maverick; urgency=low
 
   * managing arm lib and examples locally
   * compiling examples with cmake
@@ -14,112 +21,112 @@ arexx-robot-arm (1.5-25~precise) precise; urgency=low
 
  -- Richard Ulrich <richi@paraeasy.ch>  Thu, 19 Jan 2011 21:34:00 +0100
 
-arexx-robot-arm (1.5-24~precise) precise; urgency=low
+arexx-robot-arm (1.5-24~maverick) maverick; urgency=low
 
   * dropped gcc-avr dependencies from the robotloader
 
  -- Richard Ulrich <richi@paraeasy.ch>  Mon, 9 Jan 2011 21:15:00 +0100
 
-arexx-robot-arm (1.5-23~precise) precise; urgency=low
+arexx-robot-arm (1.5-23~maverick) maverick; urgency=low
 
   * corrected dependency field
 
  -- Richard Ulrich <richi@paraeasy.ch>  Mon, 9 Jan 2011 20:15:00 +0100
 
-arexx-robot-arm (1.5-22~precise) precise; urgency=low
+arexx-robot-arm (1.5-22~maverick) maverick; urgency=low
 
   * installing the static lib
 
  -- Richard Ulrich <richi@paraeasy.ch>  Mon, 9 Jan 2011 00:15:00 +0100
 
-arexx-robot-arm (1.5-21~precise) precise; urgency=low
+arexx-robot-arm (1.5-21~maverick) maverick; urgency=low
 
   * write last position into a config file using libconfig++
 
  -- Richard Ulrich <richi@paraeasy.ch>  Sun, 8 Jan 2011 23:37:00 +0100
 
-arexx-robot-arm (1.5-21~precise) precise; urgency=low
+arexx-robot-arm (1.5-21~maverick) maverick; urgency=low
 
   * install the cmake files
   * added spin boxes
 
  -- Richard Ulrich <richi@paraeasy.ch>  Sun, 8 Jan 2011 22:37:00 +0100
 
-arexx-robot-arm (1.5-20~precise) precise; urgency=low
+arexx-robot-arm (1.5-20~maverick) maverick; urgency=low
 
   * more restrictive .install files
 
  -- Richard Ulrich <richi@paraeasy.ch>  Sun, 8 Jan 2011 20:41:00 +0100
 
-arexx-robot-arm (1.5-19~precise) precise; urgency=low
+arexx-robot-arm (1.5-19~maverick) maverick; urgency=low
 
   * renamed packages
   * more restrictive .install file
 
  -- Richard Ulrich <richi@paraeasy.ch>  Sun, 8 Jan 2011 10:58:00 +0100
 
-arexx-robot-arm (1.5-18~precise) precise; urgency=low
+arexx-robot-arm (1.5-18~maverick) maverick; urgency=low
 
   * Added missing boos build dependencies
 
  -- Richard Ulrich <richi@paraeasy.ch>  Sat, 7 Jan 2011 22:18:00 +0100
 
-arexx-robot-arm (1.5-17~precise) precise; urgency=low
+arexx-robot-arm (1.5-17~maverick) maverick; urgency=low
 
   * c doesn't know bool
 
  -- Richard Ulrich <richi@paraeasy.ch>  Sat, 7 Jan 2011 00:40:00 +0100
 
-arexx-robot-arm (1.5-16~precise) precise; urgency=low
+arexx-robot-arm (1.5-16~maverick) maverick; urgency=low
 
   * added build dependency to cmake
   * arm moves when changing the sliders in the qt app
 
  -- Richard Ulrich <richi@paraeasy.ch>  Fri, 6 Jan 2011 20:15:00 +0100
 
-arexx-robot-arm (1.5-15~precise) precise; urgency=low
+arexx-robot-arm (1.5-15~maverick) maverick; urgency=low
 
   * Got the first hex built with cmake
 
  -- Richard Ulrich <richi@paraeasy.ch>  Thu, 5 Jan 2011 20:12:00 +0200
 
-arexx-robot-arm (1.5-14~precise) precise; urgency=low
+arexx-robot-arm (1.5-14~maverick) maverick; urgency=low
 
   * Building the lib with cmake
 
  -- Richard Ulrich <richi@paraeasy.ch>  Wed, 4 Jan 2011 22:12:00 +0200
 
-arexx-robot-arm (1.5-12~precise) precise; urgency=low
+arexx-robot-arm (1.5-12~maverick) maverick; urgency=low
 
   * splitted into separate packages
 
  -- Richard Ulrich <richi@paraeasy.ch>  Mon, 2 Jan 2011 20:11:00 +0200
 
-robotloader (1.5-11~precise) precise; urgency=low
+robotloader (1.5-11~maverick) maverick; urgency=low
 
   * typo
 
  -- Richard Ulrich <richi@paraeasy.ch>  Mon, 2 Jan 2011 01:23:00 +0200
 
-robotloader (1.5-10~precise) precise; urgency=low
+robotloader (1.5-10~maverick) maverick; urgency=low
 
   * including a reduced set of libs
 
  -- Richard Ulrich <richi@paraeasy.ch>  Sun, 1 Jan 2011 23:05:00 +0200
 
-robotloader (1.5-9~precise) precise; urgency=low
+robotloader (1.5-9~maverick) maverick; urgency=low
 
   * adapted to the RACS zip structure
 
  -- Richard Ulrich <richi@paraeasy.ch>  Sat, 31 Dec 2011 01:12:00 +0200
 
-robotloader (1.5-8~precise) precise; urgency=low
+robotloader (1.5-8~maverick) maverick; urgency=low
 
   * added missing file
 
  -- Richard Ulrich <richi@paraeasy.ch>  Sat, 31 Dec 2011 00:40:00 +0200
 
-robotloader (1.5-7~precise) precise; urgency=low
+robotloader (1.5-7~maverick) maverick; urgency=low
 
   * Added an icon
   * Trying to put the configuration to /etc and provide a symbolic link in the app directory
@@ -127,37 +134,37 @@ robotloader (1.5-7~precise) precise; urgency=low
 
  -- Richard Ulrich <richi@paraeasy.ch>  Fri, 30 Dec 2011 22:40:00 +0200
 
-robotloader (1.5-6~precise) precise; urgency=low
+robotloader (1.5-6~maverick) maverick; urgency=low
 
   * don't even try downloading
 
  -- Richard Ulrich <richi@paraeasy.ch>  Fri, 30 Dec 2011 20:40:00 +0200
 
-robotloader (1.5-5~precise) precise; urgency=low
+robotloader (1.5-5~maverick) maverick; urgency=low
 
   * don't even try downloading
 
  -- Richard Ulrich <richi@paraeasy.ch>  Thu, 29 Dec 2011 23:40:00 +0200
 
-robotloader (1.5-4~precise) precise; urgency=low
+robotloader (1.5-4~maverick) maverick; urgency=low
 
   * added build dependency to unzip
 
  -- Richard Ulrich <richi@paraeasy.ch>  Thu, 29 Dec 2011 23:20:00 +0200
 
-robotloader (1.5-3~precise) precise; urgency=low
+robotloader (1.5-3~maverick) maverick; urgency=low
 
   * The launchpad uild host can't download the zip files, so I added them to git.
 
  -- Richard Ulrich <richi@paraeasy.ch>  Thu, 29 Dec 2011 22:51:00 +0200
 
-robotloader (1.5-2~precise) precise; urgency=low
+robotloader (1.5-2~maverick) maverick; urgency=low
 
   * added build dependency to debhelper
 
  -- Richard Ulrich <richi@paraeasy.ch>  Thu, 29 Dec 2011 22:05:00 +0200
 
-robotloader (1.5-1~precise) precise; urgency=low
+robotloader (1.5-1~maverick) maverick; urgency=low
 
   * initial debian package
 

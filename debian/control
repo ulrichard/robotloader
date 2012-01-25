@@ -31,3 +31,9 @@ Essential: no
 Depends: ${misc:Depends}, ${shlibs:Depends}, arexx-robotloader, arexx-robotarm-examples
 Description: GUI program to directly manipulate the arexx robot arm.
 
+Package: arexx-robotarm-ros
+Architecture: any
+Essential: no
+Depends: ${misc:Depends}, ${shlibs:Depends}, arexx-robotloader
+Description: Connector to use the robot arm with the Robot Operating System (ROS). Not finished ...
+
