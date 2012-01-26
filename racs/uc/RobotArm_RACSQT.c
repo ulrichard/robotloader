@@ -56,9 +56,10 @@ int main(void)
 	// Main loop:
 	while(true)
 	{
-		char cc;
-		receiveBytesToBuffer(1, &cc);
+		if(0 == getBufferLength())
+            continue;
 
+		const char cc = readChar();
 		recbuf[bufpos++] = cc;
 		
 		if(bufpos == 1 && !isdigit(recbuf[0]) && recbuf[0] != 's' && recbuf[0] != 'S')

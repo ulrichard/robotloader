@@ -35,7 +35,7 @@
 
 #ifdef __cplusplus
  extern "C" {
-#endif 
+#endif
 /*****************************************************************************/
 // UART
 
@@ -52,24 +52,21 @@ void writeNStringP(const char *pstring);
 void writeInteger(int16_t number, uint8_t base);
 void writeIntegerLength(int16_t number, uint8_t base, uint8_t length);
 
-#define UART_RECEIVE_BUFFER_SIZE 16
-#define UART_DATA_AVAILABLE 2
-#define UART_READY 1
-#define UART_BUISY 0
-
+// RX:
 extern volatile uint8_t uart_status;
 
-void receiveBytes(uint8_t numberOfBytes);
-void waitUntilReceptionComplete(void);
-void copyReceivedBytesToBuffer(char *buffer);
-void stopReception(void);
-void receiveBytesToBuffer(uint8_t numberOfBytes, char *buffer);
+#define UART_RECEIVE_BUFFER_SIZE 32 // Default buffer size is 32!
+#define UART_BUFFER_OK 0
+#define UART_BUFFER_OVERFLOW 1
 
-#define getUARTReceiveStatus() uart_status
+char readChar(void);
+uint8_t readChars(char *buf, uint8_t numberOfChars);
+uint8_t getBufferLength(void);
+void clearReceptionBuffer(void);
 
 #ifdef __cplusplus
- } // extern "C" 
-#endif 
+ } // extern "C"
+#endif
 
 #endif
 
@@ -77,7 +74,7 @@ void receiveBytesToBuffer(uint8_t numberOfBytes, char *buffer);
  * Additional info
  * ****************************************************************************
  * Changelog:
- * 
+ *
  *  ---> changes are documented in the file "RobotArmuart.c"
  *
  * ****************************************************************************

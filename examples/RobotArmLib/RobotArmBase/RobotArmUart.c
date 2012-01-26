@@ -1,7 +1,7 @@
 /* ****************************************************************************
  *                           _______________________
  *                          \| ROBOT ARM  SYSTEM |/
- *                            \_-_-_-_-_-_-_-_-_-_/         
+ *                            \_-_-_-_-_-_-_-_-_-_/
  * ----------------------------------------------------------------------------
  * ------------------- [c]2006 / 2007 - AREXX ENGINEERING ---------------------
  * -------------------------- http://www.arexx.com/ ---------------------------
@@ -22,16 +22,16 @@
  * Of course you are free to add new functions and improvements to this
  * library and make them available to the public on the Internet.
  * Please use the changelog at the end of this file to document your
- * changes. And add your name (or nickname) to any new function or 
- * modification you added! E.g. a "modified by <nickname> at <date>" is 
- * always a good idea to show other users where and what you changed the 
+ * changes. And add your name (or nickname) to any new function or
+ * modification you added! E.g. a "modified by <nickname> at <date>" is
+ * always a good idea to show other users where and what you changed the
  * source code!
  *
  * ****************************************************************************
  * CHANGELOG AND LICENSING INFORMATION CAN BE FOUND AT THE END OF THIS FILE!
  * ****************************************************************************
  */
- 
+
 /*****************************************************************************/
 // Includes:
 
@@ -94,12 +94,12 @@ void writeString(char *string)
 	while(*string)
 		writeChar(*string++);
 }
-		
+
 /**
  * Writes a null terminated string from flash program memory to UART.
  * You can use the macro writeString_P(STRING); , this macro
  * ensures that the String is stored in program memory only!
- * Otherwise you need to use PSTR("your string") from AVRLibC for this. 
+ * Otherwise you need to use PSTR("your string") from AVRLibC for this.
  *
  * Example:
  *
@@ -115,7 +115,7 @@ void writeNStringP(const char *pstring)
 
     uint8_t c;
     for (;(c = pgm_read_byte_near(pstring++));writeChar(c));
-	
+
 }
 
 
@@ -128,7 +128,7 @@ void writeNStringP(const char *pstring)
  * or the specified length.
  *
  * Example:
- *							  
+ *
  *			writeStringLength("RP6 Robot Sytem\n",16,0);
  *			// would output: "RP6 Robot Sytem\n"
  *			writeStringLength("RP6 Robot Sytem\n",11,4);
@@ -193,79 +193,113 @@ void writeIntegerLength(int16_t number, uint8_t base, uint8_t length)
 		for(; cnt > 0; cnt--, writeChar('0'));
 		writeString(&buffer[0]);
 	}
-	else 
+	else
 		writeStringLength(&buffer[0],length,-cnt);
 }
 
 /*****************************************************************************/
 // UART receive functions:
 
-volatile char uart_receive_buffer[UART_RECEIVE_BUFFER_SIZE];
-uint8_t buffer_pos;
-uint8_t uart_receive_bytes;
+volatile char uart_receive_buffer[UART_RECEIVE_BUFFER_SIZE + 1];
+
 volatile uint8_t uart_status;
 
+uint8_t read_pos = 0;
+uint8_t write_pos = 0;
+uint8_t read_size = 0;
+uint8_t write_size = 0;
 
+/**
+ * UART receive ISR.
+ * Handles reception to circular buffer.
+ */
 ISR(USART1_RX_vect)
 {
-	volatile char recChar = UDR1;
-	if(uart_status == UART_BUISY) {
-		uart_receive_buffer[buffer_pos++] = recChar;
-		if(buffer_pos >= uart_receive_bytes)
-			uart_status = UART_DATA_AVAILABLE;
+	static volatile uint8_t dummy;
+	if(((uint8_t)(write_size - read_size)) < UART_RECEIVE_BUFFER_SIZE) {
+		uart_receive_buffer[write_pos++] = UDR1;
+		write_size++;
+		if(write_pos > UART_RECEIVE_BUFFER_SIZE)
+			write_pos = 0;
+		uart_status = UART_BUFFER_OK;
+	}
+	else {
+		dummy = UDR1;
+		uart_status = UART_BUFFER_OVERFLOW;
 	}
 }
 
 /**
+ * Read a char from the circular buffer.
+ * The char is removed from the buffer (or more precise: not accessible directly anymore
+ * and will be overwritten as soon as new data becomes available)!
+ *
+ * Example:
+ *
+ * // [...]
+ * if(getBufferLength())
+ *	   receivedData[data_position++] = readChar();
+ * // [...]
  *
  */
-void receiveBytes(uint8_t numberOfBytes)
+char readChar(void)
 {
-	buffer_pos = 0;
-	uart_receive_bytes = numberOfBytes;
-	uart_status = UART_BUISY;
+	uart_status = UART_BUFFER_OK;
+	if(((uint8_t)(write_size - read_size)) > 0) {
+		read_size++;
+		if(read_pos > UART_RECEIVE_BUFFER_SIZE)
+			read_pos = 0;
+		return uart_receive_buffer[read_pos++];
+	}
+	return 0;
 }
 
 /**
- *
+ * Same as readChar, but this function copies numberOfChars chars from the
+ * circular buffer to buf.
+ * It also returns the number of characters really copied to the buffer!
+ * Just in case that there were fewer chars in the buffer...
  */
-void waitUntilReceptionComplete(void)
-{
-	while(getUARTReceiveStatus() == UART_BUISY);
-}
-
-/**
- *
- */
-void copyReceivedBytesToBuffer(char *buffer)
+uint8_t readChars(char *buf, uint8_t numberOfChars)
 {
 	uint8_t i = 0;
-	while(i < uart_receive_bytes) {
-		buffer[i] = uart_receive_buffer[i];
-		i++;
+	uart_status = UART_BUFFER_OK;
+	while(((uint8_t)(write_size - read_size)) >= numberOfChars) {
+		read_size++;
+		buf[i++] = uart_receive_buffer[read_pos++];
+		if(read_pos > UART_RECEIVE_BUFFER_SIZE)
+			read_pos = 0;
 	}
-	uart_status = UART_READY;
+	return i;
 }
 
 /**
+ * Returns the current number of elements in the buffer.
  *
+ * Example:
+ * s. readChar function above!
  */
-void stopReception(void)
+uint8_t getBufferLength(void)
 {
-	uart_receive_bytes = 0;
-	uart_status = UART_READY;
+	return (((uint8_t)(write_size - read_size)));
 }
 
 /**
- *
+ * Clears the reception buffer - it disables UART Receive
+ * interrupt for a short period of time.
  */
-void receiveBytesToBuffer(uint8_t numberOfBytes, char *buffer)
+void clearReceptionBuffer(void)
 {
-	receiveBytes(numberOfBytes);
-	waitUntilReceptionComplete();
-	copyReceivedBytesToBuffer(&buffer[0]);
+	static uint8_t dummy;
+	UCSR1B &= ~(1 << RXCIE1); // disable UART RX Interrupt
+	dummy = UDR1;
+	read_pos = 0;
+	write_pos = 0;
+	read_size = 0;
+	write_size = 0;
+	uart_status = UART_BUFFER_OK;
+	UCSR1B |= (1 << RXCIE1); // enable Interrupt again
 }
-
 
 
 /******************************************************************************

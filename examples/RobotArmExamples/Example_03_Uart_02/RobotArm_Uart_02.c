@@ -63,6 +63,7 @@ void askAQuestion(void)
 {
 	uint8_t bytesToReceive = 1;
 	
+	clearReceptionBuffer();
 	switch(question)
 	{
 		case 0:
@@ -83,12 +84,12 @@ void askAQuestion(void)
 			writeString_P("Do you want to do all this again? (\"y\" or \"n\")\n"); 
 		break;
 	}
-	
-	char receiveBuffer[bytesToReceive]; 
-	receiveBytes(bytesToReceive); 
-	waitUntilReceptionComplete(); 
-	copyReceivedBytesToBuffer(&receiveBuffer[0]);
-	
+
+	for(size_t i=0; i<100 && getBufferLength() < bytesToReceive; ++i)
+		;	
+	char receiveBuffer[bytesToReceive];
+	readChars(receiveBuffer, bytesToReceive);	
+
 	switch(question)
 	{
 		case 0: 

@@ -2,8 +2,11 @@ arexx-robot-arm (1.5-27~oneiric) oneiric; urgency=low
 
   * added a package with the ROS firmware
   * increased the step value for the racsqt sliders
+  * copied the ring buffer from the rc6 lib to the robot arm lib and adapted
+  * adapted the examples to the ring buffer
+  * adapted racs and ros to the uart ring buffer
 
- -- Richard Ulrich <richi@paraeasy.ch>  Wed, 25 Jan 2011 21:30:00 +0100
+ -- Richard Ulrich <richi@paraeasy.ch>  Thu, 26 Jan 2011 23:20:00 +0100
 
 arexx-robot-arm (1.5-26~oneiric) oneiric; urgency=low
 

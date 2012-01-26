@@ -136,10 +136,14 @@ void StatusLedTest(void)
 
 void VoltageTest(void)
 {
+	clearReceptionBuffer();
 	test(2);
 	writeString_P("\n### Voltage Sensor Test ###\n");
 	writeString_P("\n Press ENTER to start battery measurements!\n\n");
-    receiveBytesToBuffer(1, &receiveBuffer[0]);
+	
+	while(0 == getBufferLength())
+		;
+    receiveBuffer[0] = readChar();
 
 	writeString_P("Performing 10 measurements:\n");
 	uint16_t ubat;
@@ -207,6 +211,7 @@ void BuzzerTest(void)
 
 void ServoTest(void)
 {
+	clearReceptionBuffer();
 	test(4);
 	writeString_P("\nAutomatic Servomotor test\n\n");
 	writeString_P("###############################################\n");
@@ -214,12 +219,15 @@ void ServoTest(void)
 	writeString_P("Make sure the servomotors can move FREE! DO NOT BLOCK THEM!\n");
 	writeString_P("###############################################\n");
 	writeString_P("\n Press ENTER to start servo test!\n");
-    receiveBytesToBuffer(1, &receiveBuffer[0]);
+
+	while(0 == getBufferLength())
+		;
+	receiveBuffer[0] = readChar();
 
 	writeString_P("Set Start Position: \n");
 	Start_position();
 
-	Power_Servos ();
+	Power_Servos();
 	uint16_t pos;
 	
 	writeString_P("Servo: 1 moves\n");
@@ -264,6 +272,7 @@ void calibration(void)
 	int CalServo = 1;
 	signed int position = 0;
 
+	clearReceptionBuffer();
 	// ---------------------------------------
 	// Write messages to the Serial Interface
 	writeString_P("#### Calibration #####\n");
@@ -278,20 +287,23 @@ void calibration(void)
 	writeString_P("Enter x:  It will stop de calibration program\n");
 	writeString_P(" \n\n");
 
-	receiveBytes(2);
 	writeString_P("#### Calibrate Servo 1 #####\n");
 	writeString_P("Please enter your choice: h,p,m,ok,x\n");
 	
 	Start_Position[1] = 1500; 	
 	
 
-while(CalServo<7)
+	while(CalServo < 7)
 	{
-		if(getUARTReceiveStatus() != UART_BUISY)
+		while(0 == getBufferLength())
+			;
+		receiveBuffer[0] = readChar();
+		while(receiveBuffer[0]=='o' && 0 == getBufferLength())
+			;
+		receiveBuffer[1] = readChar();
+
+		//if(getUARTReceiveStatus() != UART_BUISY)
 		{
-			copyReceivedBytesToBuffer(&receiveBuffer[0]);
-				
-			
 				
 			if(receiveBuffer[0]=='o' && receiveBuffer[1]=='k' )
 			{
@@ -313,7 +325,6 @@ while(CalServo<7)
 					writeInteger(CalServo, DEC);
 					writeString_P(" ####\n");
 					writeString_P("Please enter your choice: h,p,m,ok or x\n");
-			
 				}
 			}
 
@@ -343,45 +354,41 @@ while(CalServo<7)
 
 			else 
 			{
-			writeString_P("incorrect command\n");
+				writeString_P("incorrect command\n");
 			}
-
-			receiveBytes(2);
 		}
 		
-		if (dir==1)
-			{
+		if(dir==1)
+		{
 			position+=1;
-			}
+		}
 		
 		else if(dir==2)  
-			{
+		{
 			position-=1;
-			}
+		}
 				
-			Move(CalServo, position);
-			mSleep(15);
+		Move(CalServo, position);
+		mSleep(15);
 			
 		if(getStopwatch1() > 1000 && dir!= 0) // have we reached AT LEAST 1000ms = 1s?
-				{
-				writeString_P("Position: ");
-				writeInteger( ( position + 1500 ),DEC);
-				writeString_P("\n");
-				setStopwatch1(0);  
-				}
-			
+		{
+			writeString_P("Position: ");
+			writeInteger( ( position + 1500 ),DEC);
+			writeString_P("\n");
+			setStopwatch1(0);  
+		}
 	}
 
 
 	
-	for (int j=1;j<CalServo;j++)
-	{
-			
-	writeString_P("Default value for servo ");
-	writeInteger(j,DEC);
-	writeString_P(" = ");
-	writeInteger(Start_Position[j],DEC);
-	writeString_P("\n");
+	for(int j=1; j<CalServo; j++)
+	{		
+		writeString_P("Default value for servo ");
+		writeInteger(j,DEC);
+		writeString_P(" = ");
+		writeInteger(Start_Position[j],DEC);
+		writeString_P("\n");
 	}
 
 	writeString_P("\nWrite values to EEprom   ...   ");
@@ -395,29 +402,30 @@ while(CalServo<7)
 	
 	writeString_P("Press ENTER to return to main screen\n");
 	
-	receiveBytesToBuffer(1, &receiveBuffer[0]);
+	while(0 == getBufferLength())
+			;
+	receiveBuffer[0] = readChar();
 }
 
 //Current measuring:
 
 void current_measuring (void)
 {
+	clearReceptionBuffer();
 	bars(2);
 	writeString_P("#### Current Measuring #####\n");
 
 	writeString_P("Press ENTER to return to main screen!\n\n");
 	writeString_P("### The test is running now! ### \n\n");
-	
-	receiveBytes(1);
-	
+		
 	Start_position();
 	Power_Servos();
 
-	while (true)
+	while(true)
 	{
-			if(getUARTReceiveStatus() != UART_BUISY)
+			if(0 != getBufferLength())
 			{	
-				copyReceivedBytesToBuffer(&receiveBuffer[0]);
+				receiveBuffer[0] = readChar();
 				break;
 			}
 			
@@ -471,7 +479,9 @@ int main (void)
 	writeString_P("#####################################################################\n\n");
 	writeString_P("Press ENTER to continue!\n"); 
 
-	receiveBytesToBuffer(1, &receiveBuffer[0]);
+	while(0 == getBufferLength())
+		;
+	receiveBuffer[0] = readChar();
 	
 	while(1)
 	{
@@ -496,7 +506,9 @@ int main (void)
 		writeString_P("# Please enter your choice (0-4, c, m or b)!                        #\n");
 		writeString_P("#####################################################################\n"); 
 		
-		receiveBytesToBuffer(1, &receiveBuffer[0]);
+		while(0 == getBufferLength())
+			;
+		receiveBuffer[0] = readChar();
 		
 		test = receiveBuffer[0] - 48;
 		
@@ -511,25 +523,17 @@ int main (void)
 			// Current Measuring 
 			current_measuring();
 		}
-		
-				
 
 		if(receiveBuffer[0] == 'b')
 		{
 			// Robotarm in startposition
 			Set_Start_position();
 		}
-		
-		
-		
-		
-		
 		else if(test > 8)
 		{
 			writeString_P("You need to enter a single number from 0 to 4, c, m or b!");
 			continue;
 		}
-
 		else
 		{
 			switch(test)
@@ -546,14 +550,9 @@ int main (void)
 			
 			}
 		}
-
-
-
-
 	}
 	
 	return 0;
-
 }
 
 

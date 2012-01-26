@@ -4,3 +4,11 @@ build/
 *.log
 *.pyc
 racs/uc/buid
+debian/*.substvars
+debian/*.debhelper
+debian/substvars
+build-stamp
+configure-stamp
+debian/files
+
+

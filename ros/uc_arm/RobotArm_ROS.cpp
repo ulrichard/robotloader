@@ -95,19 +95,11 @@ int main(void)
     ros::Publisher pubServo1("ArexxArmServoCurrent1", &servo1curr);
     nh.advertise(pubServo1);
 
-#ifdef ROBOT_ARM_UART_DEBUGGING
-    writeString_P("entering main loop\n");
-#endif
 	while(true) // main loop
 	{
-//		setBeepsound();
-//		mSleep(100);
-//		clearBeepsound();
-
         // read the sensors
         servo1curr.data = readADC(1);
         pubServo1.publish(&servo1curr);
-
 
         // ros communication
 		nh.spinOnce();

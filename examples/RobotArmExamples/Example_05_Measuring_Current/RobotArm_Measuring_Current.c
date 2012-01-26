@@ -103,9 +103,14 @@ int main(void)
 			if(Current_5 > max_current_servo5){ highCurrent( 5,Current_5,max_current_servo5 );	} //Is the current 5 higher than max current 5?
 			if(Current_6 > max_current_servo6){ highCurrent( 6,Current_6,max_current_servo6 );	} //Is the current 6 higher than max current 6?
 			
-			if(i == 0){ //Wait for 'x' input to restart program
-				receiveBytesToBuffer(1, &receiveBuffer[0]);
-				if(receiveBuffer[0] == 'x')	{
+			if(i == 0)
+			{ //Wait for 'x' input to restart program
+				while(0 == getBufferLength())
+					;
+				receiveBuffer[0] = readChar();
+
+				if(receiveBuffer[0] == 'x')	
+				{
 					writeString_P("########################################\n");
 					writeString_P("######  RESTART Measure Currents  ######\n\n");
 					Start_position();

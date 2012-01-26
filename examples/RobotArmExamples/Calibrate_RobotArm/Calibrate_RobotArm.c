@@ -31,6 +31,7 @@ void calibration(void)
 	int CalServo = 1;
 	signed int position = 0;
 
+	clearReceptionBuffer();
 	// ---------------------------------------
 	// Write messages to the Serial Interface
 	writeString_P("#### Calibration #####\n");
@@ -45,21 +46,23 @@ void calibration(void)
 	writeString_P("Enter x:  It will stop de calibration program\n");
 	writeString_P(" \n\n");
 
-	receiveBytes(2);
 	writeString_P("#### Calibrate Servo 1 #####\n");
 	writeString_P("Please enter your choice: h,p,m,ok,x\n");
 	
 	
 	Start_Position[1] = 1500; 	
 
-while(CalServo<7)
+	while(CalServo<7)
 	{
-		if(getUARTReceiveStatus() != UART_BUISY)
+		while(0 == getBufferLength())
+			;
+		receiveBuffer[0] = readChar();
+		while(receiveBuffer[0]=='o' && 0 == getBufferLength())
+			;
+		receiveBuffer[1] = readChar();
+
+		//if(getUARTReceiveStatus() != UART_BUISY)
 		{
-			copyReceivedBytesToBuffer(&receiveBuffer[0]);
-				
-		
-				
 			if(receiveBuffer[0]=='o' && receiveBuffer[1]=='k' ) //Input 'ok'? Centre servo position
 			{
 				Start_Position[CalServo] = position + 1500;
@@ -110,32 +113,31 @@ while(CalServo<7)
 
 			else //Input else? Ignore and return "incorrect command"
 			{
-			writeString_P("incorrect command\n");
+				writeString_P("incorrect command\n");
 			}
 
-			receiveBytes(2);
 		}
 		
-		if (dir==1)
-			{
+		if(dir==1)
+		{
 			position+=1;
-			}
+		}
 		
 		else if(dir==2)  
-			{
+		{
 			position-=1;
-			}
+		}
 				
-			Move(CalServo, position);
-			mSleep(15);
+		Move(CalServo, position);
+		mSleep(15);
 			
 		if(getStopwatch1() > 1000 && dir!= 0) // have we reached AT LEAST 1000ms = 1s?
-				{
-				writeString_P("Position: ");
-				writeInteger( ( position + 1500 ),DEC);
-				writeString_P("\n");
-				setStopwatch1(0);  
-				}
+		{
+			writeString_P("Position: ");
+			writeInteger( ( position + 1500 ),DEC);
+			writeString_P("\n");
+			setStopwatch1(0);  
+		}
 			
 	}
 
@@ -143,12 +145,11 @@ while(CalServo<7)
 	
 	for (int j=1;j<CalServo;j++) //Display servo centre position values
 	{
-			
-	writeString_P("Default value for servo ");
-	writeInteger(j,DEC);
-	writeString_P(" = ");
-	writeInteger(Start_Position[j],DEC);
-	writeString_P("\n");
+		writeString_P("Default value for servo ");
+		writeInteger(j,DEC);
+		writeString_P(" = ");
+		writeInteger(Start_Position[j],DEC);
+		writeString_P("\n");
 	}
 
 	writeString_P("\nWrite values to EEprom   ...   ");
@@ -159,9 +160,12 @@ while(CalServo<7)
 	
 	Power_Off_Servos();
 	
+	clearReceptionBuffer();
 	writeString_P("Please press 'x' to restart\n");
 	
-	receiveBytesToBuffer(1, &receiveBuffer[0]);
+	while(0 == getBufferLength())
+			;
+	receiveBuffer[0] = readChar();
 }
 
 

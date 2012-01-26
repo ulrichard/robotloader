@@ -156,22 +156,12 @@ namespace ros {
           }
         }
 
-#ifdef ROBOT_ARM_UART_DEBUGGING
-//        hardware_.writeStr("spinOnce() c_time: ", false);
-//        hardware_.writeInt(c_time, true);
-#endif
 
         /* while available buffer, read data */
         while( true )
         {
           const int data = hardware_.read();
-#ifdef ROBOT_ARM_UART_DEBUGGING
-//        hardware_.writeStr("received: ", false);
-//        hardware_.writeInt(data, true);
-		setBeepsound();
-		mSleep(10);
-		clearBeepsound();
-#endif
+
           if( data < 0 )
             break;
           checksum_ += data;
@@ -211,36 +201,21 @@ namespace ros {
             mode_ = MODE_FIRST_FF;
             if( (checksum_%256) == 255){
               if(topic_ == TopicInfo::ID_PUBLISHER){
-#ifdef ROBOT_ARM_UART_DEBUGGING
-                hardware_.writeStr("spinOnce() ID_PUBLISHER", true);
-#endif
                 requestSyncTime();
                 negotiateTopics();
                 last_sync_time = c_time;
                 last_sync_receive_time = c_time;
                 return -1;
               }else if(topic_ == TopicInfo::ID_TIME){
-#ifdef ROBOT_ARM_UART_DEBUGGING
-                hardware_.writeStr("spinOnce() ID_TIME", true);
-#endif
                 syncTime(message_in);
               }else if (topic_ == TopicInfo::ID_PARAMETER_REQUEST){
-#ifdef ROBOT_ARM_UART_DEBUGGING
-                hardware_.writeStr("spinOnce() D_PARAMETER_REQUEST", true);
-#endif
                   req_param_resp.deserialize(message_in);
                   param_recieved= true;
               }else{
-#ifdef ROBOT_ARM_UART_DEBUGGING
-                hardware_.writeStr("spinOnce() else", true);
-#endif
                 if(subscribers[topic_-100])
                   subscribers[topic_-100]->callback( message_in );
               }
             }
-#ifdef ROBOT_ARM_UART_DEBUGGING
-            hardware_.writeStr("spinOnce() checksum error", true);
-#endif
           }
         }
 

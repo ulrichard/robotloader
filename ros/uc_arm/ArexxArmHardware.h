@@ -24,17 +24,10 @@ public:
 
     int read()
     {
-        const uint8_t stat = getUARTReceiveStatus();
+        if(0 == getBufferLength)
+            return -1;
 
-		char cc[4];
-//		receiveBytesToBuffer(1, &cc[0]);
-
-        receiveBytes(1);
-        while(getUARTReceiveStatus() == UART_BUISY)
-            ; // busy waiting
-        copyReceivedBytesToBuffer(&cc[0]);
-
-		return cc[0];
+        return readChar();
 	}
 
     void write(uint8_t* data, int length)
