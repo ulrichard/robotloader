@@ -26,6 +26,7 @@ rm -rf debian/arexx-robotarm-examples/
 rm -rf debian/arexx-robotarm-racsqt/
 rm -rf debian/arexx-robotarm-examples/
 rm -rf debian/arexx-robot-arm/
+rm -rf debian/arexx-robotarm-ros/
 rm debian/*.log
 rm debian/*.debhelper
 rm debian/*.substvars

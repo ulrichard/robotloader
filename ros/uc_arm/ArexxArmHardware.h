@@ -20,14 +20,19 @@ public:
     { return baud_; }
 
     void init()
-    { startStopwatch1(); }
+    {
+        startStopwatch1();
+        clearReceptionBuffer();
+    }
 
     int read()
     {
-        if(0 == getBufferLength)
+        if(0 == getBufferLength())
             return -1;
 
-        return readChar();
+        const char    cc = readChar();
+        const uint8_t uc = (uint8_t)(cc);
+        return uc;
 	}
 
     void write(uint8_t* data, int length)

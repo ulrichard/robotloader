@@ -214,6 +214,7 @@ class MySerialClient:
             self.port = Serial(port, baud, timeout=self.timeout*0.5)
 
         # reset the robot arm
+        rospy.loginfo("Resetting the arexx robot arm")
         self.port.setRTS(True)
         time.sleep(0.3) 
         self.port.setRTS(False)
@@ -250,6 +251,7 @@ class MySerialClient:
     def requestTopics(self):
         """ Determine topics to subscribe/publish. """
         self.port.flushInput()
+        rospy.loginfo("requesting topics")
         # request topic sync
         self.port.write("\xff\xff\x00\x00\x00\x00\xff")
 
