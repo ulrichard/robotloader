@@ -38,7 +38,11 @@ public:
     void write(uint8_t* data, int length)
     {
     	for(int i=0; i<length; i++)
-        	writeChar(data[i]);
+    	{
+            const uint8_t uc = data[i];
+            const char    cc = (char)(uc);
+            writeChar(cc);
+    	}
     }
 
     void writeStr(const char* data, const bool newline)
