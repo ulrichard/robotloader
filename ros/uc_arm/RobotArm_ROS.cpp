@@ -4,7 +4,7 @@
 // Richard Ulrich <richi@paraeasy.ch>
 // GPL v3
 
-#define ROBOT_ARM_UART_DEBUGGING
+//#define ROBOT_ARM_UART_DEBUGGING
 
 #include "ArexxArmHardware.h"
 // robot arm lib
@@ -13,6 +13,7 @@
 #include <ros/node_handle.h>
 #include <std_msgs/Int16.h>
 #include <std_msgs/UInt8.h>
+#include <std_msgs/String.h>
 // std lib
 #include <ctype.h>
 
@@ -25,9 +26,7 @@ namespace ros
   typedef NodeHandle_<ArexxArmHardware, 6, 6, 150, 150> NodeHandle;
 
 #elif defined(__AVR_ATmega328P__)
-*/
   typedef NodeHandle_<ArexxArmHardware, 25, 25, 280, 280> NodeHandle;
-/*
 #else
 
 //  typedef NodeHandle_<ArexxArmHardware, 25, 25, 512, 512> NodeHandle;
@@ -35,13 +34,15 @@ namespace ros
 
 #endif
 */
+
+    typedef NodeHandle_<ArexxArmHardware, 10, 10, 400, 400> NodeHandle;
 }
 /*****************************************************************************/
 // callback functions
 template<uint8_t servonum>
 void servo_cb(const std_msgs::Int16& cmd_msg)
 {
-    s_Move(servonum, cmd_msg.data, 3);  // servoNr, pos, speed
+    Move(servonum, cmd_msg.data);  // servoNr, pos
 }
 /*****************************************************************************/
 void led_cb(const std_msgs::UInt8& cmd_msg)
@@ -74,6 +75,7 @@ int main(void)
 	ros::NodeHandle nh;
 	nh.initNode();
 
+
     // setting up the subscribers
     ros::Subscriber<std_msgs::Int16> subscrServo1("ArexxArmServo1", servo_cb<1>);
     nh.subscribe(subscrServo1);
@@ -95,14 +97,39 @@ int main(void)
     ros::Publisher pubServo1("ArexxArmServoCurrent1", &servo1curr);
     nh.advertise(pubServo1);
 
+/*
+    std_msgs::String str_msg;
+    ros::Publisher chatter("chatter", &str_msg);
+    char hello[13] = "hello world!";
+*/
+
+    PowerLEDoff();
+
+    uint16_t lastADC = 0;
+
 	while(true) // main loop
 	{
-        // read the sensors
-        servo1curr.data = readADC(1);
-        pubServo1.publish(&servo1curr);
+#ifdef ROBOT_ARM_UART_DEBUGGING
+//        writeString_P("main loop\n");
+#endif
+
+        if(getStopwatch1() - lastADC > 5000)
+        {
+            lastADC = getStopwatch1();
+            // read the sensors
+            servo1curr.data = readADC(1);
+            pubServo1.publish(&servo1curr);
+
+            // chatter
+ //           str_msg.data = hello;
+ //           chatter.publish(&str_msg);
+        }
 
         // ros communication
 		nh.spinOnce();
+		mSleep(1);
+
+		PowerLEDorange();
 	}
 
 	PowerLEDred();
