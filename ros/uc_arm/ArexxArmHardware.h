@@ -54,7 +54,7 @@ public:
 
     void writeInt(const int16_t val, const bool newline)
     {
-        writeInteger(val, BIN);
+        writeInteger(val, DEC);
         if(newline)
             writeChar('\n');
     }

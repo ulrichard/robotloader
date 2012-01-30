@@ -272,6 +272,7 @@ class MySerialClient:
             if ( flag[1] != '\xff'):
                 rospy.loginfo("Failed Packet Flags ")
                 continue
+            rospy.loginfo("package start")
             # topic id (2 bytes)
             header = self.port.read(4)
             if (len(header) != 4):
@@ -288,6 +289,7 @@ class MySerialClient:
             checksum = sum(map(ord,header) ) + sum(map(ord, msg)) + ord(chk)
 
             if checksum%256 == 255:
+                rospy.loginfo("checksum is valid")
                 try:
                     self.callbacks[topic_id](msg)
                 except KeyError:

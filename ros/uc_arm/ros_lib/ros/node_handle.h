@@ -106,20 +106,30 @@ namespace ros {
        * Setup Functions
        */
     public:
-      NodeHandle_() : configured_(false) {}
+      NodeHandle_() : configured_(false)
+      {
+        last_sync_time = 0;
+        last_sync_receive_time = 0;
+        last_msg_timeout_time = 0;
+        for(uint8_t i = 0; i < MAX_PUBLISHERS; i++)
+            publishers[i] = 0;
+        for(uint8_t i = 0; i < MAX_SUBSCRIBERS; i++)
+            subscribers[i] = 0;
+      }
 
       Hardware* getHardware(){
         return &hardware_;
       }
 
       /* Start serial, initialize buffers */
-      void initNode(){
+      void initNode()
+      {
         hardware_.init();
-        mode_ = 0;
+        mode_  = MODE_FIRST_FF;
         bytes_ = 0;
         index_ = 0;
         topic_ = 0;
-      };
+      }
 
     protected:
       //State machine variables for spinOnce
@@ -140,7 +150,6 @@ namespace ros {
       /* This function goes in your loop() function, it handles
        *  serial input and callbacks for subscribers.
        */
-
       virtual int spinOnce(){
 
         /* restart if timed out */
@@ -164,8 +173,17 @@ namespace ros {
 
           if( data < 0 )
             break;
+
+#ifdef ROBOT_ARM_UART_DEBUGGING
+//        hardware_.writeStr("received: ", false);
+//        hardware_.writeInt(data, true);
+#endif
+
           checksum_ += data;
           if( mode_ == MODE_MESSAGE ){        /* message data being recieved */
+#ifdef ROBOT_ARM_UART_DEBUGGING
+//        hardware_.writeStr("MODE_MESSAGE", true);
+#endif
             message_in[index_++] = data;
             bytes_--;
             if(bytes_ == 0)                   /* is message complete? if so, checksum */
@@ -201,14 +219,26 @@ namespace ros {
             mode_ = MODE_FIRST_FF;
             if( (checksum_%256) == 255){
               if(topic_ == TopicInfo::ID_PUBLISHER){
+#ifdef ROBOT_ARM_UART_DEBUGGING
+        hardware_.writeStr("ID_PUBLISHER", true);
+#endif
                 requestSyncTime();
                 negotiateTopics();
                 last_sync_time = c_time;
                 last_sync_receive_time = c_time;
+#ifdef ROBOT_ARM_UART_DEBUGGING
+        hardware_.writeStr("returning -1 from spinOnce()", true);
+#endif
                 return -1;
               }else if(topic_ == TopicInfo::ID_TIME){
+#ifdef ROBOT_ARM_UART_DEBUGGING
+        hardware_.writeStr("ID_TIME", true);
+#endif
                 syncTime(message_in);
               }else if (topic_ == TopicInfo::ID_PARAMETER_REQUEST){
+#ifdef ROBOT_ARM_UART_DEBUGGING
+        hardware_.writeStr("ID_PARAMETER_REQUEST", true);
+#endif
                   req_param_resp.deserialize(message_in);
                   param_recieved= true;
               }else{
@@ -242,12 +272,20 @@ namespace ros {
       void requestSyncTime()
       {
         std_msgs::Time t;
+
         publish(TopicInfo::ID_TIME, &t);
         rt_time = hardware_.time();
+#ifdef ROBOT_ARM_UART_DEBUGGING
+        hardware_.writeStr("NodeHandle_::requestSyncTime() : rt_time set to  ", false);
+        hardware_.writeInt(rt_time, true);
+#endif
       }
 
       void syncTime( unsigned char * data )
       {
+#ifdef ROBOT_ARM_UART_DEBUGGING
+        hardware_.writeStr("NodeHandle_::syncTime()", true);
+#endif
         std_msgs::Time t;
         unsigned long offset = hardware_.time() - rt_time;
 
@@ -259,7 +297,8 @@ namespace ros {
         last_sync_receive_time = hardware_.time();
       }
 
-      Time now(){
+      Time now()
+      {
         unsigned long ms = hardware_.time();
         Time current_time;
         current_time.sec = ms/1000 + sec_offset;
@@ -337,31 +376,47 @@ namespace ros {
 
       void negotiateTopics()
       {
+#ifdef ROBOT_ARM_UART_DEBUGGING
+        hardware_.writeStr("negotiateTopics()", true);
+#endif
         configured_ = true;
 
         rosserial_msgs::TopicInfo ti;
-        int i;
-        for(i = 0; i < MAX_PUBLISHERS; i++)
+        for(uint8_t i = 0; i < MAX_PUBLISHERS; i++)
         {
           if(publishers[i] != 0) // non-empty slot
           {
+#ifdef ROBOT_ARM_UART_DEBUGGING
+        hardware_.writeInt(i, true);
+#endif
             ti.topic_id = publishers[i]->id_;
             ti.topic_name = (char *) publishers[i]->topic_;
             ti.message_type = (char *) publishers[i]->msg_->getType();
             ti.md5sum = (char *) publishers[i]->msg_->getMD5();
             ti.buffer_size = OUTPUT_SIZE;
+#ifdef ROBOT_ARM_UART_DEBUGGING
+        hardware_.writeStr("publish publisher topic ", false);
+        hardware_.writeInt(i, true);
+#endif
             publish( publishers[i]->getEndpointType(), &ti );
           }
         }
-        for(i = 0; i < MAX_SUBSCRIBERS; i++)
+        for(uint8_t i = 0; i < MAX_SUBSCRIBERS; i++)
         {
           if(subscribers[i] != 0) // non-empty slot
           {
+#ifdef ROBOT_ARM_UART_DEBUGGING
+        hardware_.writeInt(i, true);
+#endif
             ti.topic_id = subscribers[i]->id_;
             ti.topic_name = (char *) subscribers[i]->topic_;
             ti.message_type = (char *) subscribers[i]->getMsgType();
             ti.md5sum = (char *) subscribers[i]->getMsgMD5();
             ti.buffer_size = INPUT_SIZE;
+#ifdef ROBOT_ARM_UART_DEBUGGING
+        hardware_.writeStr("publish subscriber topic ", false);
+        hardware_.writeInt(i, true);
+#endif
             publish( subscribers[i]->getEndpointType(), &ti );
           }
         }
@@ -369,10 +424,24 @@ namespace ros {
 
       virtual int publish(int id, const Msg * msg)
       {
-        if(!configured_) return 0;
+#ifdef ROBOT_ARM_UART_DEBUGGING
+        hardware_.writeStr("NodeHandle_::publish() id:", false);
+        hardware_.writeInt(id, true);
+#endif
+        if(!configured_)
+            return 0;
+
+#ifdef ROBOT_ARM_UART_DEBUGGING
+        hardware_.writeStr("trying to serialize type", false);
+        hardware_.writeStr(const_cast<Msg*>(msg)->getType(), true);
+#endif
 
         /* serialize message */
         int l = msg->serialize(message_out+6);
+
+#ifdef ROBOT_ARM_UART_DEBUGGING
+        hardware_.writeStr("serialized", true);
+#endif
 
         /* setup the header */
         message_out[0] = 0xff;
@@ -389,12 +458,21 @@ namespace ros {
         l += 6;
         message_out[l++] = 255 - (chk%256);
 
+#ifdef ROBOT_ARM_UART_DEBUGGING
+        hardware_.writeStr("send message with len", false);
+        hardware_.writeInt(l, true);
+#endif
+
         if( l <= OUTPUT_SIZE ){
           hardware_.write(message_out, l);
           return l;
         }else{
           logerror("Message from device dropped: message larger than buffer.");
         }
+
+#ifdef ROBOT_ARM_UART_DEBUGGING
+        hardware_.writeStr("returning from NodeHandle_::publish()", true);
+#endif
       }
 
       /********************************************************************

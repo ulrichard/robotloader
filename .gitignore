@@ -7,8 +7,14 @@ racs/uc/buid
 debian/*.substvars
 debian/*.debhelper
 debian/substvars
+debian/tmp/
+debian/arexx-robot-arm/
+debian/arexx-robotarm-doc/
+debian/arexx-robotarm-examples/
+debian/arexx-robotarm-racsqt/
+debian/arexx-robotarm-ros/
 build-stamp
 configure-stamp
 debian/files
-
+robot_arm_*_manual_de.pdf
 
