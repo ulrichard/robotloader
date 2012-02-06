@@ -1,0 +1,9 @@
+<launch>
+    <include file="$(find arexx_mini_arm_navigation)/launch/arexx_mini_planning_environment.launch" />
+    <node pkg="arm_kinematics_constraint_aware" type="arm_kinematics_constraint_aware" name="arexx_mini_ArexxArm_kinematics">
+        <param name="group" type="string" value="ArexxArm" />
+        <param name="ArexxArm/root_name" type="string" value="base_link" />
+        <param name="ArexxArm/tip_name" type="string" value="finger_extend1" />
+        <param name="kinematics_solver" type="string" value="arm_kinematics_constraint_aware/KDLArmKinematicsPlugin" />
+    </node>
+</launch>

@@ -1,0 +1,112 @@
+multi_dof_joints:
+  - name: world_joint
+    type: Floating
+    parent_frame_id: base_link
+    child_frame_id: base_link
+groups:
+  - name: ArexxArm
+    base_link: base_link
+    tip_link: finger_extend1
+default_collision_operations:
+  - object1: base_link
+    object2: torso
+    operation: disable  # Adjacent in collision
+  - object1: torso
+    object2: upper_arm
+    operation: disable  # Adjacent in collision
+  - object1: upper_arm
+    object2: lower_arm
+    operation: disable  # Adjacent in collision
+  - object1: lower_arm
+    object2: upper_hand
+    operation: disable  # Adjacent in collision
+  - object1: upper_hand
+    object2: lower_hand
+    operation: disable  # Adjacent in collision
+  - object1: lower_hand
+    object2: finger_base
+    operation: disable  # Adjacent in collision
+  - object1: finger_base
+    object2: finger_extend1
+    operation: disable  # Adjacent in collision
+  - object1: finger_extend1
+    object2: finger_extend2
+    operation: disable  # Adjacent in collision
+  - object1: lower_hand
+    object2: lower_hand_extend
+    operation: disable  # Adjacent in collision
+  - object1: finger_base
+    object2: lower_hand_extend
+    operation: disable  # Often in collision
+  - object1: lower_hand_extend
+    object2: upper_hand
+    operation: disable  # Often in collision
+  - object1: base_link
+    object2: upper_arm
+    operation: disable  # Never in collision
+  - object1: finger_base
+    object2: finger_extend2
+    operation: disable  # Never in collision
+  - object1: finger_base
+    object2: lower_arm
+    operation: disable  # Never in collision
+  - object1: finger_base
+    object2: upper_arm
+    operation: disable  # Never in collision
+  - object1: finger_base
+    object2: upper_hand
+    operation: disable  # Never in collision
+  - object1: finger_extend1
+    object2: lower_arm
+    operation: disable  # Never in collision
+  - object1: finger_extend1
+    object2: lower_hand
+    operation: disable  # Never in collision
+  - object1: finger_extend1
+    object2: lower_hand_extend
+    operation: disable  # Never in collision
+  - object1: finger_extend1
+    object2: upper_arm
+    operation: disable  # Never in collision
+  - object1: finger_extend1
+    object2: upper_hand
+    operation: disable  # Never in collision
+  - object1: finger_extend2
+    object2: lower_arm
+    operation: disable  # Never in collision
+  - object1: finger_extend2
+    object2: lower_hand
+    operation: disable  # Never in collision
+  - object1: finger_extend2
+    object2: lower_hand_extend
+    operation: disable  # Never in collision
+  - object1: finger_extend2
+    object2: torso
+    operation: disable  # Never in collision
+  - object1: finger_extend2
+    object2: upper_arm
+    operation: disable  # Never in collision
+  - object1: finger_extend2
+    object2: upper_hand
+    operation: disable  # Never in collision
+  - object1: lower_arm
+    object2: lower_hand
+    operation: disable  # Never in collision
+  - object1: lower_arm
+    object2: lower_hand_extend
+    operation: disable  # Never in collision
+  - object1: lower_arm
+    object2: torso
+    operation: disable  # Never in collision
+  - object1: lower_hand
+    object2: upper_arm
+    operation: disable  # Never in collision
+  - object1: lower_hand_extend
+    object2: upper_arm
+    operation: disable  # Never in collision
+  - object1: torso
+    object2: upper_hand
+    operation: disable  # Never in collision
+  - object1: upper_arm
+    object2: upper_hand
+    operation: disable  # Never in collision
