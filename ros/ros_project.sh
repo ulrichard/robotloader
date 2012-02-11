@@ -13,14 +13,19 @@
 
 export ROS_PACKAGE_PATH=${ROS_PACKAGE_PATH}:/home/richi/sourcecode/robotloader/ros
 
+rosdep install collada_urdf
+rosmake collada_urdf
+
 #roscreate-pkg arexx_robotarm urdf
 roscd arexx_robotarm
-#rosmake
+rosmake
 
 make
 bin/parser arexx_mini_urdf.xml
 
+# convert the model to collada
+rosrun collada_urdf urdf_to_collada arexx_robotarm/arexx_mini_urdf.xml arexx_robotarm/arexx_mini_urdf.dae
+
 # show the model in Rviz
 roslaunch urdf_tutorial display.launch model:=arexx_mini_urdf.xml gui:=True
-
 

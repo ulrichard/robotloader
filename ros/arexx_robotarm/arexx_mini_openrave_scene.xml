@@ -1,0 +1,8 @@
+<Robot name="arexx_mini" file="arexx_mini_urdf.dae">
+  <Manipulator name="hector_arm_5dof">
+    <base>base_link</base>
+    <effector>lower_hand_extend</effector>
+    <direction>1 0 0</direction>
+    <translation>0 0 0</translation>
+  </Manipulator>
+</Robot>

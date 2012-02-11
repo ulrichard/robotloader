@@ -9,6 +9,7 @@
   <review status="unreviewed" notes=""/>
   <url>http://ros.org/wiki/arexx_robotarm</url>
   <depend package="urdf"/>
+  <depend package="collada_urdf"/>
 
 </package>
 
