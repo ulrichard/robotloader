@@ -43,7 +43,7 @@ from MySerialClient import *
 import sys
 
 if __name__=="__main__":
-    rospy.init_node("serial_node")
+    rospy.init_node("arexx_mini_arm")
     rospy.loginfo("ROS Serial Python Node")
 
     port_name = rospy.get_param('~port','/dev/ttyUSB0')
