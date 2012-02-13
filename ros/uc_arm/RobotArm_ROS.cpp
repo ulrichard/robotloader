@@ -79,13 +79,13 @@ int main(void)
     // setting up the subscribers
     ros::Subscriber<std_msgs::Int16> subscrServo1("ArexxArmServo1", servo_cb<1>);
     nh.subscribe(subscrServo1);
-    ros::Subscriber<std_msgs::Int16> subscrServo2("ArexxArmServo1", servo_cb<2>);
+    ros::Subscriber<std_msgs::Int16> subscrServo2("ArexxArmServo2", servo_cb<2>);
     nh.subscribe(subscrServo2);
-    ros::Subscriber<std_msgs::Int16> subscrServo3("ArexxArmServo1", servo_cb<3>);
+    ros::Subscriber<std_msgs::Int16> subscrServo3("ArexxArmServo3", servo_cb<3>);
     nh.subscribe(subscrServo3);
-    ros::Subscriber<std_msgs::Int16> subscrServo4("ArexxArmServo1", servo_cb<4>);
+    ros::Subscriber<std_msgs::Int16> subscrServo4("ArexxArmServo4", servo_cb<4>);
     nh.subscribe(subscrServo4);
-    ros::Subscriber<std_msgs::Int16> subscrServo5("ArexxArmServo1", servo_cb<5>);
+    ros::Subscriber<std_msgs::Int16> subscrServo5("ArexxArmServo5", servo_cb<5>);
     nh.subscribe(subscrServo5);
     ros::Subscriber<std_msgs::Int16> subscrServo6("ArexxArmServo6", servo_cb<6>);
     nh.subscribe(subscrServo6);
