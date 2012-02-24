@@ -21,7 +21,7 @@ configure-stamp:
 
 build: build-stamp
 
-	unzip -n RobotLoader_20120223
+	unzip -n RobotLoader_20120223 -d RobotLoader_20120223
 	unzip -n robot_arm_mini_manual_de
 	unzip -n robot_arm_pro_manual_de
 
@@ -67,6 +67,7 @@ clean:
 	rm -rf $(CURDIR)/debian/tmp
 	rm -rf $(CURDIR)/debian/arexx-robot-arm
 	rm -rf $(CURDIR)/RobotLoader_20100712/
+	rm -rf $(CURDIR)/RobotLoader_20120223/
 	rm -f $(CURDIR)/racs/uc/*.cmake
 
 	dh_clean 
