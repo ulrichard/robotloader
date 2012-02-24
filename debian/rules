@@ -82,8 +82,8 @@ install: build
 	mkdir -p $(CURDIR)/debian/arexx-robot-arm/usr/bin
 	mkdir -p $(CURDIR)/debian/arexx-robot-arm/usr/share/robotloader
 	mkdir -p $(CURDIR)/debian/arexx-robot-arm/usr/share/applications
-	install -m 0755 $(CURDIR)/RobotLoader_20100712/*.jar	-t $(CURDIR)/debian/arexx-robot-arm/usr/share/robotloader
-	install -m 0755 $(CURDIR)/RobotLoader_20100712/config/*.*	-t $(CURDIR)/debian/arexx-robot-arm/etc/robotloader
+	install -m 0755 $(CURDIR)/RobotLoader_20120223/*.jar	-t $(CURDIR)/debian/arexx-robot-arm/usr/share/robotloader
+	install -m 0755 $(CURDIR)/RobotLoader_20120223/config/*.*	-t $(CURDIR)/debian/arexx-robot-arm/etc/robotloader
 	install -m 0755 $(CURDIR)/debian/*.desktop		-t $(CURDIR)/debian/arexx-robot-arm/usr/share/applications
 	install -m 0755 $(CURDIR)/robotloader			-t $(CURDIR)/debian/arexx-robot-arm/usr/bin
 	install -m 0755 $(CURDIR)/small_robot_arm.png	-t $(CURDIR)/debian/arexx-robot-arm/usr/share/robotloader
@@ -91,8 +91,8 @@ install: build
 	# I tried to use only libs from the repository, but these two are required and not in the repo. 
 	# Check again with newer robotloader versions
 	mkdir -p $(CURDIR)/debian/arexx-robot-arm/usr/share/robotloader/lib
-	install -m 0755 $(CURDIR)/RobotLoader_20100712/lib/comm.jar  -t $(CURDIR)/debian/arexx-robot-arm/usr/share/robotloader/lib
-	install -m 0755 $(CURDIR)/RobotLoader_20100712/lib/jd2xx.jar -t $(CURDIR)/debian/arexx-robot-arm/usr/share/robotloader/lib
+	install -m 0755 $(CURDIR)/RobotLoader_20120223/lib/comm.jar  -t $(CURDIR)/debian/arexx-robot-arm/usr/share/robotloader/lib
+	install -m 0755 $(CURDIR)/RobotLoader_20120223/lib/jd2xx.jar -t $(CURDIR)/debian/arexx-robot-arm/usr/share/robotloader/lib
 
 	# lib
 	(cd $(CURDIR)/build/lib; $(MAKE) install DESTDIR=$(CURDIR)/debian/arexx-robot-arm/)
