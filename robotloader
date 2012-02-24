@@ -1,5 +1,10 @@
 #!/bin/sh
  
+if [ -d "~/.robotloader" ]; then
+	mkdir ~/.robotloader
+	cp -rf /etc/robotloader/* ~/.robotloader/
+fi
+
 cd /usr/share/robotloader
 
-java -Djava.ext.dirs="/usr/share/java" -Djava.library.path="/usr/lib/jni" -jar RobotLoader_lib.jar
+java -Xmx256m -Djava.ext.dirs="/usr/share/java" -Djava.library.path="/usr/lib/jni" -jar RobotLoader_lib.jar -logdir=/var/log/robotloader -configdir=~/.robotloader

@@ -1,4 +1,10 @@
-arexx-robot-arm (1.5-27~oneiric) oneiric; urgency=low
+arexx-robot-arm (1.5-28~maverick) maverick; urgency=low
+
+  * arexx released a new version of the robotloader
+
+ -- Richard Ulrich <richi@paraeasy.ch>  Fri, 24 Feb 2012 20:48:00 +0100
+
+arexx-robot-arm (1.5-27~maverick) maverick; urgency=low
 
   * added a package with the ROS firmware
   * increased the step value for the racsqt sliders
@@ -8,7 +14,7 @@ arexx-robot-arm (1.5-27~oneiric) oneiric; urgency=low
 
  -- Richard Ulrich <richi@paraeasy.ch>  Thu, 26 Jan 2011 23:20:00 +0100
 
-arexx-robot-arm (1.5-26~oneiric) oneiric; urgency=low
+arexx-robot-arm (1.5-26~maverick) maverick; urgency=low
 
   * added a doc package
   * some correction for installing files

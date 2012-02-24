@@ -21,7 +21,7 @@ configure-stamp:
 
 build: build-stamp
 
-	unzip -n RobotLoader_20100712
+	unzip -n RobotLoader_20120223
 	unzip -n robot_arm_mini_manual_de
 	unzip -n robot_arm_pro_manual_de
 
@@ -84,7 +84,6 @@ install: build
 	mkdir -p $(CURDIR)/debian/arexx-robot-arm/usr/share/applications
 	install -m 0755 $(CURDIR)/RobotLoader_20100712/*.jar	-t $(CURDIR)/debian/arexx-robot-arm/usr/share/robotloader
 	install -m 0755 $(CURDIR)/RobotLoader_20100712/config/*.*	-t $(CURDIR)/debian/arexx-robot-arm/etc/robotloader
-	(cd $(CURDIR)/debian/arexx-robot-arm/usr/share/robotloader; ln -fs ../../../etc/robotloader config )
 	install -m 0755 $(CURDIR)/debian/*.desktop		-t $(CURDIR)/debian/arexx-robot-arm/usr/share/applications
 	install -m 0755 $(CURDIR)/robotloader			-t $(CURDIR)/debian/arexx-robot-arm/usr/bin
 	install -m 0755 $(CURDIR)/small_robot_arm.png	-t $(CURDIR)/debian/arexx-robot-arm/usr/share/robotloader

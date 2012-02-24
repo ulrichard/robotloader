@@ -39,7 +39,7 @@ rm -rf RobotLoader_20100712/
 rm -rf RobotArm_Examples*
 rm -rf RACS-*
 rm -rf RAC-MINI.hex
-wget http://arexx.com/rp6/downloads/RobotLoader_20100712.zip
+wget http://www.arexx.com/rp6/downloads/RobotLoader_20120223.zip
 wget http://arexx.com/robot_arm/downloads/robot_arm_mini_manual_de.zip
 wget http://arexx.com/robot_arm/downloads/robot_arm_pro_manual_de.zip
 
