@@ -1,9 +1,9 @@
 #!/bin/sh
  
 if [ ! -d "~/.robotloader" ]; then
-	mkdir ~/.robotloader
+	mkdir -p ~/.robotloader
 	cp -rf /etc/robotloader/* ~/.robotloader/
-	chmod 700 ~/.robotloader/*
+	chmod 600 ~/.robotloader/*
 fi
 
 cd /usr/share/robotloader
