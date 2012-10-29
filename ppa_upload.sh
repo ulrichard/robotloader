@@ -1,9 +1,5 @@
 #!/bin/sh
 # build a debian sourcepackage and upload it to the launchpad ppa
-export GPGKEY=DA94BB53
-export DEBEMAIL="richi@paraeasy.ch"
-export DEBFULLNAME="Richard Ulrich"
-
 
 rm -rf build
 rm -rf build-*
@@ -46,9 +42,9 @@ wget http://arexx.com/robot_arm/downloads/robot_arm_pro_manual_de.zip
 
 :${VERSIONNBR:=$(parsechangelog | grep Version | sed -e "s/Version: //g" -e "s/\\~.*//g")}
 
-for DISTRIBUTION in precise oneiric natty maverick 
+for DISTRIBUTION in quantal precise  
 do
-	sed -i  -e "s/maverick/${DISTRIBUTION}/g" -e "s/natty/${DISTRIBUTION}/g" -e "s/oneiric/${DISTRIBUTION}/g" -e "s/precise/${DISTRIBUTION}/g" debian/changelog
-	dpkg-buildpackage -rfakeroot -S
+	sed -i  -e "s/maverick/${DISTRIBUTION}/g" -e "s/quantal/${DISTRIBUTION}/g" -e "s/oneiric/${DISTRIBUTION}/g" -e "s/precise/${DISTRIBUTION}/g" debian/changelog
+	debuild -k${GPGKEY} -S
 	dput ppa:richi-paraeasy/ppa ../arexx-robot-arm_${VERSIONNBR}~${DISTRIBUTION}_source.changes
 done

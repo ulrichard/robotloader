@@ -1,4 +1,4 @@
-arexx-robot-arm (2.0-1~maverick) maverick; urgency=low
+arexx-robot-arm (2.0-1~quantal) quantal; urgency=low
 
   * preparing the config files so that the java app can read them.
 
